@@ -1,0 +1,32 @@
+{
+  "name": "share-button-study",
+  "version": "1.0.0",
+  "description": "Extension that highlights the share button when text is copied from the URL bar.",
+  "main": "bootstrap.js",
+  "repository": "https://github.com/marcrowo/share-button-study.git",
+  "author": "Marc Robert Wong <marcrobertwong@gmail.com>",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "clipboardy": "^1.1.4",
+    "eslint-plugin-mozilla": "^0.3.4",
+    "fs-extra": "^3.0.1",
+    "fx-runner": "^1.0.6",
+    "geckodriver": "^1.7.1",
+    "mocha": "^3.4.2",
+    "path": "^0.12.7",
+    "selenium-webdriver": "^3.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.4.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.5.0"
+  },
+  "scripts": {
+    "postinstall": "./bin/patch_webdriver.sh",
+    "lint": "eslint .",
+    "build": "./bin/make_xpi.sh",
+    "test": "export XPI_NAME=extension/share-button-study.xpi && npm run build && mocha test/button_test.js --retry 2",
+    "harness_test": "export XPI_NAME=extension/share-button-study.xpi && mocha test/button_test.js --retry 2 --reporter json",
+    "man": "export XPI_NAME=extension/share-button-study.xpi && npm run build && node manual_test.js"
+  }
+}
