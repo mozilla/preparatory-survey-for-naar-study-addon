@@ -1,1 +1,2 @@
-resource share-button-study .
+resource pioneer-enrollment-study .
+resource pioneer-enrollment-study-content content/ contentaccessible=yes

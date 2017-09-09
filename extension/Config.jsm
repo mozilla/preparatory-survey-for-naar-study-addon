@@ -1,15 +1,38 @@
+const { utils: Cu } = Components;
+Cu.import("resource://gre/modules/Services.jsm");
+
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "(config|EXPORTED_SYMBOLS)" }]*/
 const EXPORTED_SYMBOLS = ["config"];
 
+const HOUR_MS = 1 * 60 * 60 * 1000;
+
 const config = {
+  addonUrl: "https://addons.mozilla.org/firefox/downloads/latest/firefox-pioneer/?src=pioneer-enrollment-study-1",
+  notificationMessage: "Please help us improve Firefox and the Web",
+  updateTimerInterval: Services.prefs.getIntPref(
+    "extensions.pioneer-enrollment-study.updateTimerInterval",
+    86400, // 24 hours
+  ),
+  firstPromptDelay: Services.prefs.getIntPref(
+    "extensions.pioneer-enrollment-study.firstPromptDelay",
+    5 * 60 * 1000, // 5 minutes in ms
+  ),
+  secondPromptDelay: Services.prefs.getIntPref(
+    "extensions.pioneer-enrollment-study.secondPromptDelay",
+    (2 * 24 * 60 * 60 * 1000) - HOUR_MS, // 2 days minus an hour for timer variances
+  ),
+  studyEndDelay: Services.prefs.getIntPref(
+    "extensions.pioneer-enrollment-study.studyEndDelay",
+    (1 * 24 * 60 * 60 * 1000) - HOUR_MS, // 1 day in ms minus an hour for timer variances
+  ),
+
   study: {
-    studyName: "share-button-study", // no spaces, for all the reasons
+    studyName: "pioneer-enrollment-study", // no spaces, for all the reasons
     weightedVariations: [
-      { name: "doorhangerDoNothing", weight: 1 },
-      { name: "doorhangerAskToAdd", weight: 1 },
-      { name: "doorhangerAddToToolbar", weight: 1 },
-      { name: "highlight", weight: 1 },
-      { name: "control", weight: 1 },
+      { name: "popunder", weight: 1 },
+      { name: "notification", weight: 1 },
+      { name: "notificationAndPopunder", weight: 1 },
+      { name: "notificationOldStudyPage", weight: 1 },
     ],
     /** **endings**
       * - keys indicate the 'endStudy' even that opens these.
@@ -19,11 +42,20 @@ const config = {
       * - usually surveys, orientations, explanations
       */
     endings: {
+      error: {
+        baseUrl: "https://qsurvey.mozilla.com/s3/pioneer-enrollment-study",
+      },
+      "no-enroll": {
+        baseUrl: "https://qsurvey.mozilla.com/s3/pioneer-enrollment-study",
+      },
       expired: {
-        baseUrl: "https://qsurvey.mozilla.com/s3/sharing-study",
+        baseUrl: "https://qsurvey.mozilla.com/s3/pioneer-enrollment-study",
       },
       "user-disable": {
-        baseUrl: "https://qsurvey.mozilla.com/s3/sharing-study",
+        baseUrl: "https://qsurvey.mozilla.com/s3/pioneer-enrollment-study",
+      },
+      enrolled: {
+        baseUrl: "https://qsurvey.mozilla.com/s3/pioneer-enrollment-study",
       },
     },
     telemetry: {

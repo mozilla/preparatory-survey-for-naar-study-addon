@@ -1,10 +1,10 @@
 {
-  "name": "share-button-study",
+  "name": "pioneer-enrollment-study",
   "version": "1.0.0",
-  "description": "Extension that highlights the share button when text is copied from the URL bar.",
+  "description": "Extension that prompts users to participate in the Firefox Pioneer program..",
   "main": "bootstrap.js",
-  "repository": "https://github.com/marcrowo/share-button-study.git",
-  "author": "Marc Robert Wong <marcrobertwong@gmail.com>",
+  "repository": "https://github.com/mozilla/pioneer-enrollment-study.git",
+  "author": "Mozilla Foundation",
   "license": "MPL-2.0",
   "dependencies": {
     "clipboardy": "^1.1.4",

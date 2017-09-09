@@ -1,13 +1,7 @@
 bootstrap.js
 chrome.manifest
 install.rdf
-share_button.css
-doorhanger.html
-doorhanger.css
-ask.html
-ask.css
-panel.css
-share.svg
 StudyUtils.jsm
 Config.jsm
-PingStorage.jsm
+content
+skin

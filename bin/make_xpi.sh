@@ -2,9 +2,10 @@
 
 set -eu
 
-BASE_DIR="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")""/extension"
+BASE_DIR="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
+EXTENSION_DIR="$BASE_DIR/extension"
 TMP_DIR=$(mktemp -d)
-DEST="${TMP_DIR}/share-button-study"
+DEST="${TMP_DIR}/pioneer-enrollment-study"
 mkdir -p $DEST
 
 # deletes the temp directory
@@ -15,10 +16,10 @@ trap cleanup EXIT
 
 while read -r LINE || [[ -n "${LINE}" ]]; do
   mkdir -p "$(dirname "${DEST}/${LINE}")"
-  cp -r "${BASE_DIR}/${LINE}" "$(dirname "${DEST}/${LINE}")"
-done < "${BASE_DIR}/build-includes.txt"
+  cp -r "${EXTENSION_DIR}/${LINE}" "$(dirname "${DEST}/${LINE}")"
+done < "${EXTENSION_DIR}/build-includes.txt"
 
 pushd $DEST
-zip -r share-button-study.xpi *
-mv share-button-study.xpi $BASE_DIR
+zip -r pioneer-enrollment-study.xpi *
+mv pioneer-enrollment-study.xpi $BASE_DIR
 popd
