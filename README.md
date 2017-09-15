@@ -24,16 +24,18 @@ The purpose of this extension is to test various prompts for enrolling users in 
 ## Testing Preferences
 The following preferences can be set to customize the study behavior for testing purposes.
 
-`extensions.pioneer-enrollment-study.updateTimerInterval`
-    The interval for checking if the user should be prompted in minutes. (default: `43200`, 12 hours).
-`extensions.pioneer-enrollment-study.firstPromptDelay`
-    The delay between installation and the first prompt being shown in milliseconds (default: `300000`, 5 minutes).
-`extensions.pioneer-enrollment-study.secondPromptDelay`
-    The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: `169200000`, or 47 hours).
-`extensions.pioneer-enrollment-study.studyEndDelay`
-    The delay between the second prompt being shown and the study end in milliseconds (default: `86396400`, or 23 hours).
-`extensions.pioneer-enrollment-study.studyEnrolledEndDelay`
-    The delay between enrollment and the study end in milliseconds (default: `86396400`, or 23 hours).
+<dl>
+  <dt><code>extensions.pioneer-enrollment-study.updateTimerInterval</code></dt>
+  <dd>The interval for checking if the user should be prompted in minutes. (default: <code>43200</code>, 12 hours).</dd>
+  <dt><code>extensions.pioneer-enrollment-study.firstPromptDelay</code></dt>
+  <dd>The delay between installation and the first prompt being shown in milliseconds (default: <code>300000</code>, 5 minutes).</dd>
+  <dt><code>extensions.pioneer-enrollment-study.secondPromptDelay</code></dt>
+  <dd>The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: <code>169200000</code>, or 47 hours).</dd>
+  <dt><code>extensions.pioneer-enrollment-study.studyEndDelay</code></dt>
+  <dd>The delay between the second prompt being shown and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
+  <dt><code>extensions.pioneer-enrollment-study.studyEnrolledEndDelay</code></dt>
+  <dd>The delay between enrollment and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
+</dl>
 
 Due to timer variations, for testing purposes it's recommended to set `updateTimerInterval` to `1` and the rest of the delays to `180000`. The timers are not exact and may vary by a few seconds/minutes before triggering.
 
@@ -64,10 +66,12 @@ The `data.attributes.event` key contains an identifier for the type of event tha
 ### `prompted`
 Sent when the user is prompted to enroll with a notification or popunder. Pings of this type contain an extra key, `promptType`, that describes which type of prompt triggered the event:
 
-`first-prompt`
-    The initial prompt soon after installation.
-`second-prompt`
-    The second prompt shown if the user did not enroll after the first prompt.
+<dl>
+  <dt><code>first-prompt</code></dt>
+  <dd>The initial prompt soon after installation.</dd>
+  <dt><code>second-prompt</code></dt>
+  <dd>The second prompt shown if the user did not enroll after the first prompt.</dd>
+</dl>
 
 Example:
 
