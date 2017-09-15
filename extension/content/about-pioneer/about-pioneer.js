@@ -21,7 +21,7 @@ const clickListener = {
 
       const clickedButton = event.target;
       clickedButton.classList.add("enrolled");
-      clickedButton.textContent = "You\u0027ve enrolled. Welcome, intrepid Pioneer!";
+      clickedButton.innerHTML = "You\u0027ve enrolled.<br>Welcome, intrepid Pioneer!";
 
       for (const button of document.querySelectorAll(".enroll-button:not(.enrolled)")) {
         button.remove();
@@ -37,7 +37,7 @@ document.addEventListener("ReceiveEnrollment", (event) => {
     document.removeEventListener("click", clickListener);
     for (const button of document.querySelectorAll(".enroll-button:not(.enrolled)")) {
       button.classList.add("enrolled");
-      button.textContent = "You\u0027ve enrolled. Welcome, intrepid Pioneer!";
+      button.innerHTML = "You\u0027ve enrolled.<br>Welcome, intrepid Pioneer!";
     }
   }
 });

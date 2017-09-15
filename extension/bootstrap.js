@@ -39,11 +39,18 @@ const FRAME_SCRIPT = (
   `resource://pioneer-enrollment-study-content/frame-script.js?${Math.random()}`
 );
 
+let notificationBox = null;
+let notice = null;
+
 function showNotification(doc, onClickButton) {
-  const notificationBox = doc.querySelector(
+  if (notice && notificationBox) {
+    notificationBox.removeNotification(notice);
+  }
+
+  notificationBox = doc.querySelector(
     "#high-priority-global-notificationbox",
   );
-  const notice = notificationBox.appendNotification(
+  notice = notificationBox.appendNotification(
     config.notificationMessage,
     "pioneer-enrollment-study-1",
     "resource://pioneer-enrollment-study/skin/heartbeat-icon.svg",
@@ -60,11 +67,19 @@ function showNotification(doc, onClickButton) {
   );
 
   // Minimal attempts to style the notification like Heartbeat
-  notice.style.backgroundColor = "#F1F1F1";
+  notice.style.background = "linear-gradient(-179deg, #FBFBFB 0%, #EBEBEB 100%)";
   notice.style.borderBottom = "1px solid #C1C1C1";
   notice.style.height = "40px";
   const messageText = doc.getAnonymousElementByAttribute(notice, "anonid", "messageText");
   messageText.style.color = "#333";
+  const closeButton = doc.getAnonymousNodes(notice)[0].childNodes[1];
+  if (closeButton) {
+    if (doc.defaultView.matchMedia("(min-resolution: 2dppx)").matches) {
+      closeButton.setAttribute("style", "-moz-image-region: rect(0, 32px, 32px, 0) !important;");
+    } else {
+      closeButton.setAttribute("style", "-moz-image-region: rect(0, 16px, 16px, 0) !important;");
+    }
+  }
 
   // Position the button next to the text like in Heartbeat
   const rightSpacer = doc.createElement("spacer");
@@ -94,9 +109,8 @@ function setEnrollmentState(state) {
 }
 
 let firstPromptTimeout = null;
-function initializeTreatment(actionCallback) {
-  const enrollmentState = getEnrollmentState();
-  if (!enrollmentState) {
+function showFirstPrompt(actionCallback) {
+  if (!firstPromptTimeout) {
     firstPromptTimeout = setTimeout(() => {
       actionCallback("first-prompt");
       setEnrollmentState({
@@ -105,10 +119,18 @@ function initializeTreatment(actionCallback) {
       });
     }, config.firstPromptDelay);
   }
+}
+function initializeTreatment(actionCallback) {
+  const enrollmentState = getEnrollmentState();
+  if (!enrollmentState) {
+    showFirstPrompt(actionCallback);
+  }
 
   timerManager.registerTimer(TIMER_NAME, () => {
     const state = getEnrollmentState();
-    if (state.stage === "first-prompt") {
+    if (!state) {
+      showFirstPrompt(actionCallback);
+    } else if (state.stage === "first-prompt") {
       if (Date.now() - state.time >= config.secondPromptDelay) {
         actionCallback("second-prompt");
         setEnrollmentState({
@@ -284,7 +306,7 @@ this.startup = async function(data, reason) {
   TREATMENTS[variation.name]();
 };
 
-this.shutdown = function(data, reason) {
+this.shutdown = async function(data, reason) {
   // Register add-on listener
   AddonManager.removeAddonListener(addonListener);
 
@@ -304,18 +326,23 @@ this.shutdown = function(data, reason) {
   }
   timerManager.unregisterTimer(TIMER_NAME);
 
-  Cu.unload("resource://pioneer-enrollment-study/StudyUtils.jsm");
-  Cu.unload("resource://pioneer-enrollment-study/Config.jsm");
-  Cu.unload("resource://pioneer-enrollment-study-content/AboutPages.jsm");
+  // If a notification is up, close it
+  if (notice && notificationBox) {
+    notificationBox.removeNotification(notice);
+  }
 
   // are we uninstalling?
   // if so, user or automatic?
   if (reason === REASONS.ADDON_UNINSTALL || reason === REASONS.ADDON_DISABLE) {
     if (!studyUtils._isEnding) {
       // we are the first requestors, must be user action.
-      studyUtils.endStudy({ reason: "user-disable" });
+      await studyUtils.endStudy({ reason: "user-disable" });
     }
   }
+
+  Cu.unload("resource://pioneer-enrollment-study/StudyUtils.jsm");
+  Cu.unload("resource://pioneer-enrollment-study/Config.jsm");
+  Cu.unload("resource://pioneer-enrollment-study-content/AboutPages.jsm");
 };
 
 this.uninstall = function() {};

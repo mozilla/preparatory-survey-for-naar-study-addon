@@ -28,6 +28,10 @@ body {
   color: #fff;
 }
 
+a {
+  color: #fff;
+}
+
 .page-container {
   background-attachment: fixed;
   background-image: url(img/stars.png);
