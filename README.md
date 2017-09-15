@@ -25,14 +25,21 @@ The purpose of this extension is to test various prompts for enrolling users in 
 The following preferences can be set to customize the study behavior for testing purposes.
 
 <dl>
+  <dt><code>extensions.pioneer-enrollment-study.treatment</code></dt>
+  <dd>The treatment to use. Set this to a value from the Treatment Branches section to force the add-on to show you that treatment. You must set this preference before installing the study (default: random).</dd>
+
   <dt><code>extensions.pioneer-enrollment-study.updateTimerInterval</code></dt>
   <dd>The interval for checking if the user should be prompted in minutes. (default: <code>43200</code>, 12 hours).</dd>
+
   <dt><code>extensions.pioneer-enrollment-study.firstPromptDelay</code></dt>
   <dd>The delay between installation and the first prompt being shown in milliseconds (default: <code>300000</code>, 5 minutes).</dd>
+
   <dt><code>extensions.pioneer-enrollment-study.secondPromptDelay</code></dt>
   <dd>The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: <code>169200000</code>, or 47 hours).</dd>
+
   <dt><code>extensions.pioneer-enrollment-study.studyEndDelay</code></dt>
   <dd>The delay between the second prompt being shown and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
+
   <dt><code>extensions.pioneer-enrollment-study.studyEnrolledEndDelay</code></dt>
   <dd>The delay between enrollment and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
 </dl>
