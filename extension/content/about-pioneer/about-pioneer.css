@@ -117,6 +117,7 @@ body {
 .enroll-button.enrolled {
   background: none;
   border: none;
+  cursor: default;
 }
 
 a:visited {

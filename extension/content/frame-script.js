@@ -38,12 +38,16 @@ class PioneerFrameListener {
     // We waited until after we received an event to register message listeners
     // in order to save resources for tabs that don't ever load about:pioneer.
     addMessageListener("Pioneer:ShuttingDown", this);
+    addMessageListener("Pioneer:ReceiveEnrollment", this);
 
     // eslint-disable-next-line default-case
     switch (event.detail.action) {
       // Actions that require the parent process
       case "Enroll":
         sendAsyncMessage("Pioneer:Enroll");
+        break;
+      case "GetEnrollment":
+        sendAsyncMessage("Pioneer:GetEnrollment");
         break;
     }
   }
@@ -65,6 +69,9 @@ class PioneerFrameListener {
     switch (message.name) {
       case "Pioneer:ShuttingDown":
         this.onShutdown();
+        break;
+      case "Pioneer:ReceiveEnrollment":
+        this.triggerPageCallback("ReceiveEnrollment", message.data.isEnrolled);
         break;
     }
   }

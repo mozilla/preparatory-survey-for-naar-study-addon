@@ -13,7 +13,7 @@ function sendPageEvent(action, data) {
 }
 
 // Attempt to enroll when clicked.
-document.addEventListener("click", {
+const clickListener = {
   handleEvent(event) {
     if (event.target.matches(".enroll-button")) {
       sendPageEvent("Enroll");
@@ -28,4 +28,18 @@ document.addEventListener("click", {
       }
     }
   },
+};
+document.addEventListener("click", clickListener);
+
+document.addEventListener("ReceiveEnrollment", (event) => {
+  const isEnrolled = event.detail;
+  if (isEnrolled) {
+    document.removeEventListener("click", clickListener);
+    for (const button of document.querySelectorAll(".enroll-button:not(.enrolled)")) {
+      button.classList.add("enrolled");
+      button.textContent = "You\u0027ve enrolled. Welcome, intrepid Pioneer!";
+    }
+  }
 });
+
+sendPageEvent("GetEnrollment");

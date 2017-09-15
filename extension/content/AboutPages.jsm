@@ -15,6 +15,12 @@ XPCOMUtils.defineLazyModuleGetter(this, "studyUtils",
 
 this.EXPORTED_SYMBOLS = ["AboutPages"];
 
+const ENROLLMENT_STATE_STRING_PREF = "extensions.pioneer-enrollment-study.enrollmentState";
+
+function setEnrollmentState(state) {
+  Services.prefs.setCharPref(ENROLLMENT_STATE_STRING_PREF, JSON.stringify(state));
+}
+
 /**
  * Class for managing an about: page that Pioneer provides. Adapted from
  * browser/extensions/pocket/content/AboutPocket.jsm.
@@ -108,6 +114,7 @@ XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
      */
     registerParentListeners() {
       Services.mm.addMessageListener("Pioneer:Enroll", this);
+      Services.mm.addMessageListener("Pioneer:GetEnrollment", this);
     },
 
     /**
@@ -115,6 +122,7 @@ XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
      */
     unregisterParentListeners() {
       Services.mm.removeMessageListener("Pioneer:Enroll", this);
+      Services.mm.removeMessageListener("Pioneer:GetEnrollment", this);
     },
 
     /**
@@ -127,6 +135,21 @@ XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
         case "Pioneer:Enroll":
           this.enroll();
           break;
+        case "Pioneer:GetEnrollment":
+          this.getEnrollment(message.target);
+          break;
+      }
+    },
+
+    async getEnrollment(target) {
+      const addon = await AddonManager.getAddonByID("pioneer-opt-in@mozilla.org");
+      try {
+        target.messageManager.sendAsyncMessage("Pioneer:ReceiveEnrollment", {
+          isEnrolled: addon !== null,
+        });
+      } catch (err) {
+        // The child process might be gone, so no need to throw here.
+        Cu.reportError(err);
       }
     },
 
@@ -137,7 +160,11 @@ XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
         "application/x-xpinstall",
       );
       install.install();
-      studyUtils.endStudy("enrolled");
+      studyUtils.telemetry({ event: "enrolled-via-study" });
+      setEnrollmentState({
+        stage: "enrolled",
+        time: Date.now(),
+      });
     },
   });
 

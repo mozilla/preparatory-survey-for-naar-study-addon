@@ -10,6 +10,8 @@ XPCOMUtils.defineLazyModuleGetter(this, "RecentWindow",
   "resource:///modules/RecentWindow.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "AboutPages",
   "resource://pioneer-enrollment-study-content/AboutPages.jsm");
+XPCOMUtils.defineLazyModuleGetter(this, "AddonManager",
+  "resource://gre/modules/AddonManager.jsm");
 XPCOMUtils.defineLazyServiceGetter(this, "timerManager",
   "@mozilla.org/updates/timer-manager;1", "nsIUpdateTimerManager");
 
@@ -96,7 +98,7 @@ function initializeTreatment(actionCallback) {
   const enrollmentState = getEnrollmentState();
   if (!enrollmentState) {
     firstPromptTimeout = setTimeout(() => {
-      actionCallback();
+      actionCallback("first-prompt");
       setEnrollmentState({
         stage: "first-prompt",
         time: Date.now(),
@@ -108,7 +110,7 @@ function initializeTreatment(actionCallback) {
     const state = getEnrollmentState();
     if (state.stage === "first-prompt") {
       if (Date.now() - state.time >= config.secondPromptDelay) {
-        actionCallback();
+        actionCallback("second-prompt");
         setEnrollmentState({
           stage: "second-prompt",
           time: Date.now(),
@@ -117,6 +119,10 @@ function initializeTreatment(actionCallback) {
     } else if (state.stage === "second-prompt") {
       if (Date.now() - state.time >= config.studyEndDelay) {
         studyUtils.endStudy({ reason: "no-enroll" });
+      }
+    } else if (state.stage === "enrolled") {
+      if (Date.now() - state.time >= config.studyEnrolledEndDelay) {
+        studyUtils.endStudy({ reason: "enrolled" });
       }
     } else {
       Cu.reportError(`Unknown stage for Pioneer Enrollment: ${state.stage}. Exiting study.`);
@@ -127,33 +133,37 @@ function initializeTreatment(actionCallback) {
 
 const TREATMENTS = {
   notificationOldStudyPage() {
-    initializeTreatment(() => {
+    initializeTreatment((promptType) => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         showNotification(recentWindow.document, () => {
           recentWindow.gBrowser.loadOneTab("https://addons.mozilla.org/en-US/firefox/shield_study_16", {
             inBackground: false,
           });
+          studyUtils.telemetry({ event: "engagedPrompt" });
         });
+        studyUtils.telemetry({ event: "prompted", promptType });
       }
     });
   },
 
   notification() {
-    initializeTreatment(() => {
+    initializeTreatment((promptType) => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         showNotification(recentWindow.document, () => {
           recentWindow.gBrowser.loadOneTab("about:pioneer", {
             inBackground: false,
           });
+          studyUtils.telemetry({ event: "engagedPrompt" });
         });
+        studyUtils.telemetry({ event: "prompted", promptType });
       }
     });
   },
 
   notificationAndPopunder() {
-    initializeTreatment(() => {
+    initializeTreatment((promptType) => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         const tab = recentWindow.gBrowser.loadOneTab("about:pioneer", {
@@ -162,20 +172,35 @@ const TREATMENTS = {
 
         showNotification(recentWindow.document, () => {
           recentWindow.gBrowser.selectedTab = tab;
+          studyUtils.telemetry({ event: "engagedPrompt" });
         });
+        studyUtils.telemetry({ event: "prompted", promptType });
       }
     });
   },
 
   popunder() {
-    initializeTreatment(() => {
+    initializeTreatment((promptType) => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         recentWindow.gBrowser.loadOneTab("about:pioneer", {
           inBackground: true,
         });
+        studyUtils.telemetry({ event: "prompted", promptType });
       }
     });
+  },
+};
+
+const addonListener = {
+  onInstalled(addon) {
+    if (addon.id === "pioneer-opt-in@mozilla.org") {
+      studyUtils.telemetry({ event: "enrolled" });
+      setEnrollmentState({
+        stage: "enrolled",
+        time: Date.now(),
+      });
+    }
   },
 };
 
@@ -252,11 +277,17 @@ this.startup = async function(data, reason) {
   AboutPages.aboutPioneer.register();
   AboutPages.aboutPioneer.registerParentListeners();
 
+  // Register add-on listener
+  AddonManager.addAddonListener(addonListener);
+
   // Run treatment
   TREATMENTS[variation.name]();
 };
 
 this.shutdown = function(data, reason) {
+  // Register add-on listener
+  AddonManager.removeAddonListener(addonListener);
+
   // Stop loading processs scripts and notify existing scripts to clean up.
   Services.ppmm.removeDelayedProcessScript(PROCESS_SCRIPT);
   Services.ppmm.broadcastAsyncMessage("Pioneer:ShuttingDown");

@@ -1,5 +1,8 @@
 const { utils: Cu } = Components;
+Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
+XPCOMUtils.defineLazyModuleGetter(this, "AddonManager",
+  "resource://gre/modules/AddonManager.jsm");
 
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "(config|EXPORTED_SYMBOLS)" }]*/
 const EXPORTED_SYMBOLS = ["config"];
@@ -11,7 +14,7 @@ const config = {
   notificationMessage: "Please help us improve Firefox and the Web",
   updateTimerInterval: Services.prefs.getIntPref(
     "extensions.pioneer-enrollment-study.updateTimerInterval",
-    86400, // 24 hours
+    43200, // 12 hours
   ),
   firstPromptDelay: Services.prefs.getIntPref(
     "extensions.pioneer-enrollment-study.firstPromptDelay",
@@ -23,6 +26,10 @@ const config = {
   ),
   studyEndDelay: Services.prefs.getIntPref(
     "extensions.pioneer-enrollment-study.studyEndDelay",
+    (1 * 24 * 60 * 60 * 1000) - HOUR_MS, // 1 day in ms minus an hour for timer variances
+  ),
+  studyEnrolledEndDelay: Services.prefs.getIntPref(
+    "extensions.pioneer-enrollment-study.studyEnrolledEndDelay",
     (1 * 24 * 60 * 60 * 1000) - HOUR_MS, // 1 day in ms minus an hour for timer variances
   ),
 
@@ -66,12 +73,8 @@ const config = {
     studyUtilsPath: `./StudyUtils.jsm`,
   },
   async isEligible() {
-    // get whatever prefs, addons, telemetry, anything!
-    // Cu.import can see 'firefox things', but not package things.
-    // In order to import addon libraries, use chrome.manifest and "resource://" in order
-    // to get the correct file location. Then it is necessary to use
-    // XPCOMUtils.defineLazyModuleGetter() to import the library.
-    return true;
+    const addon = await AddonManager.getAddonByID("pioneer-opt-in@mozilla.org");
+    return addon === null;
   },
   // addon-specific modules to load/unload during `startup`, `shutdown`
   modules: [
