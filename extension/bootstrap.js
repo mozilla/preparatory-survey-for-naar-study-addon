@@ -44,7 +44,11 @@ let notice = null;
 
 function showNotification(doc, onClickButton) {
   if (notice && notificationBox) {
-    notificationBox.removeNotification(notice);
+    try {
+      notificationBox.removeNotification(notice);
+    } catch (err) {
+      // The dom nodes are probably gone. That's fine.
+    }
   }
 
   notificationBox = doc.querySelector(
