@@ -191,6 +191,11 @@ const TREATMENTS = {
         const tab = recentWindow.gBrowser.loadOneTab("about:pioneer", {
           inBackground: true,
         });
+        tab.addEventListener("TabClose", () => {
+          if (notice && notificationBox) {
+            notificationBox.removeNotification(notice);
+          }
+        });
 
         showNotification(recentWindow.document, () => {
           recentWindow.gBrowser.selectedTab = tab;
