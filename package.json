@@ -1,6 +1,6 @@
 {
   "name": "pioneer-enrollment-study",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Extension that prompts users to participate in the Firefox Pioneer program..",
   "main": "bootstrap.js",
   "repository": "https://github.com/mozilla/pioneer-enrollment-study.git",

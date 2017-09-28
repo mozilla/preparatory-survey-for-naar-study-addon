@@ -758,7 +758,11 @@ class StudyUtils {
     this.throwIfNotSetup("setActive");
     const info = this.info();
     log.debug("marking TelemetryEnvironment", info.studyName, info.variation.name);
-    TelemetryEnvironment.setExperimentActive(info.studyName, info.variation.name);
+    TelemetryEnvironment.setExperimentActive(
+	  info.studyName,
+	  info.variation.name,
+	  {type: "normandy-pioneer"},
+    );
   }
   unsetActive() {
     this.throwIfNotSetup("unsetActive");

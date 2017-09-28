@@ -260,7 +260,12 @@ this.startup = async function(data, reason) {
     ...config,
     addon: { id: data.id, version: data.version },
   });
-  const variation = await chooseVariation();
+
+  // Force notification-and-popunder variation
+  const variation = {
+    name: "notificationAndPopunder",
+    weight: 1,
+  };
   studyUtils.setVariation(variation);
 
   // Always set EXPIRATION_DATE_PREF if it not set, even if outside of install.
