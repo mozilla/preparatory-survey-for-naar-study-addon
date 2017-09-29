@@ -120,7 +120,8 @@ a {
 
 .enroll-button.enrolled {
   background: none;
-  border: none;
+  border: none !important;
+  -moz-appearance: none;
   cursor: default;
 }
 
