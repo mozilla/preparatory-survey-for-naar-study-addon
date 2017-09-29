@@ -42,7 +42,7 @@ const FRAME_SCRIPT = (
 let notificationBox = null;
 let notice = null;
 
-function showNotification(doc, onClickButton) {
+function removeActiveNotification() {
   if (notice && notificationBox) {
     try {
       notificationBox.removeNotification(notice);
@@ -50,6 +50,10 @@ function showNotification(doc, onClickButton) {
       // The dom nodes are probably gone. That's fine.
     }
   }
+}
+
+function showNotification(doc, onClickButton) {
+  removeActiveNotification();
 
   notificationBox = doc.querySelector(
     "#high-priority-global-notificationbox",
@@ -196,9 +200,7 @@ const TREATMENTS = {
           inBackground: true,
         });
         tab.addEventListener("TabClose", () => {
-          if (notice && notificationBox) {
-            notificationBox.removeNotification(notice);
-          }
+          removeActiveNotification();
         });
 
         showNotification(recentWindow.document, () => {
@@ -341,9 +343,7 @@ this.shutdown = async function(data, reason) {
   timerManager.unregisterTimer(TIMER_NAME);
 
   // If a notification is up, close it
-  if (notice && notificationBox) {
-    notificationBox.removeNotification(notice);
-  }
+  removeActiveNotification();
 
   // are we uninstalling?
   // if so, user or automatic?
