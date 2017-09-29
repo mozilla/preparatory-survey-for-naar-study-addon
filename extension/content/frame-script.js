@@ -38,6 +38,7 @@ class PioneerFrameListener {
     // We waited until after we received an event to register message listeners
     // in order to save resources for tabs that don't ever load about:pioneer.
     addMessageListener("Pioneer:ShuttingDown", this);
+    addMessageListener("Pioneer:Uninstalling", this);
     addMessageListener("Pioneer:ReceiveEnrollment", this);
 
     // eslint-disable-next-line default-case
@@ -70,6 +71,9 @@ class PioneerFrameListener {
       case "Pioneer:ShuttingDown":
         this.onShutdown();
         break;
+      case "Pioneer:Uninstalling":
+        this.onUninstall();
+        break;
       case "Pioneer:ReceiveEnrollment":
         this.triggerPageCallback("ReceiveEnrollment", message.data.isEnrolled);
         break;
@@ -97,7 +101,14 @@ class PioneerFrameListener {
 
   onShutdown() {
     removeMessageListener("Pioneer:ShuttingDown", this);
+    removeMessageListener("Pioneer:Uninstalling", this);
     removeEventListener("PioneerPageEvent", this);
+  }
+
+  onUninstall() {
+    if (content.document.documentURI.startsWith("about:pioneer")) {
+      content.close();
+    }
   }
 }
 

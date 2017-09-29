@@ -323,7 +323,14 @@ this.startup = async function(data, reason) {
 };
 
 this.shutdown = async function(data, reason) {
-  // Register add-on listener
+  const isUninstall = reason === REASONS.ADDON_UNINSTALL || reason === REASONS.ADDON_DISABLE;
+  if (isUninstall) {
+    // Send this before the ShuttingDown event to ensure that message handlers
+    // are still registered and receive it.
+    Services.mm.broadcastAsyncMessage("Pioneer:Uninstalling");
+  }
+
+  // Unegister add-on listener
   AddonManager.removeAddonListener(addonListener);
 
   // Stop loading processs scripts and notify existing scripts to clean up.
@@ -345,9 +352,7 @@ this.shutdown = async function(data, reason) {
   // If a notification is up, close it
   removeActiveNotification();
 
-  // are we uninstalling?
-  // if so, user or automatic?
-  if (reason === REASONS.ADDON_UNINSTALL || reason === REASONS.ADDON_DISABLE) {
+  if (isUninstall) {
     if (!studyUtils._isEnding) {
       // we are the first requestors, must be user action.
       await studyUtils.endStudy({ reason: "user-disable" });
