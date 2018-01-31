@@ -80,14 +80,6 @@ function showNotification(doc, onClickButton) {
   notice.style.height = "40px";
   const messageText = doc.getAnonymousElementByAttribute(notice, "anonid", "messageText");
   messageText.style.color = "#333";
-  const closeButton = doc.getAnonymousNodes(notice)[0].childNodes[1];
-  if (closeButton) {
-    if (doc.defaultView.matchMedia("(min-resolution: 2dppx)").matches) {
-      closeButton.setAttribute("style", "-moz-image-region: rect(0, 32px, 32px, 0) !important;");
-    } else {
-      closeButton.setAttribute("style", "-moz-image-region: rect(0, 16px, 16px, 0) !important;");
-    }
-  }
 
   // Position the button next to the text like in Heartbeat
   const rightSpacer = doc.createElement("spacer");
