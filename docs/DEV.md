@@ -58,7 +58,7 @@ npm install -g npm
 Clone the repo:
 
 ```shell
-git clone https://github.com/mozilla/shield-studies-addon-template.git
+git clone https://github.com/mozilla/pioneer-enrollment-study.git
 ```
 
 After cloning the repo, you can run the following commands from the top level directory, one after another:
