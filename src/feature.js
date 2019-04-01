@@ -30,6 +30,34 @@ class Feature {
     const feature = this;
     const { variation, isFirstRun } = studyInfo;
 
+    const HOUR_MS = 1 * 60 * 60 * 1000;
+
+    feature.config = {
+      addonUrl:
+        "https://addons.mozilla.org/firefox/downloads/latest/firefox-pioneer/?src=pioneer-enrollment-study-1",
+      notificationMessage: "Please help us improve Firefox and the Web",
+      updateTimerInterval: Services.prefs.getIntPref(
+        "extensions.pioneer-enrollment-study.updateTimerInterval",
+        43200, // 12 hours
+      ),
+      firstPromptDelay: Services.prefs.getIntPref(
+        "extensions.pioneer-enrollment-study.firstPromptDelay",
+        5 * 60 * 1000, // 5 minutes in ms
+      ),
+      secondPromptDelay: Services.prefs.getIntPref(
+        "extensions.pioneer-enrollment-study.secondPromptDelay",
+        2 * 24 * 60 * 60 * 1000 - HOUR_MS, // 2 days minus an hour for timer variances
+      ),
+      studyEndDelay: Services.prefs.getIntPref(
+        "extensions.pioneer-enrollment-study.studyEndDelay",
+        1 * 24 * 60 * 60 * 1000 - HOUR_MS, // 1 day in ms minus an hour for timer variances
+      ),
+      studyEnrolledEndDelay: Services.prefs.getIntPref(
+        "extensions.pioneer-enrollment-study.studyEnrolledEndDelay",
+        1 * 24 * 60 * 60 * 1000 - HOUR_MS, // 1 day in ms minus an hour for timer variances
+      ),
+    };
+
     // perform something only during first run
     if (isFirstRun) {
       await browser.study.logger.log("First run");
