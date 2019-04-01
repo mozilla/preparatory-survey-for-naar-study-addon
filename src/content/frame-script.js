@@ -22,7 +22,7 @@ const frameGlobal = {};
 XPCOMUtils.defineLazyModuleGetter(
   frameGlobal,
   "AboutPages",
-  "resource://pioneer-enrollment-study-content/AboutPages.jsm",
+  "resource://pioneer-participation-prompt-content/AboutPages.jsm",
 );
 
 /**

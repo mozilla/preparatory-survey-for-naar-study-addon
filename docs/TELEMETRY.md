@@ -40,7 +40,7 @@ Along with standard Shield study pings from the [study utils][], pings are sent 
 ```json
 {
   "version": 3,
-  "study_name": "pioneer-enrollment-study",
+  "study_name": "pioneer-participation-prompt",
   "branch": "notificationOldStudyPage",
   "addon_version": "1.0.1",
   "shield_version": "4.0.0",
@@ -74,7 +74,7 @@ Example:
 ```json
 {
   "version": 3,
-  "study_name": "pioneer-enrollment-study",
+  "study_name": "pioneer-participation-prompt",
   "branch": "notificationOldStudyPage",
   "addon_version": "1.0.1",
   "shield_version": "4.0.0",
@@ -100,7 +100,7 @@ Example:
 ```json
 {
   "version": 3,
-  "study_name": "pioneer-enrollment-study",
+  "study_name": "pioneer-participation-prompt",
   "branch": "notificationOldStudyPage",
   "addon_version": "1.0.1",
   "shield_version": "4.0.0",
@@ -123,7 +123,7 @@ Example:
 ```json
 {
   "version": 3,
-  "study_name": "pioneer-enrollment-study",
+  "study_name": "pioneer-participation-prompt",
   "branch": "notificationOldStudyPage",
   "addon_version": "1.0.1",
   "shield_version": "4.0.0",

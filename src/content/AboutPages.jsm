@@ -14,18 +14,18 @@ XPCOMUtils.defineLazyModuleGetter(
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "config",
-  "resource://pioneer-enrollment-study/Config.jsm",
+  "resource://pioneer-participation-prompt/Config.jsm",
 );
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "studyUtils",
-  "resource://pioneer-enrollment-study/StudyUtils.jsm",
+  "resource://pioneer-participation-prompt/StudyUtils.jsm",
 );
 
 this.EXPORTED_SYMBOLS = ["AboutPages"];
 
 const ENROLLMENT_STATE_STRING_PREF =
-  "extensions.pioneer-enrollment-study.enrollmentState";
+  "extensions.pioneer-participation-prompt.enrollmentState";
 
 function setEnrollmentState(state) {
   Services.prefs.setCharPref(
@@ -116,7 +116,7 @@ this.AboutPages = {};
 XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
   const aboutPioneer = new AboutPage({
     chromeUrl:
-      "resource://pioneer-enrollment-study-content/about-pioneer/about-pioneer.html",
+      "resource://pioneer-participation-prompt-content/about-pioneer/about-pioneer.html",
     aboutHost: "pioneer",
     classId: "{1ecac8dc-4e64-4872-8185-11fde537bf95}",
     description: "Firefox Pioneer",

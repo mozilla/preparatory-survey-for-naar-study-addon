@@ -1,12 +1,12 @@
 {
-  "name": "Pioneer Enrollment",
+  "name": "Pioneer Participation Prompt",
   "description": "__MSG_extensionDescription__",
   "version": "3.0.0",
   "manifest_version": 2,
   "hidden": true,
   "applications": {
     "gecko": {
-      "id": "pioneer-enrollment-study@shield.mozilla.org",
+      "id": "pioneer-participation-prompt@shield.mozilla.org",
       "strict_min_version": "65.0a1"
     }
   },

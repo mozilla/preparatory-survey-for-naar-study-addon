@@ -5,12 +5,12 @@ Cu.import("resource://gre/modules/Timer.jsm");
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "studyUtils",
-  "resource://pioneer-enrollment-study/StudyUtils.jsm",
+  "resource://pioneer-participation-prompt/StudyUtils.jsm",
 );
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "config",
-  "resource://pioneer-enrollment-study/Config.jsm",
+  "resource://pioneer-participation-prompt/Config.jsm",
 );
 XPCOMUtils.defineLazyModuleGetter(
   this,
@@ -20,7 +20,7 @@ XPCOMUtils.defineLazyModuleGetter(
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "AboutPages",
-  "resource://pioneer-enrollment-study-content/AboutPages.jsm",
+  "resource://pioneer-participation-prompt-content/AboutPages.jsm",
 );
 XPCOMUtils.defineLazyModuleGetter(
   this,
@@ -44,17 +44,18 @@ const REASONS = {
   ADDON_UPGRADE: 7, // The add-on is being upgraded.
   ADDON_DOWNGRADE: 8, // The add-on is being downgraded.
 };
-const TREATMENT_OVERRIDE_PREF = "extensions.pioneer-enrollment-study.treatment";
+const TREATMENT_OVERRIDE_PREF =
+  "extensions.pioneer-participation-prompt.treatment";
 const EXPIRATION_DATE_STRING_PREF =
-  "extensions.pioneer-enrollment-study.expirationDateString";
+  "extensions.pioneer-participation-prompt.expirationDateString";
 const ENROLLMENT_STATE_STRING_PREF =
-  "extensions.pioneer-enrollment-study.enrollmentState";
-const TIMER_NAME = "pioneer-enrollment-study-prompt";
+  "extensions.pioneer-participation-prompt.enrollmentState";
+const TIMER_NAME = "pioneer-participation-prompt-prompt";
 
 // Due to bug 1051238 frame scripts are cached forever, so we can't update them
 // as a restartless add-on. The Math.random() is the work around for this.
-const PROCESS_SCRIPT = `resource://pioneer-enrollment-study-content/process-script.js?${Math.random()}`;
-const FRAME_SCRIPT = `resource://pioneer-enrollment-study-content/frame-script.js?${Math.random()}`;
+const PROCESS_SCRIPT = `resource://pioneer-participation-prompt-content/process-script.js?${Math.random()}`;
+const FRAME_SCRIPT = `resource://pioneer-participation-prompt-content/frame-script.js?${Math.random()}`;
 
 let notificationBox = null;
 let notice = null;
@@ -75,8 +76,8 @@ function showNotification(doc, onClickButton) {
   notificationBox = doc.querySelector("#high-priority-global-notificationbox");
   notice = notificationBox.appendNotification(
     config.notificationMessage,
-    "pioneer-enrollment-study-1",
-    "resource://pioneer-enrollment-study/skin/heartbeat-icon.svg",
+    "pioneer-participation-prompt-1",
+    "resource://pioneer-participation-prompt/skin/heartbeat-icon.svg",
     notificationBox.PRIORITY_INFO_HIGH,
     [
       {
@@ -406,9 +407,9 @@ this.shutdown = async function(data, reason) {
     }
   }
 
-  Cu.unload("resource://pioneer-enrollment-study/StudyUtils.jsm");
-  Cu.unload("resource://pioneer-enrollment-study/Config.jsm");
-  Cu.unload("resource://pioneer-enrollment-study-content/AboutPages.jsm");
+  Cu.unload("resource://pioneer-participation-prompt/StudyUtils.jsm");
+  Cu.unload("resource://pioneer-participation-prompt/Config.jsm");
+  Cu.unload("resource://pioneer-participation-prompt-content/AboutPages.jsm");
 };
 
 this.uninstall = function() {};

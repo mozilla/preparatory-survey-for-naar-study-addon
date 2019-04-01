@@ -18,7 +18,7 @@ const run = async studyType => {
     utils.FIREFOX_PREFERENCES,
   );
   const widgetId = utils.ui.makeWidgetId(
-    "extensions.pioneer-enrollment-study_shield_mozilla_org.test.variationName",
+    "extensions.pioneer-participation-prompt_shield_mozilla_org.test.variationName",
   );
   /*
   await utils.preferences.set(

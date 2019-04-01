@@ -1,10 +1,10 @@
 {
-  "name": "pioneer-enrollment-study",
+  "name": "pioneer-participation-prompt",
   "description": "Extension that prompts users to participate in the Firefox Pioneer program.",
   "version": "3.0.0",
   "author": "Mozilla",
   "bugs": {
-    "url": "https://github.com/mozilla/pioneer-enrollment-study/issues"
+    "url": "https://github.com/mozilla/pioneer-participation-prompt/issues"
   },
   "dependencies": {
     "shield-studies-addon-utils": "^5.3.0"
@@ -51,7 +51,7 @@
   "engines": {
     "node": ">=8.11.1"
   },
-  "homepage": "https://github.com/mozilla/pioneer-enrollment-study",
+  "homepage": "https://github.com/mozilla/pioneer-participation-prompt",
   "keywords": [
     "firefox",
     "mozilla",
@@ -61,7 +61,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/mozilla/pioneer-enrollment-study.git"
+    "url": "git://github.com/mozilla/pioneer-participation-prompt.git"
   },
   "scripts": {
     "build": "web-ext build",

@@ -16,7 +16,7 @@ const defaultConfig = {
     pref: [
       "shieldStudy.logLevel=info",
       "browser.ctrlTab.recentlyUsedOrder=false",
-      "extensions.pioneer-enrollment-study_shield_mozilla_org.test.variationName=dogfooding",
+      "extensions.pioneer-participation-prompt_shield_mozilla_org.test.variationName=dogfooding",
     ],
   },
 };

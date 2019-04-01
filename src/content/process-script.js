@@ -13,7 +13,7 @@
 const { utils: Cu } = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
-Cu.import("resource://pioneer-enrollment-study-content/AboutPages.jsm");
+Cu.import("resource://pioneer-participation-prompt-content/AboutPages.jsm");
 
 class PioneerChildListener {
   onStartup() {
@@ -27,7 +27,7 @@ class PioneerChildListener {
 
     // Unload jsms in case the add-on is reinstalled and we need to
     // load a new version of it.
-    Cu.unload("resource://pioneer-enrollment-study-content/AboutPages.jsm");
+    Cu.unload("resource://pioneer-participation-prompt-content/AboutPages.jsm");
   }
 
   receiveMessage(message) {

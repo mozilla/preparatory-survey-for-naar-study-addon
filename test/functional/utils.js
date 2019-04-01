@@ -20,7 +20,7 @@ const FIREFOX_PREFERENCES = {
   "general.warnOnAboutConfig": false,
 
   // Force variation for testing
-  "extensions.pioneer-enrollment-study_shield_mozilla_org.test.variationName":
+  "extensions.pioneer-participation-prompt_shield_mozilla_org.test.variationName":
     "kittens",
 
   // Enable verbose shield study utils logging

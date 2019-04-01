@@ -30,7 +30,7 @@
 * Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New -> String)
 * Set `shieldStudy.logLevel` to `info`. This permits shield-add-on log output in browser console.
 * (If Pioneer study) Make sure that the [Firefox Pioneer Add-on](https://addons.mozilla.org/en-US/firefox/addon/firefox-pioneer/) is installed
-* Set `extensions.pioneer-enrollment-study_shield_mozilla_org.test.variationName` to `kittens` (or any other study variation/branch to test specifically)
+* Set `extensions.pioneer-participation-prompt_shield_mozilla_org.test.variationName` to `kittens` (or any other study variation/branch to test specifically)
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
 * (If you are installing an unsigned version of the add-on, you need to set `extensions.legacy.enabled` to `true` before installing the add-on)
 
@@ -122,22 +122,22 @@ See [TELEMETRY.md](./TELEMETRY.md) for more details on what pings are sent by th
 The following preferences can be set to customize the study behavior for testing purposes.
 
 <dl>
-  <dt><code>extensions.pioneer-enrollment-study.treatment</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt.treatment</code></dt>
   <dd>The treatment to use. Set this to a value from the Treatment Branches section to force the add-on to show you that treatment. You must set this preference before installing the study (default: random).</dd>
 
-  <dt><code>extensions.pioneer-enrollment-study.updateTimerInterval</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt.updateTimerInterval</code></dt>
   <dd>The interval for checking if the user should be prompted in minutes. (default: <code>43200</code>, 12 hours).</dd>
 
-  <dt><code>extensions.pioneer-enrollment-study.firstPromptDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt.firstPromptDelay</code></dt>
   <dd>The delay between installation and the first prompt being shown in milliseconds (default: <code>300000</code>, 5 minutes).</dd>
 
-  <dt><code>extensions.pioneer-enrollment-study.secondPromptDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt.secondPromptDelay</code></dt>
   <dd>The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: <code>169200000</code>, or 47 hours).</dd>
 
-  <dt><code>extensions.pioneer-enrollment-study.studyEndDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt.studyEndDelay</code></dt>
   <dd>The delay between the second prompt being shown and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
 
-  <dt><code>extensions.pioneer-enrollment-study.studyEnrolledEndDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt.studyEnrolledEndDelay</code></dt>
   <dd>The delay between enrollment and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
 </dl>
 
