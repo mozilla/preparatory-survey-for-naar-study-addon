@@ -2,42 +2,59 @@ const { utils: Cu } = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Timer.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "studyUtils",
-  "resource://pioneer-enrollment-study/StudyUtils.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "config",
-  "resource://pioneer-enrollment-study/Config.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "RecentWindow",
-  "resource:///modules/RecentWindow.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "AboutPages",
-  "resource://pioneer-enrollment-study-content/AboutPages.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "AddonManager",
-  "resource://gre/modules/AddonManager.jsm");
-XPCOMUtils.defineLazyServiceGetter(this, "timerManager",
-  "@mozilla.org/updates/timer-manager;1", "nsIUpdateTimerManager");
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "studyUtils",
+  "resource://pioneer-enrollment-study/StudyUtils.jsm",
+);
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "config",
+  "resource://pioneer-enrollment-study/Config.jsm",
+);
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "RecentWindow",
+  "resource:///modules/RecentWindow.jsm",
+);
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "AboutPages",
+  "resource://pioneer-enrollment-study-content/AboutPages.jsm",
+);
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "AddonManager",
+  "resource://gre/modules/AddonManager.jsm",
+);
+XPCOMUtils.defineLazyServiceGetter(
+  this,
+  "timerManager",
+  "@mozilla.org/updates/timer-manager;1",
+  "nsIUpdateTimerManager",
+);
 
 const REASONS = {
-  APP_STARTUP:      1, // The application is starting up.
-  APP_SHUTDOWN:     2, // The application is shutting down.
-  ADDON_ENABLE:     3, // The add-on is being enabled.
-  ADDON_DISABLE:    4, // The add-on is being disabled. (Also sent during uninstallation)
-  ADDON_INSTALL:    5, // The add-on is being installed.
-  ADDON_UNINSTALL:  6, // The add-on is being uninstalled.
-  ADDON_UPGRADE:    7, // The add-on is being upgraded.
-  ADDON_DOWNGRADE:  8, // The add-on is being downgraded.
+  APP_STARTUP: 1, // The application is starting up.
+  APP_SHUTDOWN: 2, // The application is shutting down.
+  ADDON_ENABLE: 3, // The add-on is being enabled.
+  ADDON_DISABLE: 4, // The add-on is being disabled. (Also sent during uninstallation)
+  ADDON_INSTALL: 5, // The add-on is being installed.
+  ADDON_UNINSTALL: 6, // The add-on is being uninstalled.
+  ADDON_UPGRADE: 7, // The add-on is being upgraded.
+  ADDON_DOWNGRADE: 8, // The add-on is being downgraded.
 };
 const TREATMENT_OVERRIDE_PREF = "extensions.pioneer-enrollment-study.treatment";
-const EXPIRATION_DATE_STRING_PREF = "extensions.pioneer-enrollment-study.expirationDateString";
-const ENROLLMENT_STATE_STRING_PREF = "extensions.pioneer-enrollment-study.enrollmentState";
+const EXPIRATION_DATE_STRING_PREF =
+  "extensions.pioneer-enrollment-study.expirationDateString";
+const ENROLLMENT_STATE_STRING_PREF =
+  "extensions.pioneer-enrollment-study.enrollmentState";
 const TIMER_NAME = "pioneer-enrollment-study-prompt";
 
 // Due to bug 1051238 frame scripts are cached forever, so we can't update them
 // as a restartless add-on. The Math.random() is the work around for this.
-const PROCESS_SCRIPT = (
-  `resource://pioneer-enrollment-study-content/process-script.js?${Math.random()}`
-);
-const FRAME_SCRIPT = (
-  `resource://pioneer-enrollment-study-content/frame-script.js?${Math.random()}`
-);
+const PROCESS_SCRIPT = `resource://pioneer-enrollment-study-content/process-script.js?${Math.random()}`;
+const FRAME_SCRIPT = `resource://pioneer-enrollment-study-content/frame-script.js?${Math.random()}`;
 
 let notificationBox = null;
 let notice = null;
@@ -55,19 +72,19 @@ function removeActiveNotification() {
 function showNotification(doc, onClickButton) {
   removeActiveNotification();
 
-  notificationBox = doc.querySelector(
-    "#high-priority-global-notificationbox",
-  );
+  notificationBox = doc.querySelector("#high-priority-global-notificationbox");
   notice = notificationBox.appendNotification(
     config.notificationMessage,
     "pioneer-enrollment-study-1",
     "resource://pioneer-enrollment-study/skin/heartbeat-icon.svg",
     notificationBox.PRIORITY_INFO_HIGH,
-    [{
-      label: "Tell me more",
-      callback: onClickButton,
-    }],
-    (eventType) => {
+    [
+      {
+        label: "Tell me more",
+        callback: onClickButton,
+      },
+    ],
+    eventType => {
       if (eventType === "removed") {
         // Send ping about removing the study?
       }
@@ -75,10 +92,15 @@ function showNotification(doc, onClickButton) {
   );
 
   // Minimal attempts to style the notification like Heartbeat
-  notice.style.background = "linear-gradient(-179deg, #FBFBFB 0%, #EBEBEB 100%)";
+  notice.style.background =
+    "linear-gradient(-179deg, #FBFBFB 0%, #EBEBEB 100%)";
   notice.style.borderBottom = "1px solid #C1C1C1";
   notice.style.height = "40px";
-  const messageText = doc.getAnonymousElementByAttribute(notice, "anonid", "messageText");
+  const messageText = doc.getAnonymousElementByAttribute(
+    notice,
+    "anonid",
+    "messageText",
+  );
   messageText.style.color = "#333";
 
   // Position the button next to the text like in Heartbeat
@@ -98,14 +120,19 @@ function getMostRecentBrowserWindow() {
 
 function getEnrollmentState() {
   try {
-    return JSON.parse(Services.prefs.getCharPref(ENROLLMENT_STATE_STRING_PREF, ""));
+    return JSON.parse(
+      Services.prefs.getCharPref(ENROLLMENT_STATE_STRING_PREF, ""),
+    );
   } catch (err) {
     return null;
   }
 }
 
 function setEnrollmentState(state) {
-  Services.prefs.setCharPref(ENROLLMENT_STATE_STRING_PREF, JSON.stringify(state));
+  Services.prefs.setCharPref(
+    ENROLLMENT_STATE_STRING_PREF,
+    JSON.stringify(state),
+  );
 }
 
 let firstPromptTimeout = null;
@@ -126,42 +153,53 @@ function initializeTreatment(actionCallback) {
     showFirstPrompt(actionCallback);
   }
 
-  timerManager.registerTimer(TIMER_NAME, () => {
-    const state = getEnrollmentState();
-    if (!state) {
-      showFirstPrompt(actionCallback);
-    } else if (state.stage === "first-prompt") {
-      if (Date.now() - state.time >= config.secondPromptDelay) {
-        actionCallback("second-prompt");
-        setEnrollmentState({
-          stage: "second-prompt",
-          time: Date.now(),
-        });
+  timerManager.registerTimer(
+    TIMER_NAME,
+    () => {
+      const state = getEnrollmentState();
+      if (!state) {
+        showFirstPrompt(actionCallback);
+      } else if (state.stage === "first-prompt") {
+        if (Date.now() - state.time >= config.secondPromptDelay) {
+          actionCallback("second-prompt");
+          setEnrollmentState({
+            stage: "second-prompt",
+            time: Date.now(),
+          });
+        }
+      } else if (state.stage === "second-prompt") {
+        if (Date.now() - state.time >= config.studyEndDelay) {
+          studyUtils.endStudy({ reason: "no-enroll" });
+        }
+      } else if (state.stage === "enrolled") {
+        if (Date.now() - state.time >= config.studyEnrolledEndDelay) {
+          studyUtils.endStudy({ reason: "enrolled" });
+        }
+      } else {
+        Cu.reportError(
+          `Unknown stage for Pioneer Enrollment: ${
+            state.stage
+          }. Exiting study.`,
+        );
+        studyUtils.endStudy({ reason: "error" });
       }
-    } else if (state.stage === "second-prompt") {
-      if (Date.now() - state.time >= config.studyEndDelay) {
-        studyUtils.endStudy({ reason: "no-enroll" });
-      }
-    } else if (state.stage === "enrolled") {
-      if (Date.now() - state.time >= config.studyEnrolledEndDelay) {
-        studyUtils.endStudy({ reason: "enrolled" });
-      }
-    } else {
-      Cu.reportError(`Unknown stage for Pioneer Enrollment: ${state.stage}. Exiting study.`);
-      studyUtils.endStudy({ reason: "error" });
-    }
-  }, config.updateTimerInterval);
+    },
+    config.updateTimerInterval,
+  );
 }
 
 const TREATMENTS = {
   notificationOldStudyPage() {
-    initializeTreatment((promptType) => {
+    initializeTreatment(promptType => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         showNotification(recentWindow.document, () => {
-          recentWindow.gBrowser.loadOneTab("https://addons.mozilla.org/en-US/firefox/shield_study_16", {
-            inBackground: false,
-          });
+          recentWindow.gBrowser.loadOneTab(
+            "https://addons.mozilla.org/en-US/firefox/shield_study_16",
+            {
+              inBackground: false,
+            },
+          );
           studyUtils.telemetry({ event: "engagedPrompt" });
         });
         studyUtils.telemetry({ event: "prompted", promptType });
@@ -170,7 +208,7 @@ const TREATMENTS = {
   },
 
   notification() {
-    initializeTreatment((promptType) => {
+    initializeTreatment(promptType => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         showNotification(recentWindow.document, () => {
@@ -185,7 +223,7 @@ const TREATMENTS = {
   },
 
   notificationAndPopunder() {
-    initializeTreatment((promptType) => {
+    initializeTreatment(promptType => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         const tab = recentWindow.gBrowser.loadOneTab("about:pioneer", {
@@ -205,7 +243,7 @@ const TREATMENTS = {
   },
 
   popunder() {
-    initializeTreatment((promptType) => {
+    initializeTreatment(promptType => {
       const recentWindow = getMostRecentBrowserWindow();
       if (recentWindow && recentWindow.gBrowser) {
         recentWindow.gBrowser.loadOneTab("about:pioneer", {
@@ -237,20 +275,29 @@ async function chooseVariation() {
       name: Services.prefs.getCharPref(TREATMENT_OVERRIDE_PREF, null), // there is no default value
       weight: 1,
     };
-    if (variation.name in TREATMENTS) { return variation; }
+    if (variation.name in TREATMENTS) {
+      return variation;
+    }
     // if the variation from the pref is invalid, then fall back to standard choosing
   }
 
   const sample = studyUtils.sample;
   // this is the standard arm choosing method
   const clientId = await studyUtils.getTelemetryId();
-  const hashFraction = await sample.hashFraction(config.study.studyName + clientId);
-  variation = sample.chooseWeighted(config.study.weightedVariations, hashFraction);
+  const hashFraction = await sample.hashFraction(
+    config.study.studyName + clientId,
+  );
+  variation = sample.chooseWeighted(
+    config.study.weightedVariations,
+    hashFraction,
+  );
 
   // if the variation chosen by chooseWeighted is not a valid treatment (check in TREATMENTS),
   // then throw an exception: this means that the config file is wrong
   if (!(variation.name in TREATMENTS)) {
-    throw new Error(`The variation "${variation.name}" is not a valid variation.`);
+    throw new Error(
+      `The variation "${variation.name}" is not a valid variation.`,
+    );
   }
 
   return variation;
@@ -276,8 +323,13 @@ this.startup = async function(data, reason) {
   // Also helps for testing.
   if (!Services.prefs.prefHasUserValue(EXPIRATION_DATE_STRING_PREF)) {
     const now = new Date(Date.now());
-    const expirationDateString = new Date(now.setDate(now.getDate() + 7)).toISOString();
-    Services.prefs.setCharPref(EXPIRATION_DATE_STRING_PREF, expirationDateString);
+    const expirationDateString = new Date(
+      now.setDate(now.getDate() + 7),
+    ).toISOString();
+    Services.prefs.setCharPref(
+      EXPIRATION_DATE_STRING_PREF,
+      expirationDateString,
+    );
   }
 
   if (reason === REASONS.ADDON_INSTALL) {
@@ -294,7 +346,9 @@ this.startup = async function(data, reason) {
   // sets experiment as active and sends installed telemetry upon first install
   await studyUtils.startup({ reason });
 
-  const expirationDate = new Date(Services.prefs.getCharPref(EXPIRATION_DATE_STRING_PREF));
+  const expirationDate = new Date(
+    Services.prefs.getCharPref(EXPIRATION_DATE_STRING_PREF),
+  );
   if (Date.now() > expirationDate) {
     studyUtils.endStudy({ reason: "expired" });
   }
@@ -315,7 +369,8 @@ this.startup = async function(data, reason) {
 };
 
 this.shutdown = async function(data, reason) {
-  const isUninstall = reason === REASONS.ADDON_UNINSTALL || reason === REASONS.ADDON_DISABLE;
+  const isUninstall =
+    reason === REASONS.ADDON_UNINSTALL || reason === REASONS.ADDON_DISABLE;
   if (isUninstall) {
     // Send this before the ShuttingDown event to ensure that message handlers
     // are still registered and receive it.

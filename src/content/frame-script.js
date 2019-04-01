@@ -20,7 +20,9 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 const frameGlobal = {};
 XPCOMUtils.defineLazyModuleGetter(
-  frameGlobal, "AboutPages", "resource://pioneer-enrollment-study-content/AboutPages.jsm",
+  frameGlobal,
+  "AboutPages",
+  "resource://pioneer-enrollment-study-content/AboutPages.jsm",
 );
 
 /**

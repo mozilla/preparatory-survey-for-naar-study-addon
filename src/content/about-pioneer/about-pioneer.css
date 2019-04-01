@@ -24,7 +24,12 @@ body {
   line-height: 2.2rem;
 
   background-color: #1e4488;
-  background-image: radial-gradient(ellipse 250% 100% at center 140%,#737ffd 0,#0065b8 50%,#1e4488 100%);
+  background-image: radial-gradient(
+    ellipse 250% 100% at center 140%,
+    #737ffd 0,
+    #0065b8 50%,
+    #1e4488 100%
+  );
   color: #fff;
 }
 
@@ -40,9 +45,7 @@ a {
   background-repeat: no-repeat;
 }
 
-@media
-(min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
+@media (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .page-container {
     background-image: url(img/stars@2x.png);
   }
@@ -62,8 +65,8 @@ a {
 }
 
 .banner {
-  background: hsla(0,0%,100%,.05);
-  box-shadow: inset 0 -4px 0 hsla(0,0%,100%,.05),0 1px 0 rgba(0,0,0,.1);
+  background: hsla(0, 0%, 100%, 0.05);
+  box-shadow: inset 0 -4px 0 hsla(0, 0%, 100%, 0.05), 0 1px 0 rgba(0, 0, 0, 0.1);
   line-height: 100px;
 }
 

@@ -6,19 +6,32 @@ const { interfaces: Ci, results: Cr, manager: Cm, utils: Cu } = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
-XPCOMUtils.defineLazyModuleGetter(this, "AddonManager",
-  "resource://gre/modules/AddonManager.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "config",
-  "resource://pioneer-enrollment-study/Config.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "studyUtils",
-  "resource://pioneer-enrollment-study/StudyUtils.jsm");
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "AddonManager",
+  "resource://gre/modules/AddonManager.jsm",
+);
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "config",
+  "resource://pioneer-enrollment-study/Config.jsm",
+);
+XPCOMUtils.defineLazyModuleGetter(
+  this,
+  "studyUtils",
+  "resource://pioneer-enrollment-study/StudyUtils.jsm",
+);
 
 this.EXPORTED_SYMBOLS = ["AboutPages"];
 
-const ENROLLMENT_STATE_STRING_PREF = "extensions.pioneer-enrollment-study.enrollmentState";
+const ENROLLMENT_STATE_STRING_PREF =
+  "extensions.pioneer-enrollment-study.enrollmentState";
 
 function setEnrollmentState(state) {
-  Services.prefs.setCharPref(ENROLLMENT_STATE_STRING_PREF, JSON.stringify(state));
+  Services.prefs.setCharPref(
+    ENROLLMENT_STATE_STRING_PREF,
+    JSON.stringify(state),
+  );
 }
 
 /**
@@ -48,7 +61,10 @@ class AboutPage {
 
     // eslint-disable-next-line no-bitwise
     if (this.uriFlags & Ci.nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT) {
-      const principal = Services.scriptSecurityManager.createCodebasePrincipal(uri, {});
+      const principal = Services.scriptSecurityManager.createCodebasePrincipal(
+        uri,
+        {},
+      );
       channel.owner = principal;
     }
     return channel;
@@ -79,7 +95,10 @@ class AboutPage {
    * add-on is cleaned up if the page has been registered.
    */
   unregister() {
-    Cm.QueryInterface(Ci.nsIComponentRegistrar).unregisterFactory(this.classId, this);
+    Cm.QueryInterface(Ci.nsIComponentRegistrar).unregisterFactory(
+      this.classId,
+      this,
+    );
   }
 }
 AboutPage.prototype.QueryInterface = XPCOMUtils.generateQI([Ci.nsIAboutModule]);
@@ -96,15 +115,15 @@ this.AboutPages = {};
  */
 XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
   const aboutPioneer = new AboutPage({
-    chromeUrl: "resource://pioneer-enrollment-study-content/about-pioneer/about-pioneer.html",
+    chromeUrl:
+      "resource://pioneer-enrollment-study-content/about-pioneer/about-pioneer.html",
     aboutHost: "pioneer",
     classId: "{1ecac8dc-4e64-4872-8185-11fde537bf95}",
     description: "Firefox Pioneer",
-    uriFlags: (
-      Ci.nsIAboutModule.ALLOW_SCRIPT
-      | Ci.nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT
-      | Ci.nsIAboutModule.URI_MUST_LOAD_IN_CHILD
-    ),
+    uriFlags:
+      Ci.nsIAboutModule.ALLOW_SCRIPT |
+      Ci.nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT |
+      Ci.nsIAboutModule.URI_MUST_LOAD_IN_CHILD,
   });
 
   // Extra methods for about:study-specific behavior.
@@ -142,7 +161,9 @@ XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
     },
 
     async getEnrollment(target) {
-      const addon = await AddonManager.getAddonByID("pioneer-opt-in@mozilla.org");
+      const addon = await AddonManager.getAddonByID(
+        "pioneer-opt-in@mozilla.org",
+      );
       try {
         target.messageManager.sendAsyncMessage("Pioneer:ReceiveEnrollment", {
           isEnrolled: addon !== null,

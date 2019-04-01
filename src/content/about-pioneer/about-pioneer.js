@@ -8,7 +8,10 @@
  * @param {Object} data
  */
 function sendPageEvent(action, data) {
-  const event = new CustomEvent("PioneerPageEvent", { bubbles: true, detail: { action, data } });
+  const event = new CustomEvent("PioneerPageEvent", {
+    bubbles: true,
+    detail: { action, data },
+  });
   document.dispatchEvent(event);
 }
 
@@ -21,9 +24,12 @@ const clickListener = {
 
       const clickedButton = event.target;
       clickedButton.classList.add("enrolled");
-      clickedButton.innerHTML = "You\u0027ve enrolled.<br>Welcome, intrepid Pioneer!";
+      clickedButton.innerHTML =
+        "You\u0027ve enrolled.<br>Welcome, intrepid Pioneer!";
 
-      for (const button of document.querySelectorAll(".enroll-button:not(.enrolled)")) {
+      for (const button of document.querySelectorAll(
+        ".enroll-button:not(.enrolled)",
+      )) {
         button.remove();
       }
     }
@@ -31,11 +37,13 @@ const clickListener = {
 };
 document.addEventListener("click", clickListener);
 
-document.addEventListener("ReceiveEnrollment", (event) => {
+document.addEventListener("ReceiveEnrollment", event => {
   const isEnrolled = event.detail;
   if (isEnrolled) {
     document.removeEventListener("click", clickListener);
-    for (const button of document.querySelectorAll(".enroll-button:not(.enrolled)")) {
+    for (const button of document.querySelectorAll(
+      ".enroll-button:not(.enrolled)",
+    )) {
       button.classList.add("enrolled");
       button.innerHTML = "You\u0027ve enrolled.<br>Welcome, intrepid Pioneer!";
     }

@@ -32,9 +32,7 @@ class Feature {
 
     // perform something only during first run
     if (isFirstRun) {
-      await browser.study.logger.log(
-        "First run",
-      );
+      await browser.study.logger.log("First run");
     }
   }
 
@@ -102,7 +100,6 @@ class Feature {
    * @returns {Promise<*>} Promise that resolves after cleanup
    */
   async cleanup() {}
-
 }
 
 // make an instance of the feature class available to background.js
