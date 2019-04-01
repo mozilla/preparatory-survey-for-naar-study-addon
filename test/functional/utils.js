@@ -19,10 +19,6 @@ const FIREFOX_PREFERENCES = {
   // Removing warning for `about:config`
   "general.warnOnAboutConfig": false,
 
-  // Force variation for testing
-  "extensions.pioneer-participation-prompt_shield_mozilla_org.test.variationName":
-    "kittens",
-
   // Enable verbose shield study utils logging
   "shieldStudy.logLevel": "All",
 
