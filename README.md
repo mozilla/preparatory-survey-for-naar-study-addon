@@ -3,12 +3,6 @@
 [![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/shield-studies-addon-template/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/shield-studies-addon-template/)
 [![Coverage Status](https://coveralls.io/repos/github/mozilla/shield-studies-addon-template/badge.svg)](https://coveralls.io/github/mozilla/shield-studies-addon-template)
 
-This repository is intended as an example repository containing templates and good
-practices for creating an [Add-On Experiment](https://mana.mozilla.org/wiki/display/FIREFOX/Pref-Flip+and+Add-On+Experiments) for Firefox.
-
-See [TEMPLATE.md](./docs/TEMPLATE.md) for more details on how to use the template.
-Note: Remove or adapt this text after you have cloned/merged the template to your own study add-on repo.
-
 ## Seeing the add-on in action
 
 See [TESTPLAN.md](./docs/TESTPLAN.md) for more details on how to get the add-on installed and tested.
