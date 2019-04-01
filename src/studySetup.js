@@ -42,9 +42,7 @@ const baseStudySetup = {
       baseUrls: [],
     },
     "individual-opt-out": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=individual-opt-out",
-      ],
+      baseUrls: [],
     },
     "general-opt-out": {
       baseUrls: [],
@@ -63,23 +61,17 @@ const baseStudySetup = {
     },
     /** study-utils-defined endings */
     "user-disable": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=user-disable",
-      ],
+      baseUrls: [],
     },
     ineligible: {
       baseUrls: [],
     },
     expired: {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=expired",
-      ],
+      baseUrls: [],
     },
     /** study-defined endings */
     "used-often": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=used-often",
-      ],
+      baseUrls: [],
       category: "ended-positive",
     },
     "a-non-url-opening-ending": {
@@ -94,25 +86,7 @@ const baseStudySetup = {
     },
   },
 
-  /**
-   * Button study branches and sample weights
-   * - test kittens vs. puppers if we can only have one.
-   * - downweight lizards. Lizards is a 'poison' branch, meant to help control for novelty effect
-   * - we want more puppers in our sample
-   */
   weightedVariations: [
-    {
-      name: "kittens",
-      weight: 1.5,
-    },
-    {
-      name: "puppers",
-      weight: 1.5,
-    },
-    {
-      name: "lizard",
-      weight: 1,
-    },
   ],
 
   // maximum time that the study should run, from the first run
