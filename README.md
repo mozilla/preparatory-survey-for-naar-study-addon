@@ -1,7 +1,11 @@
-# Shield Studies Add-On Template
+# Pioneer Enrollment Study
 
-[![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/shield-studies-addon-template/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/shield-studies-addon-template/)
-[![Coverage Status](https://coveralls.io/repos/github/mozilla/shield-studies-addon-template/badge.svg)](https://coveralls.io/github/mozilla/shield-studies-addon-template)
+[![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/pioneer-enrollment-study/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/pioneer-enrollment-study/)
+[![Coverage Status](https://coveralls.io/repos/github/mozilla/pioneer-enrollment-study/badge.svg)](https://coveralls.io/github/mozilla/pioneer-enrollment-study)
+
+The purpose of this extension is to test various prompts for enrolling users in [Pioneer][].
+
+[pioneer]: https://medium.com/firefox-context-graph/make-firefox-better-with-pioneer-10c82d0f9301
 
 ## Seeing the add-on in action
 

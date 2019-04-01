@@ -30,29 +30,33 @@
 * Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New -> String)
 * Set `shieldStudy.logLevel` to `info`. This permits shield-add-on log output in browser console.
 * (If Pioneer study) Make sure that the [Firefox Pioneer Add-on](https://addons.mozilla.org/en-US/firefox/addon/firefox-pioneer/) is installed
-* Set `extensions.button-icon-preference_shield_mozilla_org.test.variationName` to `kittens` (or any other study variation/branch to test specifically)
+* Set `extensions.pioneer-enrollment-study_shield_mozilla_org.test.variationName` to `kittens` (or any other study variation/branch to test specifically)
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
 * (If you are installing an unsigned version of the add-on, you need to set `extensions.legacy.enabled` to `true` before installing the add-on)
 
 ## Expected User Experience / Functionality
 
-Users see:
+### Eligibility
 
-* An icon in the browser address bar (webExtension BrowserAction) with one of 3 images (Cat, Dog, Lizard)
+* Users are ineligible for the study if they already have the Pioneer add-on installed.
 
-Clicking on the button:
+### User Flow
 
-* Changes the badge
-* Sends telemetry
+1. 5 minutes after installation, the user will be prompted to enroll in Pioneer.
+2. If the user does not enroll, they will be prompted again 2 days after the first prompt.
+3. If the user still does not enroll, the study will remove itself 1 day after the second prompt.
 
-ONCE ONLY users see:
+#### Notes
 
-* A notification bar, introducing the feature
-* Allowing them to opt out
+* If a user enrolls in Pioneer, either via the prompt or unprompted, they will no longer be prompted and the study will remove itself 1 day after they enrolled.
+* The user may visit `about:pioneer` at any time and enroll in the program if the study is still installed. Once the user has enrolled, `about:pioneer` will not show enrollment buttons. If the study is removed, `about:pioneer` will cease to function.
 
-Icon will be the same every run.
+### Treatment Branches
 
-If the user clicks on the badge more than 3 times, it ends the study.
+1. `popunder` - The user is not directly prompted; a tab with `about:pioneer` is opened in the current active window but is not focused.
+2. `notification` - The user is shown a Heartbeat-style notification bar with a button that opens `about:pioneer` in a new tab.
+3. `notificationAndPopunder` - A tab with `about:pioneer` is opened in the current active window but is not focused. In addition, a Heartbeat-style notification bar is shown that focuses the tab when clicked.
+4. `notificationOldStudyPage` - The user is shown a Heartbeat-style notification bar with a button that opens the AMO-hosted Pioneer enrollment page.
 
 ### Surveys
 
@@ -62,48 +66,6 @@ This study fires a survey at the following endings:
 * `expired`
 
 ### Do these tests (in addition to ordinary regression tests)
-
-**UI appearance test 1**
-
-* Install the add-on as per above
-* Verify that the study runs
-* OBSERVE a notification bar with these traits:
-  * Icon is 'heartbeat'
-  * Text is "Welcome to the new feature! Look for changes!",
-  * Clickable buttons with labels 'Thanks!' AND 'I do not want this.'
-  * An `x` button at the right that closes the notice.
-* Test fails IF:
-  * There is no bar.
-  * Elements are not correct or are not displayed
-
-**UI functionality test 1: Thanks!**
-
-* Install the add-on as per above
-* Verify that the study runs
-* Click on the 'Thanks!' button
-* Verify that the notification bar closes
-
-**UI functionality test 2: I do not want this**
-
-* Install the add-on as per above
-* Verify that the study runs
-* Click on the 'I do not want this.' button
-* Verify that the notification bar closes
-* Verify that the study ends
-* Verify that sent Telemetry is correct
-* Verify that the ending is `introduction-leave-study`
-
-**UI functionality test 3: `too-popular`**
-
-* Install the add-on as per above
-* Verify that the study runs
-* Click on the web extension's icon three times
-* Verify that the study ends
-* Verify that sent Telemetry is correct
-* Verify that the ending is `too-popular`
-* Verify that the user is sent to the URL specified in `src/studySetup.js` under `endings -> too-popular`.
-
-(Template note: The above are example study-specific test instructions. Below are some general tests that probably should be kept in your study's test plan).
 
 **Enabling of permanent private browsing before study has begun**
 
@@ -154,6 +116,32 @@ Any UI in a Shield study should be consistent with standard Firefox design speci
 * To see the actual (encrypted if Pioneer study) payloads, go to `about:telemetry` -> Click `current ping` -> Select `Archived ping data` -> Ping Type `pioneer-study` -> Choose a payload -> Raw Payload
 
 See [TELEMETRY.md](./TELEMETRY.md) for more details on what pings are sent by this add-on.
+
+## Testing Preferences
+
+The following preferences can be set to customize the study behavior for testing purposes.
+
+<dl>
+  <dt><code>extensions.pioneer-enrollment-study.treatment</code></dt>
+  <dd>The treatment to use. Set this to a value from the Treatment Branches section to force the add-on to show you that treatment. You must set this preference before installing the study (default: random).</dd>
+
+  <dt><code>extensions.pioneer-enrollment-study.updateTimerInterval</code></dt>
+  <dd>The interval for checking if the user should be prompted in minutes. (default: <code>43200</code>, 12 hours).</dd>
+
+  <dt><code>extensions.pioneer-enrollment-study.firstPromptDelay</code></dt>
+  <dd>The delay between installation and the first prompt being shown in milliseconds (default: <code>300000</code>, 5 minutes).</dd>
+
+  <dt><code>extensions.pioneer-enrollment-study.secondPromptDelay</code></dt>
+  <dd>The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: <code>169200000</code>, or 47 hours).</dd>
+
+  <dt><code>extensions.pioneer-enrollment-study.studyEndDelay</code></dt>
+  <dd>The delay between the second prompt being shown and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
+
+  <dt><code>extensions.pioneer-enrollment-study.studyEnrolledEndDelay</code></dt>
+  <dd>The delay between enrollment and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
+</dl>
+
+Due to timer variations, for testing purposes it's recommended to set `updateTimerInterval` to `1` and the rest of the delays to `180000`. The timers are not exact and may vary by a few seconds/minutes before triggering.
 
 ## Debug
 
