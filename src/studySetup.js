@@ -70,19 +70,14 @@ const baseStudySetup = {
       baseUrls: [],
     },
     /** study-defined endings */
-    "used-often": {
+    "enrolled": {
       baseUrls: [],
-      category: "ended-positive",
     },
-    "a-non-url-opening-ending": {
+    "no-enroll": {
       baseUrls: [],
-      category: "ended-neutral",
     },
-    "introduction-leave-study": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=introduction-leave-study",
-      ],
-      category: "ended-negative",
+    "error": {
+      baseUrls: [],
     },
   },
 

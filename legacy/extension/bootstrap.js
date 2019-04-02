@@ -34,22 +34,10 @@ XPCOMUtils.defineLazyServiceGetter(
   "nsIUpdateTimerManager",
 );
 
-const REASONS = {
-  APP_STARTUP: 1, // The application is starting up.
-  APP_SHUTDOWN: 2, // The application is shutting down.
-  ADDON_ENABLE: 3, // The add-on is being enabled.
-  ADDON_DISABLE: 4, // The add-on is being disabled. (Also sent during uninstallation)
-  ADDON_INSTALL: 5, // The add-on is being installed.
-  ADDON_UNINSTALL: 6, // The add-on is being uninstalled.
-  ADDON_UPGRADE: 7, // The add-on is being upgraded.
-  ADDON_DOWNGRADE: 8, // The add-on is being downgraded.
-};
-const TREATMENT_OVERRIDE_PREF =
-  "extensions.pioneer-participation-prompt.treatment";
 const EXPIRATION_DATE_STRING_PREF =
-  "extensions.pioneer-participation-prompt.expirationDateString";
+  "extensions.pioneer-participation-prompt_shield_mozilla_org.expirationDateString";
 const ENROLLMENT_STATE_STRING_PREF =
-  "extensions.pioneer-participation-prompt.enrollmentState";
+  "extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState";
 const TIMER_NAME = "pioneer-participation-prompt-prompt";
 
 // Due to bug 1051238 frame scripts are cached forever, so we can't update them
@@ -190,39 +178,6 @@ function initializeTreatment(actionCallback) {
 }
 
 const TREATMENTS = {
-  notificationOldStudyPage() {
-    initializeTreatment(promptType => {
-      const recentWindow = getMostRecentBrowserWindow();
-      if (recentWindow && recentWindow.gBrowser) {
-        showNotification(recentWindow.document, () => {
-          recentWindow.gBrowser.loadOneTab(
-            "https://addons.mozilla.org/en-US/firefox/shield_study_16",
-            {
-              inBackground: false,
-            },
-          );
-          studyUtils.telemetry({ event: "engagedPrompt" });
-        });
-        studyUtils.telemetry({ event: "prompted", promptType });
-      }
-    });
-  },
-
-  notification() {
-    initializeTreatment(promptType => {
-      const recentWindow = getMostRecentBrowserWindow();
-      if (recentWindow && recentWindow.gBrowser) {
-        showNotification(recentWindow.document, () => {
-          recentWindow.gBrowser.loadOneTab("about:pioneer", {
-            inBackground: false,
-          });
-          studyUtils.telemetry({ event: "engagedPrompt" });
-        });
-        studyUtils.telemetry({ event: "prompted", promptType });
-      }
-    });
-  },
-
   notificationAndPopunder() {
     initializeTreatment(promptType => {
       const recentWindow = getMostRecentBrowserWindow();
@@ -242,18 +197,6 @@ const TREATMENTS = {
       }
     });
   },
-
-  popunder() {
-    initializeTreatment(promptType => {
-      const recentWindow = getMostRecentBrowserWindow();
-      if (recentWindow && recentWindow.gBrowser) {
-        recentWindow.gBrowser.loadOneTab("about:pioneer", {
-          inBackground: true,
-        });
-        studyUtils.telemetry({ event: "prompted", promptType });
-      }
-    });
-  },
 };
 
 const addonListener = {
@@ -268,84 +211,11 @@ const addonListener = {
   },
 };
 
-async function chooseVariation() {
-  let variation;
-  // if pref has a user-set value, use this instead
-  if (Services.prefs.prefHasUserValue(TREATMENT_OVERRIDE_PREF)) {
-    variation = {
-      name: Services.prefs.getCharPref(TREATMENT_OVERRIDE_PREF, null), // there is no default value
-      weight: 1,
-    };
-    if (variation.name in TREATMENTS) {
-      return variation;
-    }
-    // if the variation from the pref is invalid, then fall back to standard choosing
-  }
-
-  const sample = studyUtils.sample;
-  // this is the standard arm choosing method
-  const clientId = await studyUtils.getTelemetryId();
-  const hashFraction = await sample.hashFraction(
-    config.study.studyName + clientId,
-  );
-  variation = sample.chooseWeighted(
-    config.study.weightedVariations,
-    hashFraction,
-  );
-
-  // if the variation chosen by chooseWeighted is not a valid treatment (check in TREATMENTS),
-  // then throw an exception: this means that the config file is wrong
-  if (!(variation.name in TREATMENTS)) {
-    throw new Error(
-      `The variation "${variation.name}" is not a valid variation.`,
-    );
-  }
-
-  return variation;
-}
-
-this.install = function() {};
-
 this.startup = async function(data, reason) {
   studyUtils.setup({
     ...config,
     addon: { id: data.id, version: data.version },
   });
-
-  // Always set EXPIRATION_DATE_PREF if it not set, even if outside of install.
-  // This is a failsafe if opt-out expiration doesn't work, so should be resilient.
-  // Also helps for testing.
-  if (!Services.prefs.prefHasUserValue(EXPIRATION_DATE_STRING_PREF)) {
-    const now = new Date(Date.now());
-    const expirationDateString = new Date(
-      now.setDate(now.getDate() + 7),
-    ).toISOString();
-    Services.prefs.setCharPref(
-      EXPIRATION_DATE_STRING_PREF,
-      expirationDateString,
-    );
-  }
-
-  if (reason === REASONS.ADDON_INSTALL) {
-    studyUtils.firstSeen(); // sends telemetry "enter"
-    const eligible = await config.isEligible(); // addon-specific
-    if (!eligible) {
-      // uses config.endings.ineligible.url if any,
-      // sends UT for "ineligible"
-      // then uninstalls addon
-      await studyUtils.endStudy({ reason: "ineligible" });
-      return;
-    }
-  }
-  // sets experiment as active and sends installed telemetry upon first install
-  await studyUtils.startup({ reason });
-
-  const expirationDate = new Date(
-    Services.prefs.getCharPref(EXPIRATION_DATE_STRING_PREF),
-  );
-  if (Date.now() > expirationDate) {
-    studyUtils.endStudy({ reason: "expired" });
-  }
 
   // Load scripts in content processes and tabs
   Services.ppmm.loadProcessScript(PROCESS_SCRIPT, true);
@@ -404,5 +274,3 @@ this.shutdown = async function(data, reason) {
   Cu.unload("resource://pioneer-participation-prompt/Config.jsm");
   Cu.unload("resource://pioneer-participation-prompt-content/AboutPages.jsm");
 };
-
-this.uninstall = function() {};

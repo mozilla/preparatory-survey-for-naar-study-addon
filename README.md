@@ -1,9 +1,9 @@
-# Pioneer Participation Prompt Add-on
+# Pioneer Participation Prompt
 
 [![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/pioneer-participation-prompt/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/pioneer-participation-prompt/)
 [![Coverage Status](https://coveralls.io/repos/github/mozilla/pioneer-participation-prompt/badge.svg)](https://coveralls.io/github/mozilla/pioneer-participation-prompt)
 
-The purpose of this extension is to prompt users to participate in [Pioneer][https://medium.com/firefox-context-graph/make-firefox-better-with-pioneer-10c82d0f9301].
+The purpose of this extension is to prompt users to participate in [Pioneer](https://medium.com/firefox-context-graph/make-firefox-better-with-pioneer-10c82d0f9301).
 
 ## Seeing the add-on in action
 
@@ -25,5 +25,4 @@ See [DEV.md](./docs/DEV.md) for more details on how to work with this add-on as 
 
 ## References
 
-* [Experimenter](https://experimenter.services.mozilla.com/experiments/TODO/)
-* [Bugzilla](https://bugzilla.mozilla.org/show_bug.cgi?id=TODO)
+* [Experimenter](https://experimenter.services.mozilla.com/experiments/firefox-pioneer-enrollment-prompt-add-on/)

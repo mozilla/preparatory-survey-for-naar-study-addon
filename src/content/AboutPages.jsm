@@ -25,7 +25,7 @@ XPCOMUtils.defineLazyModuleGetter(
 this.EXPORTED_SYMBOLS = ["AboutPages"];
 
 const ENROLLMENT_STATE_STRING_PREF =
-  "extensions.pioneer-participation-prompt.enrollmentState";
+  "extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState";
 
 function setEnrollmentState(state) {
   Services.prefs.setCharPref(

@@ -197,7 +197,7 @@ The example tests is inspired by tests in <https://github.com/mozilla/share-butt
 ├── README.md
 ├── dist                  # Built zips (add-ons)
 │   ├── .gitignore
-│   └── button_icon_preference_-_shield_study_example-2.0.0.zip
+│   └── pioneer_participation_prompt-3.0.0.zip
 ├── docs
 │   ├── DEV.md
 │   ├── TELEMETRY.md      # Telemetry examples for this add-on
@@ -211,16 +211,10 @@ The example tests is inspired by tests in <https://github.com/mozilla/share-butt
 │   ├── _locales
 │   │   ├── en-US
 │   │   │   └── messages.json
-│   │   └── fr
-│   │       └── messages.json
 │   ├── background.js     # Background script that contains a study life-cycle handler class and such boilerplate
 │   ├── feature.js        # Initiate your study logic using the Feature class in this file
 │   ├── icons
 │   │   ├── LICENSE
-│   │   ├── isolatedcorndog.svg # Icon used in the example study (remove in your add-on)
-│   │   ├── kittens.svg         # Icon used in the example study (remove in your add-on)
-│   │   ├── lizard.svg          # Icon used in the example study (remove in your add-on)
-│   │   ├── puppers.svg         # Icon used in the example study (remove in your add-on)
 │   │   ├── shield-icon.256.png
 │   │   ├── shield-icon.48.png
 │   │   ├── shield-icon.98.png
@@ -228,12 +222,6 @@ The example tests is inspired by tests in <https://github.com/mozilla/share-butt
 │   ├── manifest.json     # The WebExtension manifest. Use this to declare permissions and web extension experiments etc
 │   ├── privileged
 │   │   ├── .gitignore
-│   │   ├── introductionNotificationBar
-│   │   │   ├── api.js
-│   │   │   └── schema.json
-│   │   ├── panel
-│   │   │   ├── blurts.EveryWindow.jsm
-│   │   │   └── cookiesrest.EveryWindow.js
 │   │   ├── privacyContext
 │   │   │   ├── api.js
 │   │   │   ├── api.md
@@ -249,7 +237,6 @@ The example tests is inspired by tests in <https://github.com/mozilla/share-butt
 │   ├── ensure_minimum_node_version.js
 │   ├── functional
 │   │   ├── 0-study_utils_integration.js
-│   │   ├── 1-button_test.js
 │   │   ├── 2-notification_bar.js
 │   │   └── utils.js
 │   ├── results           # Code coverage and log artifacts from test runs

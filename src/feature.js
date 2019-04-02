@@ -37,23 +37,23 @@ class Feature {
         "https://addons.mozilla.org/firefox/downloads/latest/firefox-pioneer/?src=pioneer-participation-prompt-1",
       notificationMessage: "Please help us improve Firefox and the Web",
       updateTimerInterval: Services.prefs.getIntPref(
-        "extensions.pioneer-participation-prompt.updateTimerInterval",
+        "extensions.pioneer-participation-prompt_shield_mozilla_org.updateTimerInterval",
         43200, // 12 hours
       ),
       firstPromptDelay: Services.prefs.getIntPref(
-        "extensions.pioneer-participation-prompt.firstPromptDelay",
+        "extensions.pioneer-participation-prompt_shield_mozilla_org.firstPromptDelay",
         5 * 60 * 1000, // 5 minutes in ms
       ),
       secondPromptDelay: Services.prefs.getIntPref(
-        "extensions.pioneer-participation-prompt.secondPromptDelay",
+        "extensions.pioneer-participation-prompt_shield_mozilla_org.secondPromptDelay",
         2 * 24 * 60 * 60 * 1000 - HOUR_MS, // 2 days minus an hour for timer variances
       ),
       studyEndDelay: Services.prefs.getIntPref(
-        "extensions.pioneer-participation-prompt.studyEndDelay",
+        "extensions.pioneer-participation-prompt_shield_mozilla_org.studyEndDelay",
         1 * 24 * 60 * 60 * 1000 - HOUR_MS, // 1 day in ms minus an hour for timer variances
       ),
       studyEnrolledEndDelay: Services.prefs.getIntPref(
-        "extensions.pioneer-participation-prompt.studyEnrolledEndDelay",
+        "extensions.pioneer-participation-prompt_shield_mozilla_org.studyEnrolledEndDelay",
         1 * 24 * 60 * 60 * 1000 - HOUR_MS, // 1 day in ms minus an hour for timer variances
       ),
     };

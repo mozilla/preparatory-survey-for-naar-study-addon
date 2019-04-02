@@ -51,19 +51,9 @@
 * If a user enrolls in Pioneer, either via the prompt or unprompted, they will no longer be prompted and the study will remove itself 1 day after they enrolled.
 * The user may visit `about:pioneer` at any time and enroll in the program if the study is still installed. Once the user has enrolled, `about:pioneer` will not show enrollment buttons. If the study is removed, `about:pioneer` will cease to function.
 
-### Treatment Branches
+### Treatment
 
-1. `popunder` - The user is not directly prompted; a tab with `about:pioneer` is opened in the current active window but is not focused.
-2. `notification` - The user is shown a Heartbeat-style notification bar with a button that opens `about:pioneer` in a new tab.
-3. `notificationAndPopunder` - A tab with `about:pioneer` is opened in the current active window but is not focused. In addition, a Heartbeat-style notification bar is shown that focuses the tab when clicked.
-4. `notificationOldStudyPage` - The user is shown a Heartbeat-style notification bar with a button that opens the AMO-hosted Pioneer enrollment page.
-
-### Surveys
-
-This study fires a survey at the following endings:
-
-* `individual-opt-out`
-* `expired`
+`notificationAndPopunder` - A tab with `about:pioneer` is opened in the current active window but is not focused. In addition, a Heartbeat-style notification bar is shown that focuses the tab when clicked.
 
 ### Do these tests (in addition to ordinary regression tests)
 
@@ -97,9 +87,9 @@ This study fires a survey at the following endings:
 * Set the branch preference to one of the validation branches
 * Enroll a client using the Normandy staging server
 * Verify that the study runs
-* Verify that `places.frecency.firstBucketCutoff` has a non-default value
+* Verify that `extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState` has a non-default value
 * Unenroll a client using the Normandy staging server
-* Verify that `places.frecency.firstBucketCutoff` has been restored to use the default value
+* Verify that `extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState` has been restored to use the default value
 
 **Correct branches and weights**
 
@@ -122,22 +112,19 @@ See [TELEMETRY.md](./TELEMETRY.md) for more details on what pings are sent by th
 The following preferences can be set to customize the study behavior for testing purposes.
 
 <dl>
-  <dt><code>extensions.pioneer-participation-prompt.treatment</code></dt>
-  <dd>The treatment to use. Set this to a value from the Treatment Branches section to force the add-on to show you that treatment. You must set this preference before installing the study (default: random).</dd>
-
-  <dt><code>extensions.pioneer-participation-prompt.updateTimerInterval</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.updateTimerInterval</code></dt>
   <dd>The interval for checking if the user should be prompted in minutes. (default: <code>43200</code>, 12 hours).</dd>
 
-  <dt><code>extensions.pioneer-participation-prompt.firstPromptDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.firstPromptDelay</code></dt>
   <dd>The delay between installation and the first prompt being shown in milliseconds (default: <code>300000</code>, 5 minutes).</dd>
 
-  <dt><code>extensions.pioneer-participation-prompt.secondPromptDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.secondPromptDelay</code></dt>
   <dd>The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: <code>169200000</code>, or 47 hours).</dd>
 
-  <dt><code>extensions.pioneer-participation-prompt.studyEndDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.studyEndDelay</code></dt>
   <dd>The delay between the second prompt being shown and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
 
-  <dt><code>extensions.pioneer-participation-prompt.studyEnrolledEndDelay</code></dt>
+  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.studyEnrolledEndDelay</code></dt>
   <dd>The delay between enrollment and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
 </dl>
 
