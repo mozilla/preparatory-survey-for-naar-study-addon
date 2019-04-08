@@ -70,20 +70,18 @@ const baseStudySetup = {
       baseUrls: [],
     },
     /** study-defined endings */
-    "enrolled": {
+    enrolled: {
       baseUrls: [],
     },
     "no-enroll": {
       baseUrls: [],
     },
-    "error": {
+    error: {
       baseUrls: [],
     },
   },
 
-  weightedVariations: [
-    { name: "notificationAndPopunder", weight: 1 },
-  ],
+  weightedVariations: [{ name: "notificationAndPopunder", weight: 1 }],
 
   // maximum time that the study should run, from the first run
   expire: {

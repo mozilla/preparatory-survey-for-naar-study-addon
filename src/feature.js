@@ -28,7 +28,7 @@ class Feature {
    */
   async configure(studyInfo) {
     const feature = this;
-    const { variation, isFirstRun } = studyInfo;
+    const { /* variation,*/ isFirstRun } = studyInfo;
 
     const HOUR_MS = 1 * 60 * 60 * 1000;
 
