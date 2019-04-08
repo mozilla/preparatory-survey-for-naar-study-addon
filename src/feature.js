@@ -64,6 +64,7 @@ class Feature {
     }
 
     await browser.aboutPioneer.enable();
+    await browser.pioneerNotification.show();
   }
 
   /* good practice to have the literal 'sending' be wrapped up */

@@ -1,0 +1,23 @@
+- namespace: pioneerNotification
+  description: pioneerNotification
+
+  functions:
+  - name: show
+    type: function
+    async: true
+    description: Shows the participation prompt
+    parameters: []
+
+  events:
+  - name: onShown
+    type: function
+    description: Fires when the participation prompt has been shown
+    parameters: []
+  - name: onAccept
+    type: function
+    description: Fires onAccept
+    parameters: []
+  - name: onLeaveStudy
+    type: function
+    description: Fires onLeaveStudy
+    parameters: []
