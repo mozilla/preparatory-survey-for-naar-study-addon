@@ -47,7 +47,7 @@ class AboutPage {
     this.aboutHost = aboutHost;
     this.classId = Components.ID(classId);
     this.description = description;
-    this.uriFlags = uriFlags;
+    this.uriFlags = 0; // TODO: Using uriFlags currently leads to "Hmm. That address doesn’t look right. Please check that the URL is correct and try again."
   }
 
   getURIFlags() {
@@ -101,7 +101,9 @@ class AboutPage {
     );
   }
 }
-AboutPage.prototype.QueryInterface = XPCOMUtils.generateQI([Ci.nsIAboutModule]);
+AboutPage.prototype.QueryInterface = ChromeUtils.generateQI([
+  Ci.nsIAboutModule,
+]);
 
 /**
  * The module exported by this file.

@@ -1,0 +1,14 @@
+- namespace: aboutPioneer
+  description: Hosts the about:pioneer about page
+
+  functions:
+  - name: enable
+    type: 'function'
+    async: true
+    description: ''
+    parameters: []
+  - name: disable
+    type: 'function'
+    async: true
+    description: ''
+    parameters: []

@@ -40,11 +40,6 @@ const ENROLLMENT_STATE_STRING_PREF =
   "extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState";
 const TIMER_NAME = "pioneer-participation-prompt-prompt";
 
-// Due to bug 1051238 frame scripts are cached forever, so we can't update them
-// as a restartless add-on. The Math.random() is the work around for this.
-const PROCESS_SCRIPT = `resource://pioneer-participation-prompt-content/process-script.js?${Math.random()}`;
-const FRAME_SCRIPT = `resource://pioneer-participation-prompt-content/frame-script.js?${Math.random()}`;
-
 let notificationBox = null;
 let notice = null;
 
@@ -217,14 +212,6 @@ this.startup = async function(data, reason) {
     addon: { id: data.id, version: data.version },
   });
 
-  // Load scripts in content processes and tabs
-  Services.ppmm.loadProcessScript(PROCESS_SCRIPT, true);
-  Services.mm.loadFrameScript(FRAME_SCRIPT, true);
-
-  // Register about: pages and their listeners
-  AboutPages.aboutPioneer.register();
-  AboutPages.aboutPioneer.registerParentListeners();
-
   // Register add-on listener
   AddonManager.addAddonListener(addonListener);
 
@@ -243,16 +230,6 @@ this.shutdown = async function(data, reason) {
 
   // Unegister add-on listener
   AddonManager.removeAddonListener(addonListener);
-
-  // Stop loading processs scripts and notify existing scripts to clean up.
-  Services.ppmm.removeDelayedProcessScript(PROCESS_SCRIPT);
-  Services.ppmm.broadcastAsyncMessage("Pioneer:ShuttingDown");
-  Services.mm.removeDelayedFrameScript(FRAME_SCRIPT);
-  Services.mm.broadcastAsyncMessage("Pioneer:ShuttingDown");
-
-  // Clean up about pages
-  AboutPages.aboutPioneer.unregisterParentListeners();
-  AboutPages.aboutPioneer.unregister();
 
   // Close up timers
   if (firstPromptTimeout) {

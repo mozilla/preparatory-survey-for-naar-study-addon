@@ -62,6 +62,8 @@ class Feature {
     if (isFirstRun) {
       await browser.study.logger.log("First run");
     }
+
+    await browser.aboutPioneer.enable();
   }
 
   /* good practice to have the literal 'sending' be wrapped up */
