@@ -1,5 +1,0 @@
-*.swp
-node_modules
-package-lock.json
-pioneer-enrollment-study.xpi
-test/test_harness_output*

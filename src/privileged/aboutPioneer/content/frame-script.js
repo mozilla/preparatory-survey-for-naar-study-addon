@@ -32,7 +32,7 @@ XPCOMUtils.defineLazyModuleGetter(
  */
 class PioneerFrameListener {
   handleEvent(event) {
-    // Abort if the current page isn't about:studies.
+    // Abort if the current page isn't about:pioneer.
     if (!this.ensureTrustedOrigin()) {
       return;
     }
