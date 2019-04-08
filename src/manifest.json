@@ -12,6 +12,14 @@
   },
   "default_locale": "en-US",
   "experiment_apis": {
+    "extensionPrefs": {
+      "schema": "./privileged/extensionPrefs/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/extensionPrefs/api.js",
+        "paths": [["extensionPrefs"]]
+      }
+    },
     "privacyContext": {
       "schema": "./privileged/privacyContext/schema.json",
       "parent": {
