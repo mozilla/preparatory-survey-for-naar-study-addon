@@ -34,7 +34,7 @@ class Feature {
 
     feature.config = {
       addonUrl:
-        "https://addons.mozilla.org/firefox/downloads/latest/firefox-pioneer/?src=pioneer-participation-prompt-1",
+        "https://addons.mozilla.org/firefox/downloads/latest/firefox-pioneer/?src=pioneer-participation-prompt-v3",
       notificationMessage: "Please help us improve Firefox and the Web",
       updateTimerInterval: await browser.extensionPrefs.getIntPref(
         "updateTimerInterval",
