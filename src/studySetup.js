@@ -89,53 +89,24 @@ const baseStudySetup = {
   },
 };
 
-async function isCurrentlyEligible(studySetup) {
-  let allowed;
+async function isCurrentlyEligible() {
   const dataPermissions = await browser.study.getDataPermissions();
-  if (studySetup.studyType === "shield") {
-    allowed = dataPermissions.shield;
+  // Need to allow studies in general
+  if (!dataPermissions.shield) {
+    await browser.study.logger.log("Studies not enabled, exiting study");
+    return false;
   }
-  if (studySetup.studyType === "pioneer") {
-    allowed = dataPermissions.pioneer;
+  // Someone already in the pioneer cohort should not receive the prompt
+  if (dataPermissions.pioneer) {
+    await browser.study.logger.log("Already Pioneer, exiting study");
+    return false;
   }
   // Users with private browsing on autostart are not eligible
   if (await browser.privacyContext.permanentPrivateBrowsing()) {
     await browser.study.logger.log("Permanent private browsing, exiting study");
-    allowed = false;
+    return false;
   }
-  return allowed;
-}
-
-/**
- * Determine, based on common and study-specific criteria, if enroll (first run)
- * should proceed.
- *
- * False values imply that *during first run only*, we should endStudy(`ineligible`)
- *
- * Add your own enrollment criteria as you see fit.
- *
- * (Guards against Normandy or other deployment mistakes or inadequacies).
- *
- * This implementation caches in local storage to speed up second run.
- *
- * @param {object} studySetup A complete study setup object
- * @returns {Promise<boolean>} answer An boolean answer about whether the user should be
- *       allowed to enroll in the study
- */
-async function wasEligibleAtFirstRun(studySetup) {
-  // Cached answer.  Used on 2nd run
-  const localStorageResult = await browser.storage.local.get(
-    "allowedEnrollOnFirstRun",
-  );
-  if (localStorageResult.allowedEnrollOnFirstRun === true) return true;
-
-  // First run, we must calculate the answer.
-  // If false, the study will endStudy with 'ineligible' during `setup`
-  const allowed = await isCurrentlyEligible(studySetup);
-
-  // cache the answer
-  await browser.storage.local.set({ allowedEnrollOnFirstRun: allowed });
-  return allowed;
+  return true;
 }
 
 /**
@@ -147,12 +118,10 @@ async function getStudySetup() {
   // shallow copy
   const studySetup = Object.assign({}, baseStudySetup);
 
-  studySetup.allowEnroll = await wasEligibleAtFirstRun(studySetup);
-
-  // If the eligibility criterias are not dependent on the state of the first run only
-  // but rather should be checked on every browser launch, skip the use
+  // Since the eligibility criterias are not dependent on the state of the first run only
+  // but rather should be checked on every browser launch, we skip the use
   // of wasEligibleAtFirstRun and instead use the below:
-  // studySetup.allowEnroll = await wasEligibleAtFirstRun(studySetup);
+  studySetup.allowEnroll = await isCurrentlyEligible();
 
   const testingOverrides = await browser.study.getTestingOverrides();
   studySetup.testing = {
@@ -160,7 +129,6 @@ async function getStudySetup() {
     firstRunTimestamp: testingOverrides.firstRunTimestamp,
     expired: testingOverrides.expired,
   };
-  // TODO: Possible add testing override for studySetup.telemetry.internalTelemetryArchive
 
   // Set testing flag on shield-study-addon pings in case any testing override is set
   if (studySetup.testing.variationName !== null) {
