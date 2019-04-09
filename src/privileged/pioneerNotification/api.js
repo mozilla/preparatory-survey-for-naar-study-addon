@@ -20,41 +20,10 @@ XPCOMUtils.defineLazyModuleGetter(
   "resource:///modules/BrowserWindowTracker.jsm",
 );
 
-/**
- * @returns {Object} The most recent NON-PRIVATE browser window, so that we can manipulate chrome elements on it.
- */
-function getMostRecentBrowserWindow() {
-  return BrowserWindowTracker.getTopWindow({
-    private: false,
-    allowPopups: false,
-  });
-}
-
-/*
 const { utils: Cu } = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Timer.jsm");
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "studyUtils",
-  "resource://pioneer-participation-prompt/StudyUtils.jsm",
-);
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "config",
-  "resource://pioneer-participation-prompt/Config.jsm",
-);
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "RecentWindow",
-  "resource:///modules/RecentWindow.jsm",
-);
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "AboutPages",
-  "resource://pioneer-participation-prompt-content/AboutPages.jsm",
-);
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "AddonManager",
@@ -67,14 +36,23 @@ XPCOMUtils.defineLazyServiceGetter(
   "nsIUpdateTimerManager",
 );
 
-const EXPIRATION_DATE_STRING_PREF =
-  "extensions.pioneer-participation-prompt_shield_mozilla_org.expirationDateString";
 const ENROLLMENT_STATE_STRING_PREF =
   "extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState";
 const TIMER_NAME = "pioneer-participation-prompt-prompt";
 
 let notificationBox = null;
 let notice = null;
+let config = null;
+
+// Style the notification like Heartbeat (selectively copied from Heartbeat.jsm)
+const HEARTBEAT_CSS_URI = Services.io.newURI(
+  "resource://normandy/skin/shared/Heartbeat.css",
+);
+const HEARTBEAT_CSS_URI_OSX = Services.io.newURI(
+  "resource://normandy/skin/osx/Heartbeat.css",
+);
+const windowsWithInjectedCss = new WeakSet();
+let anyWindowsWithInjectedCss = false;
 
 function removeActiveNotification() {
   if (notice && notificationBox) {
@@ -86,14 +64,14 @@ function removeActiveNotification() {
   }
 }
 
-function showNotification(doc, onClickButton) {
+function showNotification(chromeWindow, onClickButton) {
   removeActiveNotification();
 
-  notificationBox = doc.querySelector("#high-priority-global-notificationbox");
+  notificationBox = chromeWindow.gHighPriorityNotificationBox;
   notice = notificationBox.appendNotification(
     config.notificationMessage,
     "pioneer-participation-prompt-1",
-    "resource://pioneer-participation-prompt/skin/heartbeat-icon.svg",
+    "resource://normandy/skin/shared/heartbeat-icon.svg",
     notificationBox.PRIORITY_INFO_HIGH,
     [
       {
@@ -108,28 +86,26 @@ function showNotification(doc, onClickButton) {
     },
   );
 
-  // Minimal attempts to style the notification like Heartbeat
-  notice.style.background =
-    "linear-gradient(-179deg, #FBFBFB 0%, #EBEBEB 100%)";
-  notice.style.borderBottom = "1px solid #C1C1C1";
-  notice.style.height = "40px";
-  const messageText = doc.getAnonymousElementByAttribute(
-    notice,
-    "anonid",
-    "messageText",
-  );
-  messageText.style.color = "#333";
-
-  // Position the button next to the text like in Heartbeat
-  const rightSpacer = doc.createElement("spacer");
-  rightSpacer.flex = 20;
-  notice.appendChild(rightSpacer);
-  messageText.flex = 0;
-  messageText.nextSibling.flex = 0;
+  // Style the notification like Heartbeat (selectively copied from Heartbeat.jsm)
+  if (!windowsWithInjectedCss.has(chromeWindow)) {
+    windowsWithInjectedCss.add(chromeWindow);
+    const utils = chromeWindow.windowUtils;
+    utils.loadSheet(HEARTBEAT_CSS_URI, chromeWindow.AGENT_SHEET);
+    if (AppConstants.platform === "macosx") {
+      utils.loadSheet(HEARTBEAT_CSS_URI_OSX, chromeWindow.AGENT_SHEET);
+    }
+    anyWindowsWithInjectedCss = true;
+  }
+  notice.messageDetails.style.overflow = "hidden";
+  notice.messageImage.classList.add("heartbeat", "pulse-onshow");
+  notice.messageText.classList.add("heartbeat");
+  notice.messageText.flex = 0;
+  notice.spacer.flex = 0;
+  notice.classList.add("heartbeat");
 }
 
 function getMostRecentBrowserWindow() {
-  return RecentWindow.getMostRecentBrowserWindow({
+  return BrowserWindowTracker.getTopWindow({
     private: false,
     allowPopups: false,
   });
@@ -212,16 +188,17 @@ const TREATMENTS = {
       if (recentWindow && recentWindow.gBrowser) {
         const tab = recentWindow.gBrowser.loadOneTab("about:pioneer", {
           inBackground: true,
+          triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
         });
         tab.addEventListener("TabClose", () => {
           removeActiveNotification();
         });
 
-        showNotification(recentWindow.document, () => {
+        showNotification(recentWindow, () => {
           recentWindow.gBrowser.selectedTab = tab;
-          studyUtils.telemetry({ event: "engagedPrompt" });
+          // TODO: studyUtils.telemetry({ event: "engagedPrompt" });
         });
-        studyUtils.telemetry({ event: "prompted", promptType });
+        // TODO: studyUtils.telemetry({ event: "prompted", promptType });
       }
     });
   },
@@ -230,7 +207,7 @@ const TREATMENTS = {
 const addonListener = {
   onInstalled(addon) {
     if (addon.id === "pioneer-opt-in@mozilla.org") {
-      studyUtils.telemetry({ event: "enrolled" });
+      // TODO: studyUtils.telemetry({ event: "enrolled" });
       setEnrollmentState({
         stage: "enrolled",
         time: Date.now(),
@@ -239,17 +216,12 @@ const addonListener = {
   },
 };
 
+/*
 this.startup = async function(data, reason) {
   studyUtils.setup({
     ...config,
     addon: { id: data.id, version: data.version },
   });
-
-  // Register add-on listener
-  AddonManager.addAddonListener(addonListener);
-
-  // Run treatment
-  TREATMENTS[variation.name]();
 };
 
 this.shutdown = async function(data, reason) {
@@ -282,68 +254,51 @@ this.shutdown = async function(data, reason) {
 
   Cu.unload("resource://pioneer-participation-prompt/StudyUtils.jsm");
   Cu.unload("resource://pioneer-participation-prompt/Config.jsm");
-  Cu.unload("resource://pioneer-participation-prompt-content/AboutPages.jsm");
 };
 */
 
 /**
- * Display instrumented 'notification bar' explaining the feature to the user
+ * Display notification bar
  *
- *   Telemetry Probes:
- *   - {event: introduction-shown}
- *   - {event: introduction-accept}
- *   - {event: introduction-leave-study}
+ * Events:
+ *  - {event: introduction-shown}
+ *  - {event: introduction-tell-me-more}
  */
-class PioneerNotificationEventEmitter extends EventEmitter {
-  emitShow(variationName) {
-    const self = this;
-    const recentWindow = getMostRecentBrowserWindow();
-    const notificationBox = recentWindow.gHighPriorityNotificationBox;
-
-    // api: https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Method/appendNotification
-    const notice = notificationBox.appendNotification(
-      "Welcome to the new feature! Look for changes!",
-      "feature orientation",
-      null, // icon
-      notificationBox.PRIORITY_INFO_HIGH, // priority
-      // buttons
-      [
-        {
-          label: "Thanks!",
-          isDefault: true,
-          callback: function acceptButton() {
-            // eslint-disable-next-line no-console
-            console.log("clicked THANKS!");
-            self.emit("introduction-accept");
-          },
-        },
-        {
-          label: "I do not want this.",
-          callback: function leaveStudyButton() {
-            // eslint-disable-next-line no-console
-            console.log("clicked NO!");
-            self.emit("introduction-leave-study");
-          },
-        },
-      ],
-      // callback for nb events
-      null,
-    );
-
-    // used by testing to confirm the bar is set with the correct config
-    notice.setAttribute("variation-name", variationName);
-
-    self.emit("introduction-shown");
-  }
-}
+class PioneerNotificationEventEmitter extends EventEmitter {}
 
 this.pioneerNotification = class extends ExtensionAPI {
   getAPI(context) {
     const pioneerNotificationEventEmitter = new PioneerNotificationEventEmitter();
     return {
       pioneerNotification: {
-        show() {
-          pioneerNotificationEventEmitter.emitShow();
+        enable(promptConfig) {
+          config = promptConfig;
+
+          // Register add-on listener
+          AddonManager.addAddonListener(addonListener);
+
+          // Run treatment
+          TREATMENTS.notificationAndPopunder();
+
+          // Notify notification shown
+          pioneerNotificationEventEmitter.emit("notification-shown");
+        },
+        disable() {
+          // Cleanup CSS injected into windows by Heartbeat
+          if (anyWindowsWithInjectedCss) {
+            for (const window of Services.wm.getEnumerator(
+              "navigator:browser",
+            )) {
+              if (windowsWithInjectedCss.has(window)) {
+                const utils = window.windowUtils;
+                utils.removeSheet(HEARTBEAT_CSS_URI, window.AGENT_SHEET);
+                if (AppConstants.platform === "macosx") {
+                  utils.removeSheet(HEARTBEAT_CSS_URI_OSX, window.AGENT_SHEET);
+                }
+                windowsWithInjectedCss.delete(window);
+              }
+            }
+          }
         },
         onShown: new EventManager(
           context,

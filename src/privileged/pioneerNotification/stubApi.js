@@ -16,9 +16,9 @@ this.pioneerNotification = class extends ExtensionAPI {
     const apiEventEmitter = new EventEmitter();
     return {
       pioneerNotification: {
-        /* Shows the participation prompt */
-        show: async function show() {
-          console.log("Called show()");
+        /* Enables the participation notification */
+        enable: async function enable(promptConfig) {
+          console.log("Called enable(promptConfig)", promptConfig);
           return undefined;
         },
 

@@ -2,11 +2,14 @@
   description: pioneerNotification
 
   functions:
-  - name: show
+  - name: enable
     type: function
     async: true
-    description: Shows the participation prompt
-    parameters: []
+    description: Enables the participation notification
+    parameters:
+    - name: promptConfig
+      type: any
+      description: The prompt configuration
 
   events:
   - name: onShown

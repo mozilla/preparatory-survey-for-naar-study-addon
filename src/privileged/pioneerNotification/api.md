@@ -4,11 +4,16 @@ pioneerNotification
 
 ## Functions
 
-### `browser.pioneerNotification.show( )`
+### `browser.pioneerNotification.enable( promptConfig )`
 
-Shows the participation prompt
+Enables the participation notification
 
 **Parameters**
+
+* `promptConfig`
+  * type: promptConfig
+  * $ref:
+  * optional: false
 
 ## Events
 
