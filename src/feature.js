@@ -116,7 +116,10 @@ class Feature {
    * Called at end of study, and if the user disables the study or it gets uninstalled by other means.
    * @returns {Promise<*>} Promise that resolves after cleanup
    */
-  async cleanup() {}
+  async cleanup() {
+    await browser.aboutPioneer.disable();
+    await browser.pioneerNotification.disable();
+  }
 }
 
 // make an instance of the feature class available to background.js

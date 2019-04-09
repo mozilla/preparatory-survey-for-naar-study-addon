@@ -216,47 +216,6 @@ const addonListener = {
   },
 };
 
-/*
-this.startup = async function(data, reason) {
-  studyUtils.setup({
-    ...config,
-    addon: { id: data.id, version: data.version },
-  });
-};
-
-this.shutdown = async function(data, reason) {
-  const isUninstall =
-    reason === REASONS.ADDON_UNINSTALL || reason === REASONS.ADDON_DISABLE;
-  if (isUninstall) {
-    // Send this before the ShuttingDown event to ensure that message handlers
-    // are still registered and receive it.
-    Services.mm.broadcastAsyncMessage("Pioneer:Uninstalling");
-  }
-
-  // Unegister add-on listener
-  AddonManager.removeAddonListener(addonListener);
-
-  // Close up timers
-  if (firstPromptTimeout) {
-    clearTimeout(firstPromptTimeout);
-  }
-  timerManager.unregisterTimer(TIMER_NAME);
-
-  // If a notification is up, close it
-  removeActiveNotification();
-
-  if (isUninstall) {
-    if (!studyUtils._isEnding) {
-      // we are the first requestors, must be user action.
-      await studyUtils.endStudy({ reason: "user-disable" });
-    }
-  }
-
-  Cu.unload("resource://pioneer-participation-prompt/StudyUtils.jsm");
-  Cu.unload("resource://pioneer-participation-prompt/Config.jsm");
-};
-*/
-
 /**
  * Display notification bar
  *
@@ -284,6 +243,18 @@ this.pioneerNotification = class extends ExtensionAPI {
           pioneerNotificationEventEmitter.emit("notification-shown");
         },
         disable() {
+          // Close up timers
+          if (firstPromptTimeout) {
+            clearTimeout(firstPromptTimeout);
+          }
+          timerManager.unregisterTimer(TIMER_NAME);
+
+          // Unregister add-on listener
+          AddonManager.removeAddonListener(addonListener);
+
+          // If a notification is up, close it
+          removeActiveNotification();
+
           // Cleanup CSS injected into windows by Heartbeat
           if (anyWindowsWithInjectedCss) {
             for (const window of Services.wm.getEnumerator(
@@ -299,6 +270,10 @@ this.pioneerNotification = class extends ExtensionAPI {
               }
             }
           }
+
+          // Send this before the ShuttingDown event to ensure that message handlers
+          // are still registered and receive it.
+          Services.mm.broadcastAsyncMessage("Pioneer:Uninstalling");
         },
         onShown: new EventManager(
           context,
