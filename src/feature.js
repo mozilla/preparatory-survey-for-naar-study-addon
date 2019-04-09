@@ -23,14 +23,12 @@ class Feature {
   constructor() {}
 
   /**
-   * @param {Object} studyInfo Study info
    * @returns {Promise<*>} Promise that resolves after configure
    */
-  async configure(studyInfo) {
+  async configure() {
     const feature = this;
-    const { /* variation,*/ isFirstRun } = studyInfo;
 
-    const HOUR_MS = 1 * 60 * 60 * 1000;
+    const HOUR_MS = 60 * 60 * 1000;
 
     feature.config = {
       addonUrl:
@@ -46,22 +44,17 @@ class Feature {
       ),
       secondPromptDelay: await browser.extensionPrefs.getIntPref(
         "secondPromptDelay",
-        2 * 24 * 60 * 60 * 1000 - HOUR_MS, // 2 days minus an hour for timer variances
+        2 * 24 * HOUR_MS - HOUR_MS, // 2 days minus an hour for timer variances
       ),
       studyEndDelay: await browser.extensionPrefs.getIntPref(
         "studyEndDelay",
-        1 * 24 * 60 * 60 * 1000 - HOUR_MS, // 1 day in ms minus an hour for timer variances
+        24 * HOUR_MS - HOUR_MS, // 1 day in ms minus an hour for timer variances
       ),
       studyEnrolledEndDelay: await browser.extensionPrefs.getIntPref(
         "studyEnrolledEndDelay",
-        1 * 24 * 60 * 60 * 1000 - HOUR_MS, // 1 day in ms minus an hour for timer variances
+        24 * HOUR_MS - HOUR_MS, // 1 day in ms minus an hour for timer variances
       ),
     };
-
-    // perform something only during first run
-    if (isFirstRun) {
-      await browser.study.logger.log("First run");
-    }
 
     await browser.aboutPioneer.enable(feature.config.addonUrl);
     await browser.pioneerNotification.enable(feature.config);
@@ -107,13 +100,6 @@ class Feature {
       ]);
       throw new Error("Invalid telemetry payload");
     }
-
-    // Submit ping using a custom schema/topic
-    /*
-    await browser.telemetry.submitPing("study-schema-foo", payload, {
-      addClientId: true,
-    });
-    */
 
     // Submit ping using study utils - allows for automatic querying of study data in re:dash
     const shieldStudyAddonPayload = {
