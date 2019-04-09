@@ -6,33 +6,7 @@ const { interfaces: Ci, results: Cr, manager: Cm, utils: Cu } = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "AddonManager",
-  "resource://gre/modules/AddonManager.jsm",
-);
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "config",
-  "resource://pioneer-participation-prompt/Config.jsm",
-);
-XPCOMUtils.defineLazyModuleGetter(
-  this,
-  "studyUtils",
-  "resource://pioneer-participation-prompt/StudyUtils.jsm",
-);
-
 this.EXPORTED_SYMBOLS = ["AboutPages"];
-
-const ENROLLMENT_STATE_STRING_PREF =
-  "extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState";
-
-function setEnrollmentState(state) {
-  Services.prefs.setCharPref(
-    ENROLLMENT_STATE_STRING_PREF,
-    JSON.stringify(state),
-  );
-}
 
 /**
  * Class for managing an about: page that Pioneer provides. Adapted from
@@ -127,69 +101,5 @@ XPCOMUtils.defineLazyGetter(this.AboutPages, "aboutPioneer", () => {
       Ci.nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT |
       Ci.nsIAboutModule.URI_MUST_LOAD_IN_CHILD,
   });
-
-  // Extra methods for about:study-specific behavior.
-  Object.assign(aboutPioneer, {
-    /**
-     * Register listeners for messages from the content processes.
-     */
-    registerParentListeners() {
-      Services.mm.addMessageListener("Pioneer:Enroll", this);
-      Services.mm.addMessageListener("Pioneer:GetEnrollment", this);
-    },
-
-    /**
-     * Unregister listeners for messages from the content process.
-     */
-    unregisterParentListeners() {
-      Services.mm.removeMessageListener("Pioneer:Enroll", this);
-      Services.mm.removeMessageListener("Pioneer:GetEnrollment", this);
-    },
-
-    /**
-     * Dispatch messages from the content process to the appropriate handler.
-     * @param {Object} message
-     *   See the nsIMessageListener documentation for details about this object.
-     */
-    receiveMessage(message) {
-      switch (message.name) {
-        case "Pioneer:Enroll":
-          this.enroll();
-          break;
-        case "Pioneer:GetEnrollment":
-          this.getEnrollment(message.target);
-          break;
-      }
-    },
-
-    async getEnrollment(target) {
-      const addon = await AddonManager.getAddonByID(
-        "pioneer-opt-in@mozilla.org",
-      );
-      try {
-        target.messageManager.sendAsyncMessage("Pioneer:ReceiveEnrollment", {
-          isEnrolled: addon !== null,
-        });
-      } catch (err) {
-        // The child process might be gone, so no need to throw here.
-        Cu.reportError(err);
-      }
-    },
-
-    async enroll() {
-      const install = await AddonManager.getInstallForURL(
-        config.addonUrl,
-        null,
-        "application/x-xpinstall",
-      );
-      install.install();
-      studyUtils.telemetry({ event: "enrolled-via-study" });
-      setEnrollmentState({
-        stage: "enrolled",
-        time: Date.now(),
-      });
-    },
-  });
-
   return aboutPioneer;
 });

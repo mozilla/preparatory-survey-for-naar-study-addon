@@ -4,9 +4,14 @@ Hosts the about:pioneer about page
 
 ## Functions
 
-### `browser.aboutPioneer.enable( )`
+### `browser.aboutPioneer.enable( addonUrl )`
 
 **Parameters**
+
+* `addonUrl`
+  * type: addonUrl
+  * $ref:
+  * optional: false
 
 ### `browser.aboutPioneer.disable( )`
 

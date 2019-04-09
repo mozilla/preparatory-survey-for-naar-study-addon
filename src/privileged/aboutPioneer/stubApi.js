@@ -17,8 +17,8 @@ this.aboutPioneer = class extends ExtensionAPI {
     return {
       aboutPioneer: {
         /* @TODO no description given */
-        enable: async function enable() {
-          console.log("Called enable()");
+        enable: async function enable(addonUrl) {
+          console.log("Called enable(addonUrl)", addonUrl);
           return undefined;
         },
 

@@ -6,7 +6,10 @@
     type: 'function'
     async: true
     description: ''
-    parameters: []
+    parameters:
+    - name: addonUrl
+      type: any
+      description: The Pioneer addon URL
   - name: disable
     type: 'function'
     async: true

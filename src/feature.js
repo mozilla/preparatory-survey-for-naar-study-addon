@@ -63,7 +63,7 @@ class Feature {
       await browser.study.logger.log("First run");
     }
 
-    await browser.aboutPioneer.enable();
+    await browser.aboutPioneer.enable(feature.config.addonUrl);
     await browser.pioneerNotification.enable(feature.config);
   }
 
