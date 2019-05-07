@@ -1,39 +1,31 @@
 {
-  "name": "Pioneer Participation Prompt",
+  "name": "Preparatory Survey for NAAR",
   "description": "__MSG_extensionDescription__",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "manifest_version": 2,
   "hidden": true,
   "applications": {
     "gecko": {
-      "id": "pioneer-participation-prompt@shield.mozilla.org",
+      "id": "preparatory-survey-for-naar@shield.mozilla.org",
       "strict_min_version": "65.0a1"
     }
   },
   "default_locale": "en-US",
   "experiment_apis": {
-    "aboutPioneer": {
-      "schema": "./privileged/aboutPioneer/schema.json",
+    "addonsMetadata": {
+      "schema": "./privileged/addonsMetadata/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "script": "./privileged/aboutPioneer/api.js",
-        "paths": [["aboutPioneer"]]
+        "script": "./privileged/addonsMetadata/api.js",
+        "paths": [["addonsMetadata"]]
       }
     },
-    "extensionPrefs": {
-      "schema": "./privileged/extensionPrefs/schema.json",
+    "fauxHeartbeat": {
+      "schema": "./privileged/fauxHeartbeat/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "script": "./privileged/extensionPrefs/api.js",
-        "paths": [["extensionPrefs"]]
-      }
-    },
-    "pioneerNotification": {
-      "schema": "./privileged/pioneerNotification/schema.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "script": "./privileged/pioneerNotification/api.js",
-        "paths": [["pioneerNotification"]]
+        "script": "./privileged/fauxHeartbeat/api.js",
+        "paths": [["fauxHeartbeat"]]
       }
     },
     "privacyContext": {

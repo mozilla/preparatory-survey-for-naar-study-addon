@@ -23,41 +23,61 @@ class Feature {
   constructor() {}
 
   /**
+   * @param {Object} studyInfo Study info
    * @returns {Promise<*>} Promise that resolves after configure
    */
-  async configure() {
+  async configure(studyInfo) {
     const feature = this;
+    const { isFirstRun } = studyInfo;
 
-    const HOUR_MS = 60 * 60 * 1000;
+    if (isFirstRun) {
 
-    feature.config = {
-      addonUrl:
-        "https://addons.mozilla.org/firefox/downloads/latest/firefox-pioneer/?src=pioneer-participation-prompt-v3",
-      notificationMessage: "Please help us improve Firefox and the Web",
-      updateTimerInterval: await browser.extensionPrefs.getIntPref(
-        "updateTimerInterval",
-        43200, // 12 hours
-      ),
-      firstPromptDelay: await browser.extensionPrefs.getIntPref(
-        "firstPromptDelay",
-        5 * 60 * 1000, // 5 minutes in ms
-      ),
-      secondPromptDelay: await browser.extensionPrefs.getIntPref(
-        "secondPromptDelay",
-        2 * 24 * HOUR_MS - HOUR_MS, // 2 days minus an hour for timer variances
-      ),
-      studyEndDelay: await browser.extensionPrefs.getIntPref(
-        "studyEndDelay",
-        24 * HOUR_MS - HOUR_MS, // 1 day in ms minus an hour for timer variances
-      ),
-      studyEnrolledEndDelay: await browser.extensionPrefs.getIntPref(
-        "studyEnrolledEndDelay",
-        24 * HOUR_MS - HOUR_MS, // 1 day in ms minus an hour for timer variances
-      ),
-    };
+        const listOfInstalledAddons = await browser.addonsMetadata.getListOfInstalledAddons();
+        await browser.study.logger.log({ listOfInstalledAddons });
 
-    await browser.aboutPioneer.enable(feature.config.addonUrl);
-    await browser.pioneerNotification.enable(feature.config);
+      await browser.study.logger.log(
+        "First run. Showing faux Heartbeat prompt",
+      );
+
+      browser.fauxHeartbeat.onShown.addListener(async() => {
+        await browser.study.logger.log("onShown");
+        feature.sendTelemetry({
+          event: "onShown",
+        });
+      });
+
+      browser.fauxHeartbeat.onAccept.addListener(async() => {
+        await browser.study.logger.log("onAccept");
+        feature.sendTelemetry({
+          event: "onAccept",
+        });
+
+        /*
+        await browser.study.logger.log("Firing survey");
+        // Fire survey
+        const baseUrl = await browser.study.fullSurveyUrl(
+          "https://qsurvey.mozilla.com/s3/naar-extensions-questionnaire-1/",
+          "prompt",
+        );
+        const url = baseUrl + "&" + listOfInstalledAddons.map(addon=>addon.guid).join(",");
+        await browser.tabs.create({ url });
+        */
+        browser.study.endStudy("accept");
+      });
+
+      browser.fauxHeartbeat.onReject.addListener(async() => {
+        await browser.study.logger.log("onReject");
+        feature.sendTelemetry({
+          event: "onReject",
+        });
+        browser.study.endStudy("reject");
+      });
+
+      await browser.fauxHeartbeat.show({
+        notificationMessage: "Help others discover better Extensions!",
+        buttonLabel: "Take me to the questionnaire",
+      });
+    }
   }
 
   /* good practice to have the literal 'sending' be wrapped up */
@@ -117,8 +137,7 @@ class Feature {
    * @returns {Promise<*>} Promise that resolves after cleanup
    */
   async cleanup() {
-    await browser.aboutPioneer.disable();
-    await browser.pioneerNotification.disable();
+    await browser.fauxHeartbeat.cleanup();
   }
 }
 

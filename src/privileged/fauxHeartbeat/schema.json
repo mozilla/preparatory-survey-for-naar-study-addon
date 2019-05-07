@@ -1,13 +1,13 @@
 [
   {
-    "namespace": "pioneerNotification",
-    "description": "pioneerNotification",
+    "namespace": "fauxHeartbeat",
+    "description": "fauxHeartbeat",
     "functions": [
       {
-        "name": "enable",
+        "name": "show",
         "type": "function",
         "async": true,
-        "description": "Enables the participation notification",
+        "description": "Shows the faux Heartbeat prompt",
         "parameters": [
           {
             "name": "promptConfig",
@@ -15,25 +15,32 @@
             "description": "The prompt configuration"
           }
         ]
+      },
+      {
+        "name": "hide",
+        "type": "function",
+        "async": true,
+        "description": "Hides the faux Heartbeat prompt",
+        "parameters": []
       }
     ],
     "events": [
       {
         "name": "onShown",
         "type": "function",
-        "description": "Fires when the participation prompt has been shown",
+        "description": "Fires when the faux Heartbeat prompt has been shown",
         "parameters": []
       },
       {
         "name": "onAccept",
         "type": "function",
-        "description": "Fires onAccept",
+        "description": "Fires on accept",
         "parameters": []
       },
       {
-        "name": "onLeaveStudy",
+        "name": "onReject",
         "type": "function",
-        "description": "Fires onLeaveStudy",
+        "description": "Fires on reject",
         "parameters": []
       }
     ]

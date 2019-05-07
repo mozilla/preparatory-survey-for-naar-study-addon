@@ -70,13 +70,10 @@ const baseStudySetup = {
       baseUrls: [],
     },
     /** study-defined endings */
-    enrolled: {
+    accept: {
       baseUrls: [],
     },
-    "no-enroll": {
-      baseUrls: [],
-    },
-    error: {
+    reject: {
       baseUrls: [],
     },
   },

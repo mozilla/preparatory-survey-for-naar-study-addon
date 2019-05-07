@@ -1,10 +1,11 @@
 {
   "extensionName": {
-    "message": "Pioneer Enrollment",
+    "message": "Preparatory Survey for NAAR",
     "description": "Name of the extension"
   },
   "extensionDescription": {
-    "message": "Prompts users to enroll in the Firefox Pioneer program.",
+    "message":
+      "Prompts users to participate in a questionnaire where you can let Mozilla know why you chose your particular Extensions. The survey will take around 3 minutes and with your participation you can help others discover better Extensions.",
     "description": "Description of the extension."
   }
 }

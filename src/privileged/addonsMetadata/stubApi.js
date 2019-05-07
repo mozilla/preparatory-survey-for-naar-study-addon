@@ -11,20 +11,14 @@ const { EventManager } = ExtensionCommon;
 const EventEmitter =
   ExtensionCommon.EventEmitter || ExtensionUtils.EventEmitter;
 
-this.aboutPioneer = class extends ExtensionAPI {
+this.addonsMetadata = class extends ExtensionAPI {
   getAPI(context) {
     const apiEventEmitter = new EventEmitter();
     return {
-      aboutPioneer: {
-        /* @TODO no description given */
-        enable: async function enable(addonUrl) {
-          console.log("Called enable(addonUrl)", addonUrl);
-          return undefined;
-        },
-
-        /* @TODO no description given */
-        disable: async function disable() {
-          console.log("Called disable()");
+      addonsMetadata: {
+        /* getListOfInstalledAddons */
+        getListOfInstalledAddons: async function getListOfInstalledAddons() {
+          console.log("Called getListOfInstalledAddons()");
           return undefined;
         },
       },
