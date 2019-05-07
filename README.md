@@ -1,4 +1,4 @@
-# Pioneer Participation Prompt
+# Preparatory Survey for NAAR Study Add-on
 
 [![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/pioneer-participation-prompt/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/pioneer-participation-prompt/)
 [![Coverage Status](https://coveralls.io/repos/github/mozilla/pioneer-participation-prompt/badge.svg)](https://coveralls.io/github/mozilla/pioneer-participation-prompt)
@@ -25,4 +25,4 @@ See [DEV.md](./docs/DEV.md) for more details on how to work with this add-on as 
 
 ## References
 
-* [Experimenter](https://experimenter.services.mozilla.com/experiments/firefox-pioneer-enrollment-prompt-add-on/)
+* [Experimenter](https://experimenter.services.mozilla.com/experiments/preparatory-survey-for-naar-needs-aware-add-on-recommendations/)
