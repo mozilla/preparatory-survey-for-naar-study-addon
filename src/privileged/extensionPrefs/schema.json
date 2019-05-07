@@ -1,0 +1,59 @@
+[
+  {
+    "namespace": "extensionPrefs",
+    "description": "Read and write preferences under the extension's namespace",
+    "functions": [
+      {
+        "name": "clearUserPref",
+        "type": "function",
+        "async": true,
+        "description": "Clear a preference's non-default value",
+        "parameters": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The preference name under the extension's namespace"
+          }
+        ]
+      },
+      {
+        "name": "getIntPref",
+        "type": "function",
+        "async": true,
+        "description": "Get a preference's value",
+        "parameters": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The preference name under the extension's namespace"
+          },
+          {
+            "name": "defaultValue",
+            "type": "number",
+            "optional": true,
+            "description":
+              "The default value to return if the preference does not exist"
+          }
+        ]
+      },
+      {
+        "name": "setIntPref",
+        "type": "function",
+        "async": true,
+        "description": "Set a preference's value",
+        "parameters": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The preference name under the extension's namespace"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": "The new value"
+          }
+        ]
+      }
+    ]
+  }
+]

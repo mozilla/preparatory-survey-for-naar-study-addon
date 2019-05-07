@@ -1,0 +1,10 @@
+{
+  "extensionName": {
+    "message": "Pioneer Enrollment",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "Prompts users to enroll in the Firefox Pioneer program.",
+    "description": "Description of the extension."
+  }
+}
