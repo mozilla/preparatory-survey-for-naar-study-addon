@@ -40,16 +40,16 @@ class Feature {
       );
 
       browser.fauxHeartbeat.onShown.addListener(async() => {
-        await browser.study.logger.log("onShown");
+        await browser.study.logger.log("notification-shown");
         feature.sendTelemetry({
-          event: "onShown",
+          event: "notification-shown",
         });
       });
 
       browser.fauxHeartbeat.onAccept.addListener(async() => {
-        await browser.study.logger.log("onAccept");
+        await browser.study.logger.log("accept-survey");
         feature.sendTelemetry({
-          event: "onAccept",
+          event: "accept-survey",
         });
 
         /*
@@ -62,15 +62,16 @@ class Feature {
         const url = baseUrl + "&" + listOfInstalledAddons.map(addon=>addon.guid).join(",");
         await browser.tabs.create({ url });
         */
-        browser.study.endStudy("accept");
+
+        browser.study.endStudy("accept-survey");
       });
 
       browser.fauxHeartbeat.onReject.addListener(async() => {
-        await browser.study.logger.log("onReject");
+        await browser.study.logger.log("closed-notification-bar");
         feature.sendTelemetry({
-          event: "onReject",
+          event: "closed-notification-bar",
         });
-        browser.study.endStudy("reject");
+        browser.study.endStudy("closed-notification-bar");
       });
 
       await browser.fauxHeartbeat.show({

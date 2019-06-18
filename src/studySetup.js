@@ -78,7 +78,7 @@ const baseStudySetup = {
     },
   },
 
-  weightedVariations: [{ name: "notificationAndPopunder", weight: 1 }],
+  weightedVariations: [{ name: "survey", weight: 1 }],
 
   // maximum time that the study should run, from the first run
   expire: {

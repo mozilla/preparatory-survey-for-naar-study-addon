@@ -29,31 +29,24 @@
 * (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
 * Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New -> String)
 * Set `shieldStudy.logLevel` to `info`. This permits shield-add-on log output in browser console.
-* (If Pioneer study) Make sure that the [Firefox Pioneer Add-on](https://addons.mozilla.org/en-US/firefox/addon/firefox-pioneer/) is installed
-* Set `extensions.pioneer-participation-prompt_shield_mozilla_org.test.variationName` to `kittens` (or any other study variation/branch to test specifically)
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
 * (If you are installing an unsigned version of the add-on, you need to set `extensions.legacy.enabled` to `true` before installing the add-on)
 
 ## Expected User Experience / Functionality
 
-### Eligibility
+The user will be shown a Heartbeat-styled notification bar:
 
-* Users are ineligible for the study if they already have the Pioneer add-on installed.
+<img width="1276" alt="reddit__the_front_page_of_the_internet" src="https://user-images.githubusercontent.com/793037/59619147-84910680-9132-11e9-9389-d54fdb748230.png">
 
-### User Flow
+The user have the ability to click "Take me to the questionnaire" or close the notification bar using the X on the right.
 
-1. 5 minutes after installation, the user will be prompted to enroll in Pioneer.
-2. If the user does not enroll, they will be prompted again 2 days after the first prompt.
-3. If the user still does not enroll, the study will remove itself 1 day after the second prompt.
+The questionnaire is created using Survey Gizmo.
 
-#### Notes
+### Surveys
 
-* If a user enrolls in Pioneer, either via the prompt or unprompted, they will no longer be prompted and the study will remove itself 1 day after they enrolled.
-* The user may visit `about:pioneer` at any time and enroll in the program if the study is still installed. Once the user has enrolled, `about:pioneer` will not show enrollment buttons. If the study is removed, `about:pioneer` will cease to function.
+This study fires a survey at the following endings:
 
-### Treatment
-
-`notificationAndPopunder` - A tab with `about:pioneer` is opened in the current active window but is not focused. In addition, a Heartbeat-style notification bar is shown that focuses the tab when clicked.
+* `accept-survey`
 
 ### Do these tests (in addition to ordinary regression tests)
 
@@ -82,15 +75,6 @@
 * Verify that the study runs
 * Verify that the study does not show up in `about:addons` (note: only signed study add-ons are hidden)
 
-**Cleans up preferences upon Normandy unenrollment**
-
-* Set the branch preference to one of the validation branches
-* Enroll a client using the Normandy staging server
-* Verify that the study runs
-* Verify that `extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState` has a non-default value
-* Unenroll a client using the Normandy staging server
-* Verify that `extensions.pioneer-participation-prompt_shield_mozilla_org.enrollmentState` has been restored to use the default value
-
 **Correct branches and weights**
 
 * Make sure that the branches and weights in the add-on configuration ([../src/studySetup.js](../src/studySetup.js)) corresponds to the branch weights of the Experimenter entry. (Note that for practical reasons, the implementation uses 7 branches instead of the 5 defined study branches. The study branches that separate use different populations for training and validation corresponding to separate branches in the implementation)
@@ -102,33 +86,10 @@ Any UI in a Shield study should be consistent with standard Firefox design speci
 ### Note: checking "sent Telemetry is correct"
 
 * Open the Browser Console using Firefox's top menu at `Tools > Web Developer > Browser Console`. This will display Shield (loading/telemetry) log output from the add-on.
-* To inspect the (unencrypted) contents individual telemetry packets, set `shieldStudy.logLevel` to `all`. This permits debug-level shield-add-on log output in the browser console. Note that this will negatively affect the performance of Firefox.
-* To see the actual (encrypted if Pioneer study) payloads, go to `about:telemetry` -> Click `current ping` -> Select `Archived ping data` -> Ping Type `pioneer-study` -> Choose a payload -> Raw Payload
+* To inspect the contents of individual telemetry packets, set `shieldStudy.logLevel` to `all`. This permits debug-level shield-add-on log output in the browser console.
+* To see the actual payloads, go to `about:telemetry` -> Click `current ping` -> Select `Archived ping data` -> Ping Type `shield-study-addon` -> Choose a payload -> Raw Payload
 
 See [TELEMETRY.md](./TELEMETRY.md) for more details on what pings are sent by this add-on.
-
-## Testing Preferences
-
-The following preferences can be set to customize the study behavior for testing purposes.
-
-<dl>
-  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.updateTimerInterval</code></dt>
-  <dd>The interval for checking if the user should be prompted in minutes. (default: <code>43200</code>, 12 hours).</dd>
-
-  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.firstPromptDelay</code></dt>
-  <dd>The delay between installation and the first prompt being shown in milliseconds (default: <code>300000</code>, 5 minutes).</dd>
-
-  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.secondPromptDelay</code></dt>
-  <dd>The delay between the first prompt being shown and the second prompt being shown in milliseconds (default: <code>169200000</code>, or 47 hours).</dd>
-
-  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.studyEndDelay</code></dt>
-  <dd>The delay between the second prompt being shown and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
-
-  <dt><code>extensions.pioneer-participation-prompt_shield_mozilla_org.studyEnrolledEndDelay</code></dt>
-  <dd>The delay between enrollment and the study end in milliseconds (default: <code>86396400</code>, or 23 hours).</dd>
-</dl>
-
-Due to timer variations, for testing purposes it's recommended to set `updateTimerInterval` to `1` and the rest of the delays to `180000`. The timers are not exact and may vary by a few seconds/minutes before triggering.
 
 ## Debug
 

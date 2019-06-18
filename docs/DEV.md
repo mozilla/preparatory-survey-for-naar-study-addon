@@ -180,8 +180,6 @@ Code at [/test/functional/](/test/functional/).
 
 Note: The study variation/branch during tests is overridden by a preference in the FIREFOX_PREFERENCES section of `test/utils.js`.
 
-The example tests is inspired by tests in <https://github.com/mozilla/share-button-study>.
-
 ## Directory Structure and Files
 
 ```

@@ -10,7 +10,8 @@
 * [Study-specific endings](#study-specific-endings)
 * [`shield-study` pings (common to all shield-studies)](#shield-study-pings-common-to-all-shield-studies)
 * [`shield-study-addon` pings, specific to THIS study.](#shield-study-addon-pings-specific-to-this-study)
-* [Example sequence for a 'voted => not sure' interaction](#example-sequence-for-a-voted--not-sure-interaction)
+* [Telemetry](#telemetry)
+* [Example sequence for a 'enter => accept-survey => exit' interaction](#example-sequence-for-a-enter--accept-survey--exit-interaction)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -23,9 +24,8 @@
 
 The STUDY SPECIFIC ENDINGS this study supports are:
 
-* "voted",
-* "notification-x"
-* "window-or-fx-closed"
+* `accept-survey`
+* `closed-notification-bar`
 
 ## `shield-study` pings (common to all shield-studies)
 
@@ -35,111 +35,23 @@ The STUDY SPECIFIC ENDINGS this study supports are:
 
 ## Telemetry
 
-Along with standard Shield study pings from the [study utils][], pings are sent under the `shield-study-addon` type during the study when certain events happen. The pings are shaped like so:
+Along with standard Shield study pings from the [study utils][], pings are sent under the `shield-study-addon` type during the study when certain events happen:
 
-```json
-{
-  "version": 3,
-  "study_name": "pioneer-participation-prompt",
-  "branch": "notificationOldStudyPage",
-  "addon_version": "1.0.1",
-  "shield_version": "4.0.0",
-  "type": "shield-study-addon",
-  "data": {
-    "attributes": {
-      "event": "enrolled"
-    }
-  },
-  "testing": false
-}
-```
+* `notification-shown` - when the notification bar is shown
+* `accept-survey` - when "Take me to the questionnaire" is pressed
+* `closed-notification-bar` - when the notification bar is closed
 
-The `data.attributes.event` key contains an identifier for the type of event that was triggered:
+The following data is sent with this ping:
 
-[study utils]: https://github.com/mozilla/shield-studies-addon-utils/
+| name    | type   | description                                         |
+| ------- | ------ | --------------------------------------------------- |
+| `event` | string | either `accept-survey` or `closed-notification-bar` |
 
-### `prompted`
-
-Sent when the user is prompted to enroll with a notification or popunder. Pings of this type contain an extra key, `promptType`, that describes which type of prompt triggered the event:
-
-<dl>
-  <dt><code>first-prompt</code></dt>
-  <dd>The initial prompt soon after installation.</dd>
-  <dt><code>second-prompt</code></dt>
-  <dd>The second prompt shown if the user did not enroll after the first prompt.</dd>
-</dl>
-
-Example:
-
-```json
-{
-  "version": 3,
-  "study_name": "pioneer-participation-prompt",
-  "branch": "notificationOldStudyPage",
-  "addon_version": "1.0.1",
-  "shield_version": "4.0.0",
-  "type": "shield-study-addon",
-  "data": {
-    "attributes": {
-      "event": "prompted",
-      "promptType": "first-prompt"
-    }
-  },
-  "testing": false
-}
-```
-
-### `enrolled` / `enrolled-via-study`
-
-Sent when the user enrolls in Pioneer. The `enrolled-via-study` event is sent only when the user enrolls from the `about:pioneer` page included in the study. The `enrolled` event is sent whenever the enrollment add-on is installed, even if it occurs outside of `about:pioneer`.
-
-Note that this means that enrollments from `about:pioneer` result in **two events: both `enrolled` and `enrolled-via-study`**. Also note that **enrollments from the `notificationOldStudyPage` do not have an `enrolled-via-study` event**.
-
-Example:
-
-```json
-{
-  "version": 3,
-  "study_name": "pioneer-participation-prompt",
-  "branch": "notificationOldStudyPage",
-  "addon_version": "1.0.1",
-  "shield_version": "4.0.0",
-  "type": "shield-study-addon",
-  "data": {
-    "attributes": {
-      "event": "enrolled-via-study"
-    }
-  },
-  "testing": false
-}
-```
-
-### `engagedPrompt`
-
-Sent when the user clicks the button on the Heartbeat-style prompts to either focus or open `about:pioneer`.
-
-Example:
-
-```json
-{
-  "version": 3,
-  "study_name": "pioneer-participation-prompt",
-  "branch": "notificationOldStudyPage",
-  "addon_version": "1.0.1",
-  "shield_version": "4.0.0",
-  "type": "shield-study-addon",
-  "data": {
-    "attributes": {
-      "event": "engagedPrompt"
-    }
-  },
-  "testing": false
-}
-```
-
-## Example sequence for a 'voted => not sure' interaction
+## Example sequence for a 'enter => accept-survey => exit' interaction
 
 These are the `payload` fields from all pings in the `shield-study` and `shield-study-addon` buckets.
+
+TODO
 
 ```
 // common fields
