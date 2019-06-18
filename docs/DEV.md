@@ -58,7 +58,7 @@ npm install -g npm
 Clone the repo:
 
 ```shell
-git clone https://github.com/mozilla/pioneer-participation-prompt.git
+git clone https://github.com/mozilla/preparatory-survey-for-naar-study-addon.git
 ```
 
 After cloning the repo, you can run the following commands from the top level directory, one after another:
@@ -197,7 +197,7 @@ The example tests is inspired by tests in <https://github.com/mozilla/share-butt
 ├── README.md
 ├── dist                  # Built zips (add-ons)
 │   ├── .gitignore
-│   └── pioneer_participation_prompt-3.0.0.zip
+│   └── preparatory_survey_for_naar-1.0.0.zip
 ├── docs
 │   ├── DEV.md
 │   ├── TELEMETRY.md      # Telemetry examples for this add-on

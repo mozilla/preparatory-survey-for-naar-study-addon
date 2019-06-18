@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Mozilla",
   "bugs": {
-    "url": "https://github.com/mozilla/pioneer-participation-prompt/issues"
+    "url": "https://github.com/mozilla/preparatory-survey-for-naar-study-addon/issues"
   },
   "dependencies": {
     "shield-studies-addon-utils": "^5.3.0"
@@ -51,7 +51,7 @@
   "engines": {
     "node": ">=8.11.1"
   },
-  "homepage": "https://github.com/mozilla/pioneer-participation-prompt",
+  "homepage": "https://github.com/mozilla/preparatory-survey-for-naar-study-addon",
   "keywords": [
     "firefox",
     "mozilla",
@@ -61,7 +61,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/mozilla/pioneer-participation-prompt.git"
+    "url": "git://github.com/mozilla/preparatory-survey-for-naar-study-addon.git"
   },
   "scripts": {
     "build": "web-ext build",

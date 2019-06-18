@@ -14,8 +14,7 @@ const defaultConfig = {
     browserConsole: true,
     startUrl: ["about:debugging"],
     pref: [
-      "extensions.pioneer-participation-prompt_shield_mozilla_org.firstPromptDelay=5",
-      "shieldStudy.logLevel=info",
+      "shieldStudy.logLevel=all",
       "browser.ctrlTab.recentlyUsedOrder=false",
     ],
   },

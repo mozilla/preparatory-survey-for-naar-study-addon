@@ -1,7 +1,7 @@
 # Preparatory Survey for NAAR Study Add-on
 
-[![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/pioneer-participation-prompt/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/pioneer-participation-prompt/)
-[![Coverage Status](https://coveralls.io/repos/github/mozilla/pioneer-participation-prompt/badge.svg)](https://coveralls.io/github/mozilla/pioneer-participation-prompt)
+[![CircleCI badge](https://img.shields.io/circleci/project/github/mozilla/preparatory-survey-for-naar-study-addon/master.svg?label=CircleCI)](https://circleci.com/gh/mozilla/preparatory-survey-for-naar-study-addon/)
+[![Coverage Status](https://coveralls.io/repos/github/mozilla/preparatory-survey-for-naar-study-addon/badge.svg)](https://coveralls.io/github/mozilla/preparatory-survey-for-naar-study-addon)
 
 The purpose of this extension is to prompt users to participate in [Pioneer](https://medium.com/firefox-context-graph/make-firefox-better-with-pioneer-10c82d0f9301).
 

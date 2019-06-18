@@ -17,7 +17,7 @@ const run = async studyType => {
     utils.FIREFOX_PREFERENCES,
   );
   const widgetId = utils.ui.makeWidgetId(
-    "pioneer-participation-prompt@shield.mozilla.org",
+    "preparatory-survey-for-naar-study-addon@shield.mozilla.org",
   );
   /*
   await utils.preferences.set(
