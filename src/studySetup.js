@@ -93,17 +93,44 @@ async function isCurrentlyEligible() {
     await browser.study.logger.log("Studies not enabled, exiting study");
     return false;
   }
-  // Someone already in the pioneer cohort should not receive the prompt
-  if (dataPermissions.pioneer) {
-    await browser.study.logger.log("Already Pioneer, exiting study");
-    return false;
-  }
   // Users with private browsing on autostart are not eligible
   if (await browser.privacyContext.permanentPrivateBrowsing()) {
     await browser.study.logger.log("Permanent private browsing, exiting study");
     return false;
   }
   return true;
+}
+
+/**
+ * Determine, based on common and study-specific criteria, if enroll (first run)
+ * should proceed.
+ *
+ * False values imply that *during first run only*, we should endStudy(`ineligible`)
+ *
+ * Add your own enrollment criteria as you see fit.
+ *
+ * (Guards against Normandy or other deployment mistakes or inadequacies).
+ *
+ * This implementation caches in local storage to speed up second run.
+ *
+ * @param {object} studySetup A complete study setup object
+ * @returns {Promise<boolean>} answer An boolean answer about whether the user should be
+ *       allowed to enroll in the study
+ */
+async function wasEligibleAtFirstRun() {
+  // Cached answer. Used on 2nd run
+  const { allowedEnrollOnFirstRun } = await browser.storage.local.get(
+    "allowedEnrollOnFirstRun",
+  );
+  if (allowedEnrollOnFirstRun === true) return true;
+
+  // First run, we must calculate the answer.
+  // If false, the study will endStudy with 'ineligible' during `setup`
+  const allowed = await isCurrentlyEligible();
+
+  // cache the answer
+  await browser.storage.local.set({ allowedEnrollOnFirstRun: allowed });
+  return allowed;
 }
 
 /**
@@ -115,10 +142,12 @@ async function getStudySetup() {
   // shallow copy
   const studySetup = Object.assign({}, baseStudySetup);
 
-  // Since the eligibility criterias are not dependent on the state of the first run only
-  // but rather should be checked on every browser launch, we skip the use
+  studySetup.allowEnroll = await wasEligibleAtFirstRun();
+
+  // If the eligibility criterias are not dependent on the state of the first run only
+  // but rather should be checked on every browser launch, skip the use
   // of wasEligibleAtFirstRun and instead use the below:
-  studySetup.allowEnroll = await isCurrentlyEligible();
+  // studySetup.allowEnroll = await isCurrentlyEligible(studySetup);
 
   const testingOverrides = await browser.study.getTestingOverrides();
   studySetup.testing = {
