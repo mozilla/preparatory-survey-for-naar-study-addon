@@ -92,7 +92,7 @@
     "lint": "npm-run-all lint:*",
     "lint:eslint": "npm run eslint",
     "lint:fixpack": "fixpack",
-    "lint:web-ext-lint": "web-ext lint",
+    "lint:web-ext-lint": "# web-ext lint",
     "postformat": "npm run eslint-fix && fixpack",
     "postgenerate": "npm run format",
     "prebuild": "npm-run-all bundle:*",
