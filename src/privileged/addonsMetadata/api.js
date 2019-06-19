@@ -39,6 +39,7 @@ this.addonsMetadata = class extends ExtensionAPI {
             return {
               ...telAddons[addonId],
               iconUrl: iconUrlInfo.iconUrl,
+              id: addonId,
             };
           });
         },

@@ -98,7 +98,13 @@ async function isCurrentlyEligible() {
     await browser.study.logger.log("Permanent private browsing, exiting study");
     return false;
   }
-  return true;
+  // Users need to have at least 3 self-installed add-ons to be eligible
+  const listOfInstalledAddons = await browser.addonsMetadata.getListOfInstalledAddons();
+  const listOfSelfInstalledEnabledAddons = listOfInstalledAddons.filter(
+    addon =>
+      !addon.isSystem && !addon.userDisabled && addon.id !== browser.runtime.id,
+  );
+  return listOfSelfInstalledEnabledAddons.length >= 3;
 }
 
 /**
