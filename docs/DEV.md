@@ -32,6 +32,11 @@
 # install dependencies
 npm install
 
+# download some add-ons
+cd test/some-addons
+bash fetch-some-addons.sh
+cd -
+
 ## run
 npm start
 
