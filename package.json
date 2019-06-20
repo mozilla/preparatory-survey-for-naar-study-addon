@@ -108,6 +108,6 @@
     "test:func:start-geckodriver-server": "geckodriver -vv 1> test/results/logs/geckodriver.log 2> test/results/logs/geckodriver.errors.log",
     "test:manual": "npm-run-all -pr test:func:start-geckodriver-server test:run-firefox",
     "test:run-firefox": "FIREFOX_BINARY=${FIREFOX_BINARY:-firefoxdeveloperedition} ADDON_ZIP=./dist/preparatory_survey_for_naar-$npm_package_version.zip GECKODRIVER_URL=http://127.0.0.1:4444 node run-firefox.js",
-    "test:unit": "NODE_ENV=test karma start"
+    "test:unit": "# NODE_ENV=test karma start"
   }
 }
