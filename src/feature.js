@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "(feature)" }]*/
+/* global getSelfInstalledEnabledAddonsWithAmoData */
 
 /**
  * **Example template documentation - remove or replace this jsdoc in your study**
@@ -36,6 +37,42 @@ class Feature {
         selfInstalledEnabledAddonsWithAmoData,
       });
 
+      const baseUrl = await browser.study.fullSurveyUrl(
+        "https://qsurvey.mozilla.com/s3/extensions-satisfaction-survey-2019-1/",
+        "accept-survey",
+      );
+      await browser.study.logger.debug({
+        baseUrl,
+      });
+      const addonsSurveyData = selfInstalledEnabledAddonsWithAmoData.map(
+        addon => {
+          console.log({ addon });
+          try {
+            return {
+              guid: addon.amoData.guid,
+              name: addon.amoData.name_en_us,
+              icon: addon.amoData.icon_url_128,
+            };
+          } catch (error) {
+            // Surfacing otherwise silent errors
+            // eslint-disable-next-line no-console
+            console.error(error.toString(), error.stack);
+            throw new Error(error.toString());
+          }
+        },
+      );
+      console.log({ addonsSurveyData });
+      await browser.study.logger.debug({
+        addonsSurveyData,
+      });
+      const surveyUrl =
+        baseUrl +
+        "&addons=" +
+        encodeURIComponent(JSON.stringify(addonsSurveyData));
+      await browser.study.logger.debug({
+        surveyUrl,
+      });
+
       await browser.study.logger.log(
         "First run. Showing faux Heartbeat prompt",
       );
@@ -55,12 +92,7 @@ class Feature {
 
         // Fire survey
         await browser.study.logger.log("Firing survey");
-        const baseUrl = await browser.study.fullSurveyUrl(
-          "https://qsurvey.mozilla.com/s3/extensions-satisfaction-survey-2019-1/",
-          "prompt",
-        );
-        const url = baseUrl; // + "&" + listOfInstalledAddons.map(addon=>addon.guid).join(",");
-        await browser.tabs.create({ url });
+        await browser.tabs.create({ url: surveyUrl });
 
         browser.study.endStudy("accept-survey");
       });
