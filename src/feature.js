@@ -53,16 +53,14 @@ class Feature {
           event: "accept-survey",
         });
 
-        /*
-        await browser.study.logger.log("Firing survey");
         // Fire survey
+        await browser.study.logger.log("Firing survey");
         const baseUrl = await browser.study.fullSurveyUrl(
-          "https://qsurvey.mozilla.com/s3/naar-extensions-questionnaire-1/",
+          "https://qsurvey.mozilla.com/s3/extensions-satisfaction-survey-2019-1/",
           "prompt",
         );
-        const url = baseUrl + "&" + listOfInstalledAddons.map(addon=>addon.guid).join(",");
+        const url = baseUrl; // + "&" + listOfInstalledAddons.map(addon=>addon.guid).join(",");
         await browser.tabs.create({ url });
-        */
 
         browser.study.endStudy("accept-survey");
       });
