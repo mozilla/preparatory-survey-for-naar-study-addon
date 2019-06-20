@@ -70,10 +70,10 @@ const baseStudySetup = {
       baseUrls: [],
     },
     /** study-defined endings */
-    accept: {
+    "accept-survey": {
       baseUrls: [],
     },
-    reject: {
+    "closed-notification-bar": {
       baseUrls: [],
     },
   },

@@ -43,9 +43,9 @@ Along with standard Shield study pings from the [study utils][], pings are sent 
 
 The following data is sent with this ping:
 
-| name    | type   | description                                         |
-| ------- | ------ | --------------------------------------------------- |
-| `event` | string | either `accept-survey` or `closed-notification-bar` |
+| name    | type   | description                                                               |
+| ------- | ------ | ------------------------------------------------------------------------- |
+| `event` | string | either `notification-shown`, `accept-survey` or `closed-notification-bar` |
 
 ## Example sequence for a 'enter => accept-survey => exit' interaction
 
