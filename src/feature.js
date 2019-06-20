@@ -31,9 +31,10 @@ class Feature {
     const { isFirstRun } = studyInfo;
 
     if (isFirstRun) {
-
-        const listOfInstalledAddons = await browser.addonsMetadata.getListOfInstalledAddons();
-        await browser.study.logger.log({ listOfInstalledAddons });
+      const selfInstalledEnabledAddonsWithAmoData = await getSelfInstalledEnabledAddonsWithAmoData();
+      await browser.study.logger.debug({
+        selfInstalledEnabledAddonsWithAmoData,
+      });
 
       await browser.study.logger.log(
         "First run. Showing faux Heartbeat prompt",

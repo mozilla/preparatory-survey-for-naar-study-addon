@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "getStudySetup" }]*/
+/* global getSelfInstalledEnabledAddonsWithAmoData */
 
 /**
  *  Overview:
@@ -100,13 +101,8 @@ async function isCurrentlyEligible() {
     );
     return false;
   }
-  // Users need to have at least 3 self-installed add-ons to be eligible
-  const listOfInstalledAddons = await browser.addonsMetadata.getListOfInstalledAddons();
-  const listOfSelfInstalledEnabledAddons = listOfInstalledAddons.filter(
-    addon =>
-      !addon.isSystem && !addon.userDisabled && addon.id !== browser.runtime.id,
-  );
-  return listOfSelfInstalledEnabledAddons.length >= 3;
+  const selfInstalledEnabledAddonsWithAmoData = await getSelfInstalledEnabledAddonsWithAmoData();
+  return selfInstalledEnabledAddonsWithAmoData.length >= 3;
 }
 
 /**

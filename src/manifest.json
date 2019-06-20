@@ -47,7 +47,14 @@
   },
   "permissions": ["management", "storage", "alarms"],
   "background": {
-    "scripts": ["studySetup.js", "feature.js", "background.js"]
+    "scripts": [
+      "lib/papaparse.min.js",
+      "amoDataCsv.js",
+      "addonsData.js",
+      "studySetup.js",
+      "feature.js",
+      "background.js"
+    ]
   },
   "icons": {
     "48": "icons/shield-icon.48.png",
