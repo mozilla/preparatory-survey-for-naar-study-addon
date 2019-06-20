@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+rm *.xpi
 wget https://addons.mozilla.org/firefox/downloads/file/1748627/adblock_plus-3.5.2-an+fx.xpi
 wget https://addons.mozilla.org/firefox/downloads/file/3027669/ublock_origin-1.20.0-an+fx.xpi
 wget https://addons.mozilla.org/firefox/downloads/file/689555/video_downloader_professional-1.98.2-an+fx.xpi

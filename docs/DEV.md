@@ -32,10 +32,8 @@
 # install dependencies
 npm install
 
-# download some add-ons
-cd test/some-addons
-bash fetch-some-addons.sh
-cd -
+# fetch some add-ons (note: already run as postinstall hook above)
+npm run fetch-some-addons
 
 ## run
 npm start
