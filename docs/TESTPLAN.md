@@ -75,10 +75,6 @@ This study fires a survey at the following endings:
 * Verify that the study runs
 * Verify that the study does not show up in `about:addons` (note: only signed study add-ons are hidden)
 
-**Correct branches and weights**
-
-* Make sure that the branches and weights in the add-on configuration ([../src/studySetup.js](../src/studySetup.js)) corresponds to the branch weights of the Experimenter entry. (Note that for practical reasons, the implementation uses 7 branches instead of the 5 defined study branches. The study branches that separate use different populations for training and validation corresponding to separate branches in the implementation)
-
 ### Design
 
 Any UI in a Shield study should be consistent with standard Firefox design specifications. These standards can be found at [design.firefox.com](https://design.firefox.com/photon/welcome.html). Firefox logo specifications can be found [here](https://design.firefox.com/photon/visuals/product-identity-assets.html).

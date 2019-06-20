@@ -90,12 +90,14 @@ async function isCurrentlyEligible() {
   const dataPermissions = await browser.study.getDataPermissions();
   // Need to allow studies in general
   if (!dataPermissions.shield) {
-    await browser.study.logger.log("Studies not enabled, exiting study");
+    await browser.study.logger.info("Studies not allowed");
     return false;
   }
   // Users with private browsing on autostart are not eligible
   if (await browser.privacyContext.permanentPrivateBrowsing()) {
-    await browser.study.logger.log("Permanent private browsing, exiting study");
+    await browser.study.logger.info(
+      "Permanent private browsing, not allowing enroll",
+    );
     return false;
   }
   // Users need to have at least 3 self-installed add-ons to be eligible
@@ -149,11 +151,6 @@ async function getStudySetup() {
   const studySetup = Object.assign({}, baseStudySetup);
 
   studySetup.allowEnroll = await wasEligibleAtFirstRun();
-
-  // If the eligibility criterias are not dependent on the state of the first run only
-  // but rather should be checked on every browser launch, skip the use
-  // of wasEligibleAtFirstRun and instead use the below:
-  // studySetup.allowEnroll = await isCurrentlyEligible(studySetup);
 
   const testingOverrides = await browser.study.getTestingOverrides();
   studySetup.testing = {
