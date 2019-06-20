@@ -11,7 +11,9 @@
 * [`shield-study` pings (common to all shield-studies)](#shield-study-pings-common-to-all-shield-studies)
 * [`shield-study-addon` pings, specific to THIS study.](#shield-study-addon-pings-specific-to-this-study)
 * [Telemetry](#telemetry)
-* [Example sequence for a 'enter => accept-survey => exit' interaction](#example-sequence-for-a-enter--accept-survey--exit-interaction)
+* [Example sequences](#example-sequences)
+  * ['enter => accept-survey => exit'](#enter--accept-survey--exit)
+  * ['enter => closed-notification-bar => exit'](#enter--closed-notification-bar--exit)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
