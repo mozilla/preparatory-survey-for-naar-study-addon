@@ -95,10 +95,6 @@ class Feature {
         event: {
           type: "string",
         },
-        timesClickedInSession: {
-          type: "number",
-          minimum: 0,
-        },
       },
       required: ["event"],
     };
@@ -121,7 +117,6 @@ class Feature {
     // Submit ping using study utils - allows for automatic querying of study data in re:dash
     const shieldStudyAddonPayload = {
       event: String(payload.event),
-      timesClickedInSession: String(payload.timesClickedInSession),
     };
     await browser.study.sendTelemetry(shieldStudyAddonPayload);
     await browser.study.logger.log("Telemetry submitted:");
