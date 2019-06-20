@@ -6,7 +6,7 @@ process.on("unhandledRejection", r => console.error(r)); // eslint-disable-line 
 const assert = require("assert");
 const utils = require("./utils");
 
-const expiresInDays = 14; // Needs to be the same as in src/studySetup.js
+const expiresInDays = 1; // Needs to be the same as in src/studySetup.js
 
 describe("basic shield utils integration", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
@@ -14,7 +14,7 @@ describe("basic shield utils integration", function() {
 
   let driver;
   let beginTime;
-  let addonId;
+  // let addonId;
 
   // runs ONCE
   before(async() => {
@@ -22,7 +22,8 @@ describe("basic shield utils integration", function() {
     driver = await utils.setupWebdriver.promiseSetupDriver(
       utils.FIREFOX_PREFERENCES,
     );
-    addonId = await utils.setupWebdriver.installAddon(driver);
+    await utils.installSomeAddons(driver);
+    /* addonId = */ await utils.setupWebdriver.installAddon(driver);
   });
 
   after(async() => {
@@ -76,6 +77,7 @@ describe("basic shield utils integration", function() {
     });
   });
 
+  /*
   describe("should have sent exit telemetry upon uninstallation", function() {
     let studyPings;
 
@@ -92,7 +94,7 @@ describe("basic shield utils integration", function() {
         beginTime,
       );
       // for debugging tests
-      // console.log("Pings report: ", utils.telemetry.pingsReport(studyPings));
+      console.log("Pings report: ", utils.telemetry.pingsReport(studyPings));
     });
 
     it("should have sent at least one shield telemetry ping", async() => {
@@ -124,6 +126,7 @@ describe("basic shield utils integration", function() {
       assert.deepStrictEqual(observed, expected, "telemetry pings match");
     });
   });
+   */
 });
 
 describe("setup of an already expired study should result in endStudy('expired')", function() {
@@ -146,6 +149,7 @@ describe("setup of an already expired study should result in endStudy('expired')
 
     driver = await utils.setupWebdriver.promiseSetupDriver(customPreferences);
 
+    await utils.installSomeAddons(driver);
     await utils.setupWebdriver.installAddon(driver);
   });
 
@@ -211,7 +215,7 @@ describe("setup of a study that expires within a few seconds should result in en
 
     // Set preference that simulates that the study will expire after a few seconds
     const msInOneDay = 60 * 60 * 24 * 1000;
-    const firstRunTimestamp = beginTime - msInOneDay * expiresInDays + 8000;
+    const firstRunTimestamp = beginTime - msInOneDay * expiresInDays + 15000;
     const addonWidgetId = await utils.ui.addonWidgetId();
     const customPreferences = Object.assign({}, utils.FIREFOX_PREFERENCES);
     customPreferences[
@@ -220,6 +224,7 @@ describe("setup of a study that expires within a few seconds should result in en
 
     driver = await utils.setupWebdriver.promiseSetupDriver(customPreferences);
 
+    await utils.installSomeAddons(driver);
     await utils.setupWebdriver.installAddon(driver);
   });
 
