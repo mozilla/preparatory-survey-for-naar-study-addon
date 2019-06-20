@@ -3,8 +3,6 @@
 /* global ExtensionAPI */
 
 ChromeUtils.import("resource://gre/modules/Console.jsm");
-ChromeUtils.import("resource://gre/modules/Services.jsm");
-
 this.addonsMetadata = class extends ExtensionAPI {
   getAPI(context) {
     const { TelemetryEnvironment } = ChromeUtils.import(
