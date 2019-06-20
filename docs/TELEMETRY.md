@@ -47,58 +47,97 @@ The following data is sent with this ping:
 | ------- | ------ | ------------------------------------------------------------------------- |
 | `event` | string | either `notification-shown`, `accept-survey` or `closed-notification-bar` |
 
-## Example sequence for a 'enter => accept-survey => exit' interaction
+## Example sequences
 
 These are the `payload` fields from all pings in the `shield-study` and `shield-study-addon` buckets.
 
-TODO
+### 'enter => accept-survey => exit'
 
 ```
 // common fields
 
-branch        up-to-expectations-1        // should describe Question text
-study_name    57-perception-shield-study
+branch        survey
+study_name    preparatory-survey-for-naar@shield.mozilla.org
 addon_version 1.0.0
 version       3
 
-2017-10-09T14:16:18.042Z shield-study
+2019-06-20T08:32:01.287Z shield-study
 {
   "study_state": "enter"
 }
 
-2017-10-09T14:16:18.055Z shield-study
+2019-06-20T08:32:01.323Z shield-study
 {
   "study_state": "installed"
 }
 
-2017-10-09T14:16:18.066Z shield-study-addon
+2019-06-20T08:32:01.863Z shield-study-addon
 {
   "attributes": {
-    "event": "prompted",
-    "promptType": "notificationBox-strings-1"
+    "event": "notification-shown"
   }
 }
 
-2017-10-09T16:29:44.109Z shield-study-addon
+2019-06-20T08:32:23.804Z shield-study-addon
 {
   "attributes": {
-    "promptType": "notificationBox-strings-1",
-    "event": "answered",
-    "yesFirst": "1",
-    "score": "0",
-    "label": "not sure",
-    "branch": "up-to-expectations-1",
-    "message": "Is Firefox performing up to your expectations?"
+    "event": "accept-survey"
   }
 }
 
-2017-10-09T16:29:44.188Z shield-study
+2019-06-20T08:32:23.881Z shield-study
 {
   "study_state": "ended-neutral",
-  "study_state_fullname": "voted"
+  "study_state_fullname": "accept-survey"
 }
 
-2017-10-09T16:29:44.191Z shield-study
+2019-06-20T08:32:23.969Z shield-study
+{
+  "study_state": "exit"
+}
+```
+
+### 'enter => closed-notification-bar => exit'
+
+```
+// common fields
+
+branch        survey
+study_name    preparatory-survey-for-naar@shield.mozilla.org
+addon_version 1.0.0
+version       3
+
+2019-06-20T08:52:16.042Z shield-study
+{
+  "study_state": "enter"
+}
+
+2019-06-20T08:52:16.060Z shield-study
+{
+  "study_state": "installed"
+}
+
+2019-06-20T08:52:16.239Z shield-study-addon
+{
+  "attributes": {
+    "event": "notification-shown"
+  }
+}
+
+2019-06-20T08:52:23.079Z shield-study
+{
+  "study_state": "ended-neutral",
+  "study_state_fullname": "closed-notification-bar"
+}
+
+2019-06-20T08:52:23.089Z shield-study-addon
+{
+  "attributes": {
+    "event": "closed-notification-bar"
+  }
+}
+
+2019-06-20T08:52:23.094Z shield-study
 {
   "study_state": "exit"
 }
