@@ -83,11 +83,6 @@ class Feature {
 
   /* good practice to have the literal 'sending' be wrapped up */
   async sendTelemetry(payload) {
-    if (await browser.privacyContext.aPrivateBrowserWindowIsOpen()) {
-      // drop the ping - do not send any telemetry
-      return false;
-    }
-
     await browser.study.logger.debug([
       "Telemetry about to be validated using browser.study.validateJSON",
       payload,

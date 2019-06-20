@@ -65,9 +65,10 @@ This study fires a survey at the following endings:
 
 **Private browsing mode test 1**
 
+* Open a private browsing window
 * Install the add-on as per above
 * Verify that the study runs
-* Verify that no information is recorded and sent when private browsing mode is active
+* Verify that the notification bar is not shown in the private browsing window
 
 **Not showing in `about:addons`**
 
