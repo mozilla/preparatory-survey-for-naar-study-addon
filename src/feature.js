@@ -46,7 +46,6 @@ class Feature {
       });
       const addonsSurveyData = selfInstalledEnabledAddonsWithAmoData.map(
         addon => {
-          console.log({ addon });
           try {
             return {
               guid: addon.amoData.guid,
@@ -61,7 +60,6 @@ class Feature {
           }
         },
       );
-      console.log({ addonsSurveyData });
       await browser.study.logger.debug({
         addonsSurveyData,
       });

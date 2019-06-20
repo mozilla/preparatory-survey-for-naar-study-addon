@@ -6,7 +6,6 @@
 process.on("unhandledRejection", r => console.error(r)); // eslint-disable-line no-console
 
 const utils = require("./test/functional/utils");
-const path = require("path");
 
 const STUDY_TYPE = process.env.STUDY_TYPE || "shield";
 const LOG_LEVEL = process.env.LOG_LEVEL || "all";
@@ -58,65 +57,7 @@ const run = async studyType => {
     await utils.setupWebdriver.installPioneerOptInAddon(driver);
   }
 
-  // Install some external add-ons
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/360_internet_protection-5.0.0.1015-fx.xpi",
-    ),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(process.cwd(), "test/some-addons/adblock_plus-3.5.2-an+fx.xpi"),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/easyziptab_for_firefox-1.0.785.501-fx.xpi",
-    ),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/flixtab_movie_center_for_firefox-1.0.792.497-fx.xpi",
-    ),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/lastpass_password_manager-4.29.0.4-fx.xpi",
-    ),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/startpagecom_private_search_engine-1.1.4-fx.xpi",
-    ),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/tampermonkey-4.9.5941-an+fx.xpi",
-    ),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(process.cwd(), "test/some-addons/ublock_origin-1.20.0-an+fx.xpi"),
-  );
-  await utils.setupWebdriver.installAddon(
-    driver,
-    path.join(
-      process.cwd(),
-      "test/some-addons/video_downloader_professional-1.98.2-an+fx.xpi",
-    ),
-  );
-
+  await utils.installSomeAddons(driver);
   await utils.setupWebdriver.installAddon(driver);
   await utils.ui.openBrowserConsole(driver);
 

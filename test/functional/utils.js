@@ -4,6 +4,8 @@
 // We use it by requiring it.
 require("geckodriver");
 
+const path = require("path");
+
 // Preferences set during testing
 const FIREFOX_PREFERENCES = {
   // Ensure e10s is turned on.
@@ -43,6 +45,67 @@ const {
 const { telemetry } = require("shield-studies-addon-utils/testUtils/telemetry");
 const { ui } = require("shield-studies-addon-utils/testUtils/ui");
 
+const installSomeAddons = async driver => {
+  // Install some external add-ons
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/360_internet_protection-5.0.0.1015-fx.xpi",
+    ),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(process.cwd(), "test/some-addons/adblock_plus-3.5.2-an+fx.xpi"),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/easyziptab_for_firefox-1.0.785.501-fx.xpi",
+    ),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/flixtab_movie_center_for_firefox-1.0.792.497-fx.xpi",
+    ),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/lastpass_password_manager-4.29.0.4-fx.xpi",
+    ),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/startpagecom_private_search_engine-1.1.4-fx.xpi",
+    ),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/tampermonkey-4.9.5941-an+fx.xpi",
+    ),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(process.cwd(), "test/some-addons/ublock_origin-1.20.0-an+fx.xpi"),
+  );
+  await setupWebdriver.installAddon(
+    driver,
+    path.join(
+      process.cwd(),
+      "test/some-addons/video_downloader_professional-1.98.2-an+fx.xpi",
+    ),
+  );
+};
+
 // What we expose to our add-on-specific tests
 module.exports = {
   FIREFOX_PREFERENCES,
@@ -52,4 +115,5 @@ module.exports = {
   setupWebdriver,
   telemetry,
   ui,
+  installSomeAddons,
 };
