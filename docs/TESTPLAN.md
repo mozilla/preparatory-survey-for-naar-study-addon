@@ -27,6 +27,7 @@
 ### Install the add-on and enroll in the study
 
 * (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
+* Have at least 3 self-installed extensions/add-ons installed
 * Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New -> String)
 * Set `shieldStudy.logLevel` to `info`. This permits shield-add-on log output in browser console.
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
