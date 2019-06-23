@@ -1,5 +1,9 @@
 addonsurlvalue = urlvalue("addons")
-addons = json_decode(addonsurlvalue)
+if addonsurlvalue == false then
+  addons = {}
+else
+  addons = json_decode(addonsurlvalue)
+end
 -- print(json_encode(addons))
 
 -- Page 1
@@ -11,7 +15,7 @@ for key,id in ipairs(page1NeedIds) do
   -- print(id)
   -- print(json_encode(addon))
   -- print(page1HiddenValueGuidIds[key])
-  if (addon == null) then
+  if (addon == nil) then
     hidequestion(id, true)
   else
     -- print(addon["name"])
@@ -27,7 +31,7 @@ page2ImportanceIds = {68,74,79,84,89,114}
 for key,id in ipairs(page2ImportanceIds) do
   addon = addons[key-1]
   page1Id = page1NeedIds[key]
-  if (addon == null) then
+  if (addon == nil) then
     hidequestion(id, true)
   else
     if getvalue(page1Id) == "|n/a|" or getvalue(page1Id) == "I don't know/remember" then
@@ -43,7 +47,7 @@ page2SatisfactionIds = {63,71,76,81,86,117}
 for key,id in ipairs(page2SatisfactionIds) do
   addon = addons[key-1]
   page1Id = page1NeedIds[key]
-  if (addon == null) then
+  if (addon == nil) then
     hidequestion(id, true)
   else
     if getvalue(page1Id) == "|n/a|" or getvalue(page1Id) == "I don't know/remember" then
