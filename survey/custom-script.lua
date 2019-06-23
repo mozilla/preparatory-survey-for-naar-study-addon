@@ -1,0 +1,55 @@
+addonsurlvalue = urlvalue("addons")
+addons = json_decode(addonsurlvalue)
+-- print(json_encode(addons))
+
+-- Page 1
+page1NeedIds = {102,101,100,99,98,109}
+page1HiddenValueGuidIds = {107,106,105,104,103,108}
+for key,id in ipairs(page1NeedIds) do
+  addon = addons[key-1]
+  -- print(key)
+  -- print(id)
+  -- print(json_encode(addon))
+  -- print(page1HiddenValueGuidIds[key])
+  if (addon == null) then
+    hidequestion(id, true)
+  else
+    -- print(addon["name"])
+    -- print(addon["icon"])
+    -- print(addon["guid"])
+    settitle(id, "<img alt=\"\" class=\"extension-icon\" onerror=\"this.onerror = null;this.src = 'https://addons.cdn.mozilla.net/static/img/addon-icons/default-128.png';\" src=\"" .. htmlentities(addon["icon"]) .. "\"><strong><span class=\"extension-name\">" .. htmlentities(addon["name"]) .. "</span></strong><br><br><span>What were you trying to accomplish/achieve with this extension?</span> <strong class=\"sg-required-icon\">*<span class=\"sg-screenreader-only\">This question is required.</span></strong>", "English")
+    setvalue(page1HiddenValueGuidIds[key], addon["guid"])
+  end
+end
+
+-- Page 2
+page2ImportanceIds = {68,74,79,84,89,114}
+for key,id in ipairs(page2ImportanceIds) do
+  addon = addons[key-1]
+  page1Id = page1NeedIds[key]
+  if (addon == null) then
+    hidequestion(id, true)
+  else
+    if getvalue(page1Id) == "|n/a|" or getvalue(page1Id) == "I don't know/remember" then
+      hidequestion(id, true)
+    else
+      -- print(getvalue(page1Id))
+      -- print(getvalue(page1HiddenValueGuidIds[key]))
+      settitle(id, "<span>You wrote \"" .. htmlentities(getvalue(page1Id)) .. "\"</span>", "English")
+    end
+  end
+end
+page2SatisfactionIds = {63,71,76,81,86,117}
+for key,id in ipairs(page2SatisfactionIds) do
+  addon = addons[key-1]
+  page1Id = page1NeedIds[key]
+  if (addon == null) then
+    hidequestion(id, true)
+  else
+    if getvalue(page1Id) == "|n/a|" or getvalue(page1Id) == "I don't know/remember" then
+      hidequestion(id, true)
+    else
+      settitle(id, "<span>How satisfied were/are you with regards to \"" .. htmlentities(getvalue(page1Id)) .. "\" before and after installing \"" .. htmlentities(addon["name"]) .. "\"?", "English")
+    end
+  end
+end

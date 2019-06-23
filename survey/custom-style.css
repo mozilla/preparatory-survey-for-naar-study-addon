@@ -1,0 +1,14 @@
+/* NAAR Extensions Survey specifics*/ 
+.extension-icon {
+    float: left;
+    padding-right: 1em;
+    border: 0;
+    margin: 0;
+    width: 128px;
+}
+.extension-name {
+    font-size: 20px;
+}
+.extension-need {
+    clear: none;
+}
