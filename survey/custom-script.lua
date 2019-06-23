@@ -18,6 +18,7 @@ for key,id in ipairs(page1NeedIds) do
   if (addon == nil) then
     hidequestion(id, true)
   else
+    hidequestion(id, false)
     -- print(addon["name"])
     -- print(addon["icon"])
     -- print(addon["guid"])
@@ -37,6 +38,7 @@ for key,id in ipairs(page2ImportanceIds) do
     if getvalue(page1Id) == "|n/a|" or getvalue(page1Id) == "I don't know/remember" then
       hidequestion(id, true)
     else
+      hidequestion(id, false)
       -- print(getvalue(page1Id))
       -- print(getvalue(page1HiddenValueGuidIds[key]))
       settitle(id, "<span>You wrote \"" .. htmlentities(getvalue(page1Id)) .. "\"</span>", "English")
@@ -53,6 +55,7 @@ for key,id in ipairs(page2SatisfactionIds) do
     if getvalue(page1Id) == "|n/a|" or getvalue(page1Id) == "I don't know/remember" then
       hidequestion(id, true)
     else
+      hidequestion(id, false)
       settitle(id, "<span>How satisfied were/are you with regards to \"" .. htmlentities(getvalue(page1Id)) .. "\" before and after installing \"" .. htmlentities(addon["name"]) .. "\"?", "English")
     end
   end
