@@ -63,10 +63,43 @@ class Feature {
       await browser.study.logger.debug({
         addonsSurveyData,
       });
+
+      // https://github.com/Daplie/knuth-shuffle
+      const shuffle = array => {
+        let currentIndex = array.length,
+          temporaryValue,
+          randomIndex;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+      };
+
+      // Send information about at most 10 randomly selected self-installed addons to the survey URL
+      const shuffledAddonsSurveyData = shuffle(addonsSurveyData);
+      await browser.study.logger.debug({
+        shuffledAddonsSurveyData,
+      });
+      const shuffledAndCappedAddonsSurveyData = shuffledAddonsSurveyData.slice(
+        0,
+        5,
+      );
+      await browser.study.logger.debug({
+        shuffledAndCappedAddonsSurveyData,
+      });
+
       const surveyUrl =
         baseUrl +
         "&addons=" +
-        encodeURIComponent(JSON.stringify(addonsSurveyData));
+        encodeURIComponent(JSON.stringify(shuffledAndCappedAddonsSurveyData));
       await browser.study.logger.debug({
         surveyUrl,
       });
