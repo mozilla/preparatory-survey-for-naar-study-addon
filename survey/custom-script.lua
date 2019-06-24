@@ -41,7 +41,7 @@ for key,id in ipairs(page2ImportanceIds) do
       hidequestion(id, false)
       -- print(getvalue(page1Id))
       -- print(getvalue(page1HiddenValueGuidIds[key]))
-      settitle(id, "<span>You wrote \"" .. htmlentities(getvalue(page1Id)) .. "\"</span>", "English")
+      settitle(id, "<span><strong>You wrote \"" .. htmlentities(getvalue(page1Id)) .. "\"</strong></span>", "English")
     end
   end
 end
@@ -56,7 +56,7 @@ for key,id in ipairs(page2SatisfactionIds) do
       hidequestion(id, true)
     else
       hidequestion(id, false)
-      settitle(id, "<span>How satisfied were/are you with regards to \"" .. htmlentities(getvalue(page1Id)) .. "\" before and after installing \"" .. htmlentities(addon["name"]) .. "\"?", "English")
+      settitle(id, "<span><strong>How satisfied were/are you with regards to \"" .. htmlentities(getvalue(page1Id)) .. "\" before and after installing \"" .. htmlentities(addon["name"]) .. "\"?</strong></span>", "English")
     end
   end
 end
