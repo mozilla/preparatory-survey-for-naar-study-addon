@@ -58,9 +58,7 @@ const getSelfInstalledEnabledAddonsWithAmoData = async() => {
         amoData: matchingAmoDataResultsEntry
           ? {
             guid: matchingAmoDataResultsEntry.guid,
-            icon_url_128:
-                matchingAmoDataResultsEntry.icons["128"] ||
-                matchingAmoDataResultsEntry.icon_url,
+            icon_url: matchingAmoDataResultsEntry.icon_url,
             name_en_us: matchingAmoDataResultsEntry.name["en-US"],
           }
           : null,
@@ -70,7 +68,7 @@ const getSelfInstalledEnabledAddonsWithAmoData = async() => {
       addon =>
         addon.amoData !== null &&
         addon.amoData.guid &&
-        addon.amoData.icon_url_128 &&
+        addon.amoData.icon_url &&
         addon.amoData.name_en_us,
     );
 };

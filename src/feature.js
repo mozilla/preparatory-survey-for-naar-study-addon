@@ -50,7 +50,7 @@ class Feature {
             return {
               guid: addon.amoData.guid,
               name: addon.amoData.name_en_us,
-              icon: addon.amoData.icon_url_128,
+              icon: addon.amoData.icon_url,
             };
           } catch (error) {
             // Surfacing otherwise silent errors
