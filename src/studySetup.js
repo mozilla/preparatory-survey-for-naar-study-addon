@@ -102,6 +102,7 @@ async function isCurrentlyEligible() {
     return false;
   }
   const selfInstalledEnabledAddonsWithAmoData = await getSelfInstalledEnabledAddonsWithAmoData();
+  await browser.study.logger.debug({ selfInstalledEnabledAddonsWithAmoData });
   return selfInstalledEnabledAddonsWithAmoData.length >= 3;
 }
 
