@@ -90,7 +90,7 @@ class Feature {
       });
       const shuffledAndCappedAddonsSurveyData = shuffledAddonsSurveyData.slice(
         0,
-        5,
+        10,
       );
       await browser.study.logger.debug({
         shuffledAndCappedAddonsSurveyData,
