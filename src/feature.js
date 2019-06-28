@@ -110,16 +110,10 @@ class Feature {
 
       browser.fauxHeartbeat.onShown.addListener(async() => {
         await browser.study.logger.log("notification-shown");
-        feature.sendTelemetry({
-          event: "notification-shown",
-        });
       });
 
       browser.fauxHeartbeat.onAccept.addListener(async() => {
         await browser.study.logger.log("accept-survey");
-        feature.sendTelemetry({
-          event: "accept-survey",
-        });
 
         // Fire survey
         await browser.study.logger.log("Firing survey");
@@ -130,9 +124,6 @@ class Feature {
 
       browser.fauxHeartbeat.onReject.addListener(async() => {
         await browser.study.logger.log("closed-notification-bar");
-        feature.sendTelemetry({
-          event: "closed-notification-bar",
-        });
         browser.study.endStudy("closed-notification-bar");
       });
 
@@ -141,48 +132,6 @@ class Feature {
         buttonLabel: "Take me to the questionnaire",
       });
     }
-  }
-
-  /* good practice to have the literal 'sending' be wrapped up */
-  async sendTelemetry(payload) {
-    await browser.study.logger.debug([
-      "Telemetry about to be validated using browser.study.validateJSON",
-      payload,
-    ]);
-
-    const payloadSchema = {
-      type: "object",
-      properties: {
-        event: {
-          type: "string",
-        },
-      },
-      required: ["event"],
-    };
-    const validationResult = await browser.study.validateJSON(
-      payload,
-      payloadSchema,
-    );
-
-    // Use to update study.payload.schema.json
-    // console.log(JSON.stringify(payloadSchema));
-
-    if (!validationResult.valid) {
-      await browser.study.logger.error([
-        "Invalid telemetry payload",
-        { payload, validationResult },
-      ]);
-      throw new Error("Invalid telemetry payload");
-    }
-
-    // Submit ping using study utils - allows for automatic querying of study data in re:dash
-    const shieldStudyAddonPayload = {
-      event: String(payload.event),
-    };
-    await browser.study.sendTelemetry(shieldStudyAddonPayload);
-    await browser.study.logger.log("Telemetry submitted:");
-    await browser.study.logger.log({ payload, shieldStudyAddonPayload });
-    return true;
   }
 
   /**

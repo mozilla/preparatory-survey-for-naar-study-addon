@@ -19,11 +19,8 @@ describe("notifcation bar", function() {
   this.timeout(25000);
 
   let driver;
-  let beginTime;
-  let studyPings;
 
   before(async() => {
-    beginTime = Date.now();
     driver = await utils.setupWebdriver.promiseSetupDriver(
       utils.FIREFOX_PREFERENCES,
     );
@@ -31,29 +28,10 @@ describe("notifcation bar", function() {
     await utils.setupWebdriver.installAddon(driver);
     // allow our shield study add-on some time to send initial pings
     await driver.sleep(4000);
-    // collect sent pings
-    studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
-      driver,
-      beginTime,
-    );
-    // for debugging tests
-    // console.log("Pings report: ", utils.telemetry.pingsReport(studyPings));
   });
 
   after(async() => {
     driver.quit();
-  });
-
-  it("should have sent one shield-study-addon telemetry ping with payload.data.attributes.event=notification-shown", async() => {
-    const filteredPings = studyPings.filter(
-      ping =>
-        ping.type === "shield-study-addon" &&
-        ping.payload.data.attributes.event === "notification-shown",
-    );
-    assert(
-      filteredPings.length > 0,
-      "at least one shield-study-addon telemetry ping with payload.data.attributes.event=notification-shown",
-    );
   });
 
   it("accept button looks fine", async() => {
@@ -87,14 +65,6 @@ describe("notifcation bar", function() {
         {
           study_state: "ended-neutral",
           study_state_fullname: "accept-survey",
-        },
-      ],
-      [
-        "shield-study-addon",
-        {
-          attributes: {
-            event: "accept-survey",
-          },
         },
       ],
     ];
