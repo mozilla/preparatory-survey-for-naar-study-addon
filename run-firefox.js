@@ -17,7 +17,7 @@ const run = async studyType => {
     utils.FIREFOX_PREFERENCES,
   );
   const widgetId = utils.ui.makeWidgetId(
-    "preparatory-survey-for-naar-study-addon@shield.mozilla.org",
+    "preparatory-survey-for-naar@shield.mozilla.org",
   );
   /*
   await utils.preferences.set(
@@ -30,7 +30,7 @@ const run = async studyType => {
     // Set preference that simulates that the study will expire after EXPIRE_IN_SECONDS seconds
     const beginTime = Date.now();
     const msInOneDay = 60 * 60 * 24 * 1000;
-    const expiresInDays = 7 * 5; // 5 weeks // Needs to be the same as in src/studySetup.js
+    const expiresInDays = 1; // Needs to be the same as in src/studySetup.js
     const firstRunTimestamp =
       beginTime - msInOneDay * expiresInDays + EXPIRE_IN_SECONDS * 1000;
     await utils.preferences.set(
