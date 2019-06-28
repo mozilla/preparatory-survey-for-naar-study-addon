@@ -77,6 +77,9 @@ const baseStudySetup = {
     "closed-notification-bar": {
       baseUrls: [],
     },
+    "no-longer-first-run": {
+      baseUrls: [],
+    },
   },
 
   weightedVariations: [{ name: "survey", weight: 1 }],

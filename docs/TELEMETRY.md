@@ -28,6 +28,7 @@ The STUDY SPECIFIC ENDINGS this study supports are:
 
 * `accept-survey`
 * `closed-notification-bar`
+* `no-longer-first-run` (Fires if the notification was ignored and the browser was restarted or the study add-on was reloaded/reinstalled)
 
 ## `shield-study` pings (common to all shield-studies)
 

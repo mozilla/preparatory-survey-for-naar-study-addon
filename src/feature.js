@@ -131,6 +131,8 @@ class Feature {
         notificationMessage: "Help others discover better Extensions!",
         buttonLabel: "Take me to the questionnaire",
       });
+    } else {
+      browser.study.endStudy("no-longer-first-run");
     }
   }
 
