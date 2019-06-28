@@ -51,6 +51,52 @@ This study fires a survey at the following endings:
 
 ### Do these tests (in addition to ordinary regression tests)
 
+**Test the complete study add-on and survey flow**
+
+* Have at least 3 self-installed extensions/add-ons installed
+* Install the add-on as per above
+* Verify that the study runs
+* Verify that the Heartbeat-styled notification bar is displayed
+* Click "Take me to the questionnaire"
+* Verify that the study ends
+* Verify that add-ons that were installed are listed in a random order in the survey
+* Answer the questions on page 1 and 2 of the survey
+* Verify that the survey behaves as expected of a survey
+
+**User with more than 6 self-installed add-ons accepts the survey**
+
+* Have more than 7 self-installed extensions/add-ons installed
+* Install the add-on as per above
+* Verify that the study runs
+* Verify that the Heartbeat-styled notification bar is displayed
+* Click "Take me to the questionnaire"
+* Verify that the study ends
+* Verify that at most 6 add-ons are listed in a random order in the survey
+
+**User closes the notification**
+
+* Install the add-on as per above
+* Verify that the study runs
+* Verify that the Heartbeat-styled notification bar is displayed
+* Close the notification bar using the X on the right
+* Verify that the study ends
+
+**User ignores the notification for more than 1 day**
+
+* Install the add-on as per above
+* Verify that the study runs
+* Verify that the Heartbeat-styled notification bar is displayed
+* Verify that the study expires 1 day after the study started
+
+**User ignores the notification and restarts the browser**
+
+* Install the add-on as per above
+* Verify that the study runs
+* Verify that the Heartbeat-styled notification bar is displayed
+* Restart the browser
+* Verify that no Heartbeat-styled notification bar is displayed
+* Verify that the study ends
+
 **Enabling of permanent private browsing before study has begun**
 
 * Enable permanent private browsing
