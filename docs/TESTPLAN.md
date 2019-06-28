@@ -26,16 +26,19 @@
 
 ### Install the add-on and enroll in the study
 
-* (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
-* Have at least 3 self-installed extensions/add-ons installed
+* Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or use your main profile
+* Have at least 3 self-installed extensions installed
 * Have the `shieldStudy.logLevel` string pref created with `info` value. (This permits shield-add-on log output in browser console.)
 * Go to [this study's tracking bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1561606)
-* If the add-on to test is unsigned set the following prefs:
+* If the add-on to test is unsigned:
+  * Use Dev Edition, Nightly or an Unbranded version of Firefox
   * Have the `extensions.legacy.enabled` boolean pref set to `true`.
   * Have the `xpinstall.signatures.required` boolean pref to `false`.
-* If the add-on to test is signed using the testing certificate set the following pref:
-  * Have the `xpinstall.signatures.dev-root` boolean pref created with the `true` value.
+* If the add-on to test is signed using the testing certificate:
+  * Have the `xpinstall.signatures.dev-root` boolean pref created with the `true` value.†
 * Install the add-on zip/xpi file by clicking on it and allowing bugzilla.mozilla.org to install the add-on
+
+† Remember to revert this afterwards if this is your main profile since you will only be able to install testing-signed add-ons while this is enabled.
 
 ## Expected User Experience / Functionality
 
