@@ -13,3 +13,9 @@
 .extension-need {
   clear: none;
 }
+.extension-need li.sg-first-li.sg-other-li input.sg-input-radio {
+  visibility: hidden;
+}
+.extension-need li.sg-first-li.sg-other-li label {
+  margin-left: 0;
+}

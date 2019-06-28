@@ -7,7 +7,7 @@ end
 -- print(json_encode(addons))
 
 -- Page 1
-page1NeedIds = {126,128,130,132,134,136}
+page1NeedIds = {145,148,151,154,157,160}
 page1HiddenValueGuidIds = {107,106,105,104,103,108}
 for key,id in ipairs(page1NeedIds) do
   addon = addons[key-1]
@@ -22,7 +22,7 @@ for key,id in ipairs(page1NeedIds) do
     -- print(addon["name"])
     -- print(addon["icon"])
     -- print(addon["guid"])
-    settitle(id, "<img alt=\"\" class=\"extension-icon\" onerror=\"this.onerror = null;this.src = 'https://addons.cdn.mozilla.net/static/img/addon-icons/default-128.png';\" src=\"" .. htmlentities(addon["icon"]) .. "\"><strong><span class=\"extension-name\">" .. htmlentities(addon["name"]) .. "</span></strong><br/><span>What were you trying to accomplish/achieve with this extension?</span> <strong class=\"sg-required-icon\">*<span class=\"sg-screenreader-only\">This question is required.</span></strong>", "English")
+    settitle(id, "<img alt=\"\" class=\"extension-icon\" onerror=\"this.onerror = null;this.src = 'https://addons.cdn.mozilla.net/static/img/addon-icons/default-128.png';\" src=\"" .. htmlentities(addon["icon"]) .. "\"><strong><span class=\"extension-name\">" .. htmlentities(addon["name"]) .. "</span></strong><br/><span>What were you trying to achieve with this extension?</span> <strong class=\"sg-required-icon\">*<span class=\"sg-screenreader-only\">This question is required.</span></strong>", "English")
     setvalue(page1HiddenValueGuidIds[key], addon["guid"])
   end
 end
