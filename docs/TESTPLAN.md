@@ -28,10 +28,14 @@
 
 * (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
 * Have at least 3 self-installed extensions/add-ons installed
-* Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New -> String)
-* Set `shieldStudy.logLevel` to `info`. This permits shield-add-on log output in browser console.
-* Go to [this study's tracking bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1561606) and install the latest add-on zip file
-* (If you are installing an unsigned version of the add-on, you need to set `extensions.legacy.enabled` to `true` before installing the add-on)
+* Have the `shieldStudy.logLevel` string pref created with `info` value. (This permits shield-add-on log output in browser console.)
+* Go to [this study's tracking bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1561606)
+* If the add-on to test is unsigned set the following prefs:
+  * Have the `extensions.legacy.enabled` boolean pref set to `true`.
+  * Have the `xpinstall.signatures.required` boolean pref to `false`.
+* If the add-on to test is signed using the testing certificate set the following pref:
+  * Have the `xpinstall.signatures.dev-root` boolean pref created with the `true` value.
+* Install the add-on zip/xpi file by clicking on it and allowing bugzilla.mozilla.org to install the add-on
 
 ## Expected User Experience / Functionality
 
