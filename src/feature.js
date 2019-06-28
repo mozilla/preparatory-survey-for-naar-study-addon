@@ -24,14 +24,15 @@ class Feature {
   constructor() {}
 
   /**
-   * @param {Object} studyInfo Study info
    * @returns {Promise<*>} Promise that resolves after configure
    */
-  async configure(studyInfo) {
+  async configure() {
     const feature = this;
-    const { isFirstRun } = studyInfo;
 
-    if (isFirstRun) {
+    const { notificationShown } = await browser.storage.local.get(
+      "notificationShown",
+    );
+    if (!notificationShown) {
       const selfInstalledEnabledAddonsWithAmoData = await getSelfInstalledEnabledAddonsWithAmoData();
       await browser.study.logger.debug({
         selfInstalledEnabledAddonsWithAmoData,
@@ -110,6 +111,7 @@ class Feature {
 
       browser.fauxHeartbeat.onShown.addListener(async() => {
         await browser.study.logger.log("notification-shown");
+        await browser.storage.local.set({ notificationShown: true });
       });
 
       browser.fauxHeartbeat.onAccept.addListener(async() => {
@@ -132,7 +134,7 @@ class Feature {
         buttonLabel: "Take me to the questionnaire",
       });
     } else {
-      browser.study.endStudy("no-longer-first-run");
+      browser.study.endStudy("notification-already-shown");
     }
   }
 

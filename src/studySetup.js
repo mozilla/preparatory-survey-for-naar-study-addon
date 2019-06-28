@@ -77,7 +77,7 @@ const baseStudySetup = {
     "closed-notification-bar": {
       baseUrls: [],
     },
-    "no-longer-first-run": {
+    "notification-already-shown": {
       baseUrls: [],
     },
   },
