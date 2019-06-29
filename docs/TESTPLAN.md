@@ -77,13 +77,13 @@ This study fires a survey at the following endings:
 * Verify that the Heartbeat-styled notification bar is displayed
 * Click "Take me to the questionnaire"
 * Verify that the study ends
-* Verify that add-ons that were installed are listed in a random order in the survey
+* Verify that add-ons that were installed are listed in a random order in the survey. Note that add-ons that are not found by their guid in the addons.mozilla.org database will not be included.
 * Answer the questions on page 1 and 2 of the survey
 * Verify that the survey behaves as expected of a survey
 
 **User with more than 6 self-installed add-ons accepts the survey**
 
-* Have more than 7 self-installed extensions/add-ons installed
+* Have more than 6 self-installed extensions/add-ons installed
 * Install the add-on as per above
 * Verify that the study runs
 * Verify that the Heartbeat-styled notification bar is displayed
