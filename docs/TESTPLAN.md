@@ -48,7 +48,18 @@ The user will be shown a Heartbeat-styled notification bar:
 
 The user have the ability to click "Take me to the questionnaire" or close the notification bar using the X on the right.
 
-The questionnaire is created using Survey Gizmo.
+The questionnaire is created using Survey Gizmo. Example URLs:
+
+* [Profile with 9 add-ons (only 6 are shown)](https://tinyurl.com/mozilla-naar-survey-test)
+* [Profile with 3 add-ons](https://tinyurl.com/mozilla-naar-survey-test-3) 
+
+Page 1 asks the user about installed extensions:
+
+<img width="1183" alt="Firefox_Survey_-_Extensions" src="https://user-images.githubusercontent.com/793037/60376759-b56a1900-9a19-11e9-9828-c0f13d86cd6a.png">
+
+Page 2 asks the user to rate the importance and satisfaction of answers given on page 1:
+
+<img width="1183" alt="Firefox_Survey_-_Extensions" src="https://user-images.githubusercontent.com/793037/60376845-290c2600-9a1a-11e9-9560-b83f7c113064.png">
 
 ### Surveys
 
