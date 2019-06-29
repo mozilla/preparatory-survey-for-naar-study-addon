@@ -8,7 +8,7 @@ end
 
 -- Page 1
 page1NeedIds = {145,148,151,154,157,160}
-page1HiddenValueGuidIds = {107,106,105,104,103,108}
+page1HiddenValueGuidIds = {143,146,149,152,155,158}
 for key,id in ipairs(page1NeedIds) do
   addon = addons[key-1]
   -- print(key)
