@@ -1,0 +1,56 @@
+{
+  "name": "Preparatory Survey for NAAR",
+  "description": "__MSG_extensionDescription__",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "hidden": true,
+  "applications": {
+    "gecko": {
+      "id": "preparatory-survey-for-naar@shield.mozilla.org",
+      "strict_min_version": "67.0a1"
+    }
+  },
+  "default_locale": "en-US",
+  "experiment_apis": {
+    "addonsMetadata": {
+      "schema": "./privileged/addonsMetadata/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/addonsMetadata/api.js",
+        "paths": [["addonsMetadata"]]
+      }
+    },
+    "fauxHeartbeat": {
+      "schema": "./privileged/fauxHeartbeat/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/fauxHeartbeat/api.js",
+        "paths": [["fauxHeartbeat"]]
+      }
+    },
+    "privacyContext": {
+      "schema": "./privileged/privacyContext/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/privacyContext/api.js",
+        "paths": [["privacyContext"]]
+      }
+    },
+    "study": {
+      "schema": "./privileged/study/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/study/api.js",
+        "paths": [["study"]]
+      }
+    }
+  },
+  "permissions": ["management", "storage", "alarms"],
+  "background": {
+    "scripts": ["addonsData.js", "studySetup.js", "feature.js", "background.js"]
+  },
+  "icons": {
+    "48": "icons/shield-icon.48.png",
+    "96": "icons/shield-icon.98.png"
+  }
+}

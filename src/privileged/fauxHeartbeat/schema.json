@@ -1,0 +1,48 @@
+[
+  {
+    "namespace": "fauxHeartbeat",
+    "description": "fauxHeartbeat",
+    "functions": [
+      {
+        "name": "show",
+        "type": "function",
+        "async": true,
+        "description": "Shows the faux Heartbeat prompt",
+        "parameters": [
+          {
+            "name": "promptConfig",
+            "type": "any",
+            "description": "The prompt configuration"
+          }
+        ]
+      },
+      {
+        "name": "hide",
+        "type": "function",
+        "async": true,
+        "description": "Hides the faux Heartbeat prompt",
+        "parameters": []
+      }
+    ],
+    "events": [
+      {
+        "name": "onShown",
+        "type": "function",
+        "description": "Fires when the faux Heartbeat prompt has been shown",
+        "parameters": []
+      },
+      {
+        "name": "onAccept",
+        "type": "function",
+        "description": "Fires on accept",
+        "parameters": []
+      },
+      {
+        "name": "onReject",
+        "type": "function",
+        "description": "Fires on reject",
+        "parameters": []
+      }
+    ]
+  }
+]

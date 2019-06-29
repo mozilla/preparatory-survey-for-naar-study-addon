@@ -1,0 +1,9 @@
+- namespace: addonsMetadata
+  description: addonsMetadata
+
+  functions:
+  - name: getListOfInstalledAddons
+    type: function
+    async: true
+    description: getListOfInstalledAddons
+    parameters: []
