@@ -38,7 +38,7 @@
   * Have the `xpinstall.signatures.dev-root` boolean pref created with the `true` value.†
 * Install the add-on zip/xpi file by clicking on it and allowing bugzilla.mozilla.org to install the add-on
 
-† Remember to revert this afterwards if this is your main profile since you will only be able to install testing-signed add-ons while this is enabled.
+† Remember to revert this afterwards if this is your main profile since you will only be able to install testing-signed add-ons while this is enabled. You may you run into a situation where all your ordinary add-ons are disabled if this is left on (the dev-root config option). Working around this is possible in an Unbranded/Dev/Nightly build by setting ´xpinstall.signatures.required´ to `false`.
 
 ## Expected User Experience / Functionality
 
