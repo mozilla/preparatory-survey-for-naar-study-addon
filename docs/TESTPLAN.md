@@ -143,7 +143,7 @@ This study fires a survey at the following endings:
 
 ### Design
 
-Any UI in a Shield study should be consistent with standard Firefox design specifications. These standards can be found at [design.firefox.com](https://design.firefox.com/photon/welcome.html). Firefox logo specifications can be found [here](https://design.firefox.com/photon/visuals/product-identity-assets.html).
+Any UI in a Shield study should be consistent with standard Firefox design specifications. These standards can be found at [design.firefox.com](https://design.firefox.com/). Firefox logo specifications can be found [here](https://design.firefox.com/photon/visuals/product-identity-assets.html).
 
 ### Note: checking "sent Telemetry is correct"
 
