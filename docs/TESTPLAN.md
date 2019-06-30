@@ -55,11 +55,11 @@ The questionnaire is created using Survey Gizmo. Example URLs:
 
 Page 1 asks the user about installed extensions:
 
-<img width="1183" alt="Firefox_Survey_-_Extensions" src="https://user-images.githubusercontent.com/793037/60376759-b56a1900-9a19-11e9-9828-c0f13d86cd6a.png">
+<img width="1183" alt="Firefox_Survey_-_Extensions" src="https://user-images.githubusercontent.com/793037/60396889-a4232880-9b4f-11e9-9810-25cd9bd2fd32.png">
 
 Page 2 asks the user to rate the importance and satisfaction of answers given on page 1:
 
-<img width="1183" alt="Firefox_Survey_-_Extensions" src="https://user-images.githubusercontent.com/793037/60376845-290c2600-9a1a-11e9-9560-b83f7c113064.png">
+<img width="1183" alt="Firefox_Survey_-_Extensions" src="https://user-images.githubusercontent.com/793037/60396883-86ee5a00-9b4f-11e9-80fc-8ae8bec5f529.png">
 
 ### Surveys
 
