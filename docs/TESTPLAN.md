@@ -51,7 +51,7 @@ The user have the ability to click "Take me to the questionnaire" or close the n
 The questionnaire is created using Survey Gizmo. Example URLs:
 
 * [Profile with 9 add-ons (only 6 are shown)](https://tinyurl.com/mozilla-naar-survey-test)
-* [Profile with 3 add-ons](https://tinyurl.com/mozilla-naar-survey-test-3) 
+* [Profile with 3 add-ons](https://tinyurl.com/mozilla-naar-survey-test-3)
 
 Page 1 asks the user about installed extensions:
 

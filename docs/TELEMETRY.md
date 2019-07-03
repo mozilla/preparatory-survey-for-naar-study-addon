@@ -10,7 +10,6 @@
 * [Study-specific endings](#study-specific-endings)
 * [`shield-study` pings (common to all shield-studies)](#shield-study-pings-common-to-all-shield-studies)
 * [`shield-study-addon` pings, specific to THIS study.](#shield-study-addon-pings-specific-to-this-study)
-* [Telemetry](#telemetry)
 * [Example sequences](#example-sequences)
   * ['enter => accept-survey => exit'](#enter--accept-survey--exit)
   * ['enter => closed-notification-bar => exit'](#enter--closed-notification-bar--exit)
@@ -27,7 +26,7 @@
 The STUDY SPECIFIC ENDINGS this study supports are:
 
 * `accept-survey`
-* `closed-notification-bar` 
+* `closed-notification-bar`
 * `notification-already-shown` (Fires if the notification was ignored and the browser was restarted or the study add-on was reloaded/reinstalled)
 
 ## `shield-study` pings (common to all shield-studies)
@@ -37,7 +36,7 @@ The STUDY SPECIFIC ENDINGS this study supports are:
 ## `shield-study-addon` pings, specific to THIS study.
 
 No telemetry specific to this study is instrumented.
-  
+
 ## Example sequences
 
 These are the `payload` fields from all pings in the `shield-study` and `shield-study-addon` buckets.
