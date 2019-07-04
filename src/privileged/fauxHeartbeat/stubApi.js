@@ -22,9 +22,9 @@ this.fauxHeartbeat = class extends ExtensionAPI {
           return undefined;
         },
 
-        /* Hides the faux Heartbeat prompt */
-        hide: async function hide() {
-          console.log("Called hide()");
+        /* Hides the faux Heartbeat prompt and cleanups any injected Heartbeat stylesheets */
+        cleanup: async function cleanup() {
+          console.log("Called cleanup()");
           return undefined;
         },
 

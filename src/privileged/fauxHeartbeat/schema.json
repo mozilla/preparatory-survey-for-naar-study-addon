@@ -17,10 +17,11 @@
         ]
       },
       {
-        "name": "hide",
+        "name": "cleanup",
         "type": "function",
         "async": true,
-        "description": "Hides the faux Heartbeat prompt",
+        "description":
+          "Hides the faux Heartbeat prompt and cleanups any injected Heartbeat stylesheets",
         "parameters": []
       }
     ],

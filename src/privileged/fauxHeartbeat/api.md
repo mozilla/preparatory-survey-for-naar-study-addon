@@ -15,9 +15,9 @@ Shows the faux Heartbeat prompt
   * $ref:
   * optional: false
 
-### `browser.fauxHeartbeat.hide( )`
+### `browser.fauxHeartbeat.cleanup( )`
 
-Hides the faux Heartbeat prompt
+Hides the faux Heartbeat prompt and cleanups any injected Heartbeat stylesheets
 
 **Parameters**
 
