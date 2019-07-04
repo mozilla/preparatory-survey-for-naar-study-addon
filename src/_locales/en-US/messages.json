@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Preparatory Survey for NAAR",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message":
+      "Prompts users to participate in a questionnaire where you can let Mozilla know why you chose your particular Extensions. With your participation you can help others discover better Extensions.",
+    "description": "Description of the extension."
+  }
+}
