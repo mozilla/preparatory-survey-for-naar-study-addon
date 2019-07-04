@@ -1,7 +1,7 @@
 {
   "name": "preparatory-survey-for-naar-study-add-on",
   "description": "Extension that prompts users to participate in the preparatory survey for NAAR (Needs Aware Add-on Recommendations)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Mozilla",
   "bugs": {
     "url": "https://github.com/mozilla/preparatory-survey-for-naar-study-addon/issues"
