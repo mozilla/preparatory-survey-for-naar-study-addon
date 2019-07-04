@@ -28,7 +28,7 @@ for key,id in ipairs(page1NeedIds) do
 end
 
 -- Page 2
-page2ImportanceIds = {68,74,79,84,89,114}
+page2ImportanceIds = {68,74,79,84,89,117}
 for key,id in ipairs(page2ImportanceIds) do
   addon = addons[key-1]
   page1Id = page1NeedIds[key]
@@ -45,7 +45,7 @@ for key,id in ipairs(page2ImportanceIds) do
     end
   end
 end
-page2SatisfactionIds = {63,71,76,81,86,117}
+page2SatisfactionIds = {63,71,76,81,86,114}
 for key,id in ipairs(page2SatisfactionIds) do
   addon = addons[key-1]
   page1Id = page1NeedIds[key]
