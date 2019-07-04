@@ -143,6 +143,7 @@ class Feature {
    * @returns {Promise<*>} Promise that resolves after cleanup
    */
   async cleanup() {
+    await browser.study.logger.log("Cleaning up fauxHeartbeat artifacts");
     await browser.fauxHeartbeat.cleanup();
   }
 }

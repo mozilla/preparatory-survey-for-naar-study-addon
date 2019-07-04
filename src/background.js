@@ -61,9 +61,11 @@ class StudyLifeCycleHandler {
    * @returns {undefined}
    */
   async cleanup() {
-    await browser.study.logger.log("Cleaning up study artifacts");
+    await browser.study.logger.log("Cleaning up study local storage");
     await browser.storage.local.clear();
+    await browser.study.logger.log("Cleaning up alarm expiration");
     await browser.alarms.clear(this.expirationAlarmName);
+    await browser.study.logger.log("Cleaning up feature artifacts");
     await feature.cleanup();
   }
 

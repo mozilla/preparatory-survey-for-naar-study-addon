@@ -112,7 +112,7 @@ this.fauxHeartbeat = class extends ExtensionAPI {
     const fauxHeartbeatEventEmitter = new FauxHeartbeatEventEmitter();
     return {
       fauxHeartbeat: {
-        show(config) {
+        async show(config) {
           const chromeWindow = getMostRecentNonPrivateBrowserWindow();
           if (chromeWindow && chromeWindow.gBrowser) {
             showNotification(
@@ -129,7 +129,7 @@ this.fauxHeartbeat = class extends ExtensionAPI {
             fauxHeartbeatEventEmitter.emit("shown");
           }
         },
-        cleanup() {
+        async cleanup() {
           // If a notification is up, close it
           removeActiveNotification();
           // Cleanup CSS injected into windows by Heartbeat
