@@ -28,3 +28,4 @@ See [DEV.md](./docs/DEV.md) for more details on how to work with this add-on as 
 ## References
 
 * [Experimenter](https://experimenter.services.mozilla.com/experiments/preparatory-survey-for-naar-needs-aware-add-on-recommendations/)
+test
