@@ -26,7 +26,7 @@
     "eslint-plugin-no-unsanitized": "^2.0.1",
     "extend": ">=3.0.2",
     "fs-extra": "^3.0.1",
-    "fx-runner": "^1.0.10",
+    "fx-runner": "^1.0.11",
     "geckodriver": "^1.16.2",
     "get-firefox": "^2.0.0",
     "is-my-json-valid": ">=2.17.2",
@@ -48,7 +48,7 @@
     "selenium-webdriver": "^3.6.0",
     "sinon": "4.0.0",
     "sinon-chrome": "2.2.1",
-    "web-ext": "^3.0.0",
+    "web-ext": "^3.2.1",
     "webext-experiment-utils": "github:mozilla/webext-experiment-utils#develop",
     "yamljs": "^0.3.0"
   },
